@@ -5,7 +5,14 @@ using Microsoft.EntityFrameworkCore;
 using PetzBreedersClub.Database;
 using PetzBreedersClub.DTOs.Auth;
 using PetzBreedersClub.Endpoints;
+using PetzBreedersClub.Services;
 using PetzBreedersClub.Services.Auth;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Http.Json;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using MvcJsonOptions = Microsoft.AspNetCore.Mvc.JsonOptions;
 
 namespace PetzBreedersClub;
 
@@ -42,15 +49,32 @@ public class Program
 				options.Cookie.SameSite = SameSiteMode.None; //TODO CHANGE LATER
 				options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
 			});
+		
+		builder.Services.AddAuthentication();
+		builder.Services.AddAuthorization();
 
-		builder.Services.AddControllers();
 		builder.Services.AddEndpointsApiExplorer();
+
+		builder.Services.Configure<JsonOptions>(options =>
+		{
+			options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+			options.SerializerOptions.WriteIndented = true;
+		});
+
+		//workaround for swagger issue: https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/2293#issuecomment-991870685
+		builder.Services.Configure<MvcJsonOptions>(o =>
+		{
+			o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+			o.JsonSerializerOptions.WriteIndented = true;
+		});
+
 		builder.Services.AddSwaggerGen();
 
 		builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 
 		builder.Services.AddHttpContextAccessor();
 		builder.Services.AddScoped<IUserService, UserService>();
+		builder.Services.AddScoped<IBreedsService, BreedsService>();
 		builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 
 		var app = builder.Build();
@@ -59,7 +83,7 @@ public class Program
 		{
 			app.UseSwagger();
 			app.UseSwaggerUI();
-		};
+		}
 
 		app.UseCors(devCorsPolicy);
 
@@ -68,6 +92,7 @@ public class Program
 
 		app.MapPetsEndpoints();
 		app.MapUserEndpoints();
+		app.MapBreedsEndpoints();
 
 		app.Run();
 	}

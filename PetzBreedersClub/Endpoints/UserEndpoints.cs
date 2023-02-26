@@ -27,7 +27,6 @@ public static class UserEndpoints
 
 		group.MapPost("/sign-out", async (IUserService userService) =>
 			{
-				var a = userService.GetUserId();
 				 return await userService.SignOut();
 			})
 			.WithName("SignOut")

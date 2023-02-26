@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using PetzBreedersClub.Database.Models.Base;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace PetzBreedersClub.Database.Models;
 
@@ -17,6 +19,7 @@ public class BreedEntity : Entity
 	[Required]
 	public Species Species { get; set; }
 
+	public virtual BreedStandardEntity BreedStandard { get; set; }
 	public virtual ICollection<BreedFileEntity> BreedFiles { get; set; } = new List<BreedFileEntity>();
 }
 

@@ -12,14 +12,17 @@ public class Context : DbContext
 {
 	private readonly IHttpContextAccessor _httpContextAccessor;
 
-	public Context (DbContextOptions<Context> options, IHttpContextAccessor httpContextAccessor) : base(options)
+	public Context(DbContextOptions<Context> options, IHttpContextAccessor httpContextAccessor) : base(options)
 	{
 		_httpContextAccessor = httpContextAccessor;
 	}
 
-	public DbSet<PetEntity> Pet { get; set; } = default!;
-	public DbSet<MemberEntity> Members { get; set; } = default!;
 	public DbSet<UserEntity> Users { get; set; } = default!;
+	public DbSet<MemberEntity> Members { get; set; } = default!;
+	public DbSet<BreedEntity> Breeds { get; set; } = default!;
+	public DbSet<BreedStandardEntity> BreedStandards { get; set; } = default!;
+	public DbSet<PetEntity> Pets { get; set; } = default!;
+	public DbSet<KennelEntity> Kennels { get; set; } = default!;
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
@@ -33,12 +36,15 @@ public class Context : DbContext
 			foreach (var property in entityType.GetProperties())
 			{
 				if (property.ClrType == typeof(DateTime) || property.ClrType == typeof(DateTime?))
+				{
 					property.SetValueConverter(dateTimeConverter);
+				}
 			}
 		}
 
 		modelBuilder.ApplyConfigurationsFromAssembly(typeof(Context).Assembly);
 	}
+
 
 	public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
 	{
@@ -46,16 +52,18 @@ public class Context : DbContext
 		{
 			if (entry.Entity is Entity entity)
 			{
-				switch (entry.State)
+				if (entry.State == EntityState.Added)
 				{
-					case EntityState.Added:
-						entity.AddedBy = _httpContextAccessor.HttpContext?.User?.FindFirst(c=>c.Type == ClaimTypes.NameIdentifier)?.Value ?? "system";
-						entity.CreatedDate = DateTime.Now;
-						break;
-					case EntityState.Modified:
-						entity.ModifiedBy = _httpContextAccessor.HttpContext?.User?.Identity?.Name ?? "system";
-						entity.LastModifiedDate = DateTime.Now;
-						break;
+					entity.AddedBy = _httpContextAccessor.HttpContext?.User?
+							.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "system";
+					entity.CreatedDate = DateTime.Now;
+					continue;
+				}
+
+				if (entry.State == EntityState.Modified)
+				{
+					entity.ModifiedBy = _httpContextAccessor.HttpContext?.User?.Identity?.Name ?? "system";
+					entity.LastModifiedDate = DateTime.Now;
 				}
 			}
 		}
