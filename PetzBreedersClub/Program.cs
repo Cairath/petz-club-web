@@ -9,14 +9,11 @@ using PetzBreedersClub.Services;
 using PetzBreedersClub.Services.Auth;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Json;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using Microsoft.Extensions.Options;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using MvcJsonOptions = Microsoft.AspNetCore.Mvc.JsonOptions;
 
 namespace PetzBreedersClub;
 
-public class Program
+public static class Program
 {
 	public static void Main(string[] args)
 	{

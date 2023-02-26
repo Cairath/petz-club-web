@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
-using PetzBreedersClub.Database.Models;
+﻿using PetzBreedersClub.Database.Models;
 using PetzBreedersClub.Database;
-using PetzBreedersClub.DTOs.Auth;
-using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using PetzBreedersClub.DTOs.Breeds;
 
@@ -11,7 +7,7 @@ namespace PetzBreedersClub.Services;
 
 public interface IBreedsService
 {
-	Task<IResult> GetBreedNamesList(Species? species = null);
+	Task<IResult> GetBreedNamesList(Species? species);
 }
 
 public class BreedsService : IBreedsService
@@ -23,7 +19,7 @@ public class BreedsService : IBreedsService
 		_context = context;
 	}
 
-	public async Task<IResult> GetBreedNamesList(Species? species = null)
+	public async Task<IResult> GetBreedNamesList(Species? species)
 	{
 		var query = _context.Breeds.AsQueryable();
 
