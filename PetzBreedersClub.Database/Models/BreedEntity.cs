@@ -4,8 +4,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using PetzBreedersClub.Database.Models.Base;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
 
 namespace PetzBreedersClub.Database.Models;
 
@@ -27,7 +25,7 @@ public class BreedEntityConfiguration : IEntityTypeConfiguration<BreedEntity>
 {
 	public void Configure(EntityTypeBuilder<BreedEntity> builder)
 	{
-
+		// empty
 	}
 }
 

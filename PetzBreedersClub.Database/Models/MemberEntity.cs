@@ -19,6 +19,7 @@ public class MemberEntity : Entity
 	
 	public virtual ICollection<PetEntity> OwnedPets { get; set; } = new List<PetEntity>();
 	public virtual ICollection<PetEntity> BredPets { get; set; } = new List<PetEntity>();
+	public virtual ICollection<AffixEntity> Affixes { get; set; } = new List<AffixEntity>();
 }
 
 public class MemberEntityConfiguration : IEntityTypeConfiguration<MemberEntity>

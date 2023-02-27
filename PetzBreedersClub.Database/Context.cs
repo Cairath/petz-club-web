@@ -1,5 +1,4 @@
-﻿using System.Data;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -22,7 +21,7 @@ public class Context : DbContext
 	public DbSet<BreedEntity> Breeds { get; set; } = default!;
 	public DbSet<BreedStandardEntity> BreedStandards { get; set; } = default!;
 	public DbSet<PetEntity> Pets { get; set; } = default!;
-	public DbSet<KennelEntity> Kennels { get; set; } = default!;
+	public DbSet<AffixEntity> Kennels { get; set; } = default!;
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{

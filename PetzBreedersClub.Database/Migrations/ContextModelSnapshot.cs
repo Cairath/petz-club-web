@@ -37,6 +37,45 @@ namespace PetzBreedersClub.Database.Migrations
                     b.ToTable("Offspring");
                 });
 
+            modelBuilder.Entity("PetzBreedersClub.Database.Models.AffixEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AddedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AffixSyntax")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OwnerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("Affixes");
+                });
+
             modelBuilder.Entity("PetzBreedersClub.Database.Models.BreedEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -158,36 +197,6 @@ namespace PetzBreedersClub.Database.Migrations
                     b.ToTable("BreedStandards");
                 });
 
-            modelBuilder.Entity("PetzBreedersClub.Database.Models.KennelEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AddedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Kennels");
-                });
-
             modelBuilder.Entity("PetzBreedersClub.Database.Models.MemberEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -236,11 +245,19 @@ namespace PetzBreedersClub.Database.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Age")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("BreedId")
                         .HasColumnType("int");
 
                     b.Property<int>("BreederId")
                         .HasColumnType("int");
+
+                    b.Property<string>("CallName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -254,12 +271,12 @@ namespace PetzBreedersClub.Database.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("OwnerId")
                         .HasColumnType("int");
+
+                    b.Property<string>("PedigreeNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ShowName")
                         .IsRequired()
@@ -330,6 +347,17 @@ namespace PetzBreedersClub.Database.Migrations
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PetzBreedersClub.Database.Models.AffixEntity", b =>
+                {
+                    b.HasOne("PetzBreedersClub.Database.Models.MemberEntity", "Owner")
+                        .WithMany("Affixes")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("PetzBreedersClub.Database.Models.BreedFileEntity", b =>
@@ -417,6 +445,8 @@ namespace PetzBreedersClub.Database.Migrations
 
             modelBuilder.Entity("PetzBreedersClub.Database.Models.MemberEntity", b =>
                 {
+                    b.Navigation("Affixes");
+
                     b.Navigation("BredPets");
 
                     b.Navigation("OwnedPets");

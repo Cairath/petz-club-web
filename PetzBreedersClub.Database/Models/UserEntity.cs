@@ -23,7 +23,7 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
 {
 	public void Configure(EntityTypeBuilder<UserEntity> builder)
 	{
-
+		// empty
 	}
 }
 #nullable enable

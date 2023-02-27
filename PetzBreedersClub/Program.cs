@@ -71,7 +71,8 @@ public static class Program
 
 		builder.Services.AddHttpContextAccessor();
 		builder.Services.AddScoped<IUserService, UserService>();
-		builder.Services.AddScoped<IBreedsService, BreedsService>();
+		builder.Services.AddScoped<IBreedService, BreedService>();
+		builder.Services.AddScoped<IAffixService, AffixService>();
 		builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 
 		var app = builder.Build();
@@ -87,10 +88,18 @@ public static class Program
 		app.UseHttpsRedirection();
 		app.UseAuthorization();
 
-		app.MapPetsEndpoints();
-		app.MapUserEndpoints();
-		app.MapBreedsEndpoints();
+		app.MapEndpoints();
 
 		app.Run();
 	}
+
+	private static void MapEndpoints(this WebApplication app)
+	{
+		app.MapPetsEndpoints();
+		app.MapUserEndpoints();
+		app.MapBreedsEndpoints();
+		app.MapAffixEndpoints();
+	}
 }
+
+

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetzBreedersClub.Database.Models.Base;
 
 namespace PetzBreedersClub.Database.Models;
@@ -12,8 +13,15 @@ public class PetEntity : Entity
 {
 	[Required]
 	public string ShowName { get; set; }
+
 	[Required]
-	public string Name { get; set; }
+	public string CallName { get; set; }
+
+	[Required]
+	public string PedigreeNumber { get; set; }
+
+	[Required]
+	public Age Age { get; set; }
 
 	[Required]
 	public int BreedId { get; set; }
@@ -41,6 +49,10 @@ public class PetEntityConfiguration : IEntityTypeConfiguration<PetEntity>
 {
 	public void Configure(EntityTypeBuilder<PetEntity> builder)
 	{
+		builder
+			.Property(p=>p.Age)
+			.HasConversion(new EnumToStringConverter<Age>());
+
 		builder
 			.HasOne(p => p.Breed)
 			.WithMany()
@@ -78,5 +90,11 @@ public class PetEntityConfiguration : IEntityTypeConfiguration<PetEntity>
 				o => o.HasOne<PetEntity>().WithMany().HasForeignKey("ChildId"),
 				o => o.HasOne<PetEntity>().WithMany().HasForeignKey("ParentId"));
 	}
+}
+
+public enum Age
+{
+	Junior,
+	Adult
 }
 #nullable enable
