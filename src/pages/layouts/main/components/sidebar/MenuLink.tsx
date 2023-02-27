@@ -62,6 +62,7 @@ export const MenuLink = (props: MenuLinkProps) => {
               color={isActive ? activeColor : inactiveColor}
               my="auto"
               fontSize="sm"
+              pt="3px"
             >
               {entryName}
             </Text>

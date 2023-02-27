@@ -1,6 +1,6 @@
-import { Box, Portal, useDisclosure, useStyleConfig } from "@chakra-ui/react";
-import React, { useState } from "react";
-import AdminNavbar from "./components/navbar/AdminNavbar";
+import { Box, useDisclosure } from "@chakra-ui/react";
+import React from "react";
+import { AdminNavbar } from "./components/navbar/AdminNavbar";
 import { Sidebar } from "./components/sidebar/Sidebar";
 
 export type Props = {

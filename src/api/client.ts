@@ -27,11 +27,111 @@ export class Client {
     /**
      * @return OK
      */
-    getPetProfileById(id: number , cancelToken?: CancelToken | undefined): Promise<void> {
+    registerAffix(body: AffixRegistrationForm , cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/api/affixes/register";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processRegisterAffix(_response);
+        });
+    }
+
+    protected processRegisterAffix(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+    
+            return Promise.resolve<void>(null as any);
+
+        } else if (status !== 200 && status !== 204) {
+            return throwException("An unexpected server error occurred.", status, response.statusText, _headers);
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    /**
+     * @param species (optional) 
+     * @return OK
+     */
+    getBreedNamesList(species: Species | undefined , cancelToken?: CancelToken | undefined): Promise<BreedNameListItem[]> {
+        let url_ = this.baseUrl + "/api/breeds/names?";
+        if (species === null)
+            throw new Error("The parameter 'species' cannot be null.");
+        else if (species !== undefined)
+            url_ += "species=" + encodeURIComponent("" + species) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: AxiosRequestConfig = {
+            method: "GET",
+            url: url_,
+            headers: {
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processGetBreedNamesList(_response);
+        });
+    }
+
+    protected processGetBreedNamesList(response: AxiosResponse): Promise<BreedNameListItem[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+    
+            let result200: any = response.data;
+            return Promise.resolve<BreedNameListItem[]>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            return throwException("An unexpected server error occurred.", status, response.statusText, _headers);
+        }
+        return Promise.resolve<BreedNameListItem[]>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    getPetProfileById(  cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/api/pets/profile/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: AxiosRequestConfig = {
@@ -64,12 +164,11 @@ export class Client {
             }
         }
         if (status === 200) {
-            const _responseText = response.data;
+    
             return Promise.resolve<void>(null as any);
 
         } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            return throwException("An unexpected server error occurred.", status, response.statusText, _headers);
         }
         return Promise.resolve<void>(null as any);
     }
@@ -115,12 +214,11 @@ export class Client {
             }
         }
         if (status === 200) {
-            const _responseText = response.data;
+    
             return Promise.resolve<void>(null as any);
 
         } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            return throwException("An unexpected server error occurred.", status, response.statusText, _headers);
         }
         return Promise.resolve<void>(null as any);
     }
@@ -167,15 +265,12 @@ export class Client {
             }
         }
         if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = JSON.parse(resultData200);
+    
+            let result200: any = response.data;
             return Promise.resolve<SignedInUserInfo>(result200);
 
         } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            return throwException("An unexpected server error occurred.", status, response.statusText, _headers);
         }
         return Promise.resolve<SignedInUserInfo>(null as any);
     }
@@ -217,12 +312,11 @@ export class Client {
             }
         }
         if (status === 200) {
-            const _responseText = response.data;
+    
             return Promise.resolve<void>(null as any);
 
         } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            return throwException("An unexpected server error occurred.", status, response.statusText, _headers);
         }
         return Promise.resolve<void>(null as any);
     }
@@ -269,18 +363,153 @@ export class Client {
             }
         }
         if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = JSON.parse(resultData200);
+    
+            let result200: any = response.data;
             return Promise.resolve<boolean>(result200);
 
         } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            return throwException("An unexpected server error occurred.", status, response.statusText, _headers);
         }
         return Promise.resolve<boolean>(null as any);
     }
+
+    /**
+     * @return OK
+     */
+    getUserNotifications(  cancelToken?: CancelToken | undefined): Promise<Notification[]> {
+        let url_ = this.baseUrl + "/api/users/notifications";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: AxiosRequestConfig = {
+            method: "GET",
+            url: url_,
+            headers: {
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processGetUserNotifications(_response);
+        });
+    }
+
+    protected processGetUserNotifications(response: AxiosResponse): Promise<Notification[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+    
+            let result200: any = response.data;
+            return Promise.resolve<Notification[]>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            return throwException("An unexpected server error occurred.", status, response.statusText, _headers);
+        }
+        return Promise.resolve<Notification[]>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    dEV_Add_Notification(body: AddNotification , cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/api/users/notifications/add";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processDEV_Add_Notification(_response);
+        });
+    }
+
+    protected processDEV_Add_Notification(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+    
+            return Promise.resolve<void>(null as any);
+
+        } else if (status !== 200 && status !== 204) {
+            return throwException("An unexpected server error occurred.", status, response.statusText, _headers);
+        }
+        return Promise.resolve<void>(null as any);
+    }
+}
+
+export interface AddNotification {
+    userId?: number;
+    text?: string | undefined;
+    type?: NotificationType;
+}
+
+export interface AffixRegistrationForm {
+    name?: string | undefined;
+    affixSyntax?: AffixSyntax;
+}
+
+export enum AffixSyntax {
+    Prefix = "Prefix",
+    Suffix = "Suffix",
+    Names = "Names",
+    The = "The",
+    Of = "Of",
+    From = "From",
+}
+
+export interface BreedNameListItem {
+    id?: number;
+    name?: string | undefined;
+    species?: Species;
+}
+
+export interface Notification {
+    date?: Date;
+    text?: string | undefined;
+    type?: NotificationType;
+    read?: boolean;
+}
+
+export enum NotificationType {
+    Info = "Info",
+    Warning = "Warning",
+    Error = "Error",
+    Success = "Success",
 }
 
 export interface RegistrationForm {
@@ -292,6 +521,11 @@ export interface RegistrationForm {
 export interface SignedInUserInfo {
     id?: number;
     email?: string | undefined;
+}
+
+export enum Species {
+    Catz = "Catz",
+    Dogz = "Dogz",
 }
 
 export interface UserSignIn {

@@ -16,8 +16,9 @@ import { ProfileIcon } from "../../../../../components/Icons/Icons";
 import { UserContext } from "../../../../../context/UserContext";
 import { MobileSidebar } from "../sidebar/MobileSidebar";
 import { ColorModeSwitch } from "./ColorModeSwitch";
+import { NotificationBell } from "../notifications/NotificationBell";
 
-export default function AdminNavbar(props) {
+export const AdminNavbar = (props) => {
   const { variant, children, secondary, brandText, onOpen, ...rest } = props;
 
   const { user } = useContext(UserContext);
@@ -129,15 +130,16 @@ export default function AdminNavbar(props) {
                 </Button>
               </NavLink>
             )}
-            <MobileSidebar />
+            <NotificationBell color={navbarIcon} />
             <ColorModeSwitch
               color={navbarIcon}
               colorMode={colorMode}
               onClick={setColorMode}
             />
+            <MobileSidebar />
           </Flex>
         </Box>
       </Flex>
     </Flex>
   );
-}
+};

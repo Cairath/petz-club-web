@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import api from "../api/api";
+import { Notification } from "../api/client";
 import { User, UserContext } from "./UserContext";
 
 function getUserFromLS() {
@@ -16,6 +17,7 @@ export type Props = {
 //todo: rewrite this to something better than good-enough-for-testing
 export const UserProvider = (props: Props) => {
   const [user, setUser] = useState(getUserFromLS);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
 
   useEffect(() => {
     const authenticateUser = async (id: number) => {
@@ -36,8 +38,21 @@ export const UserProvider = (props: Props) => {
     }
   }, [user]);
 
+  useEffect(() => {
+    const intervalCall = setInterval(async () => {
+      if (user !== undefined && user !== null) {
+        await api.getUserNotifications().then((notifications) => {
+          setNotifications(notifications);
+        });
+      }
+    }, 10000);
+    return () => {
+      clearInterval(intervalCall);
+    };
+  }, []);
+
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, notifications }}>
       {props.children}
     </UserContext.Provider>
   );

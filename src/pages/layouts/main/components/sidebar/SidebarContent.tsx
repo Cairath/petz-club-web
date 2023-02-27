@@ -35,46 +35,53 @@ export const SidebarContent = (props: Props) => {
       <Stack direction="column" mb="40px">
         <Box>
           <MenuLink to="/dashboard" entryName="Dashboard" />
-          <MenuLink to="/lipsum" entryName="Lorem ipsum" />
-          <Text
+          <MenuLink to="/demo" entryName="Component demo" />
+          <MenuLink to="/" entryName="Registrations" />
+          <MenuLink to="/" entryName="Judging" />
+
+          <CategoryHeader
+            category="MY KENNELS & CATTERIES"
             color={activeColor}
-            fontSize="1em"
-            mx="auto"
-            ps={{
-              sm: "10px",
-              xl: "16px"
-            }}
-            pt="12px"
-            pb="5px"
-          >
-            CATEGORY
-          </Text>
-          <Separator mb="6px" />
-          <MenuLink to="/dashboard" entryName="Dashboard" />
-          <MenuLink to="/dashboard" entryName="Dashboard" />
-          <MenuLink to="/lipsum" entryName="Lorem ipsum" />
-          <MenuLink to="/lipsum" entryName="Lorem ipsum" />
-          <Text
-            color={activeColor}
-            fontSize="1em"
-            mx="auto"
-            ps={{
-              sm: "10px",
-              xl: "16px"
-            }}
-            pt="12px"
-            pb="5px"
-          >
-            CATEGORY 2
-          </Text>
-          <Separator mb="6px" />
-          <MenuLink to="/dashboard" entryName="Dashboard" />
-          <MenuLink to="/dashboard" entryName="Dashboard" />
-          <MenuLink to="/dashboard" entryName="Dashboard" />
-          <MenuLink to="/dashboard" entryName="Dashboard" />
-          <MenuLink to="/dashboard" entryName="Dashboard" />
+          />
+          <MenuLink to="/" entryName="Petz" />
+          <MenuLink to="/" entryName="Affixes" />
+
+          <CategoryHeader category="SHOWS" color={activeColor} />
+          <MenuLink to="/" entryName="Shows" />
+          <MenuLink to="/" entryName="Results" />
+          <MenuLink to="/" entryName="Rules" />
+
+          <CategoryHeader category="RESOURCES" color={activeColor} />
+          <MenuLink to="/" entryName="Browse Registries" />
+          <MenuLink to="/" entryName="Breeds" />
         </Box>
       </Stack>
     </React.Fragment>
+  );
+};
+
+export type CategoryHeaderProps = {
+  category: string;
+  color: string;
+};
+
+export const CategoryHeader = (props: CategoryHeaderProps) => {
+  return (
+    <>
+      <Text
+        color={props.color}
+        fontSize="0.9em"
+        mx="auto"
+        ps={{
+          sm: "10px",
+          xl: "16px"
+        }}
+        pt="12px"
+        pb="5px"
+      >
+        {props.category}
+      </Text>
+      <Separator mb="6px" />
+    </>
   );
 };

@@ -25,7 +25,6 @@ export const SignIn = () => {
   const titleColor = useColorModeValue("teal.300", "teal.200");
   const textColor = useColorModeValue("gray.400", "white");
 
-  const { colorMode, toggleColorMode } = useColorMode();
   const { user, setUser } = useContext(UserContext);
 
   const {

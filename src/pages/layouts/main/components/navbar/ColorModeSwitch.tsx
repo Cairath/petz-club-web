@@ -8,18 +8,18 @@ export type Props = {
   onClick: (value: ColorMode) => void;
 };
 export const ColorModeSwitch = (props: Props) => {
-  const styles = defineStyle(() => {
+  const styles = defineStyle((props) => {
     return {
       w: "18px",
       h: "18px",
-      ms: { base: "16px", xl: "0px" },
-      cursor: ""
+      ms: { base: "16px", xl: "0px" }
     };
   });
 
   return (
     <IconButton
       {...styles}
+      color={props.color}
       variant="ghost"
       onClick={() =>
         props.onClick(props.colorMode == "light" ? "dark" : "light")

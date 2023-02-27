@@ -8,6 +8,8 @@ export const Sidebar = () => {
         <Box
           w="260px"
           maxW="260px"
+          maxH="100vh"
+          overflowY="auto"
           ms={{
             sm: "16px"
           }}
