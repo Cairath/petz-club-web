@@ -1,16 +1,16 @@
 ﻿#nullable disable
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.EntityFrameworkCore;
 using PetzBreedersClub.Database.Models.Base;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetzBreedersClub.Database.Models.Enums;
 
 namespace PetzBreedersClub.Database.Models;
 
-[Table("Affixes")]
-public class AffixEntity : Entity
+[Table("AffixesPendingRegistration")]
+public class AffixPendingRegistrationEntity : Entity
 {
 	[Required]
 	public string Name { get; set; }
@@ -19,13 +19,16 @@ public class AffixEntity : Entity
 	public AffixSyntax AffixSyntax { get; set; }
 
 	[Required]
+	public RegistrationStatus RegistrationStatus { get; set; }
+
+	[Required]
 	public int OwnerId { get; set; }
 	public virtual MemberEntity Owner { get; set; }
 }
 
-public class AffixEntityConfiguration : IEntityTypeConfiguration<AffixEntity>
-{
-	public void Configure(EntityTypeBuilder<AffixEntity> builder)
+public class AffixPendingRegistrationEntityConfiguration : IEntityTypeConfiguration<AffixPendingRegistrationEntity>
+{ 
+	public void Configure(EntityTypeBuilder<AffixPendingRegistrationEntity> builder)
 	{
 		builder
 			.Property(a => a.AffixSyntax);
@@ -39,8 +42,9 @@ public class AffixEntityConfiguration : IEntityTypeConfiguration<AffixEntity>
 
 		builder
 			.HasOne(a => a.Owner)
-			.WithMany(o => o.Affixes)
+			.WithMany(o => o.AffixesPendingRegistration)
 			.HasForeignKey(a => a.OwnerId);
 	}
 }
+
 #nullable enable

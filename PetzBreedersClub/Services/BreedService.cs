@@ -1,7 +1,7 @@
-﻿using PetzBreedersClub.Database.Models;
-using PetzBreedersClub.Database;
+﻿using PetzBreedersClub.Database;
 using Microsoft.EntityFrameworkCore;
 using PetzBreedersClub.DTOs.Breeds;
+using PetzBreedersClub.Database.Models.Enums;
 
 namespace PetzBreedersClub.Services;
 

@@ -20,12 +20,16 @@ public class MemberEntity : Entity
 	public virtual ICollection<PetEntity> OwnedPets { get; set; } = new List<PetEntity>();
 	public virtual ICollection<PetEntity> BredPets { get; set; } = new List<PetEntity>();
 	public virtual ICollection<AffixEntity> Affixes { get; set; } = new List<AffixEntity>();
+	public virtual ICollection<AffixPendingRegistrationEntity> AffixesPendingRegistration { get; set; } = new List<AffixPendingRegistrationEntity>();
 }
 
 public class MemberEntityConfiguration : IEntityTypeConfiguration<MemberEntity>
 {
 	public void Configure(EntityTypeBuilder<MemberEntity> builder)
 	{
+		builder
+			.HasIndex(m => m.Name).IsUnique();
+
 		builder.HasOne(m => m.User)
 			.WithOne(u => u.Member)
 			.HasForeignKey<MemberEntity>(m => m.UserId)

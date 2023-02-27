@@ -4,9 +4,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using PetzBreedersClub.Database.Models.Base;
 using System.ComponentModel.DataAnnotations.Schema;
+using PetzBreedersClub.Database.Models.Enums;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace PetzBreedersClub.Database.Models;
-
 
 [Table("Breeds")]
 public class BreedEntity : Entity
@@ -25,14 +26,12 @@ public class BreedEntityConfiguration : IEntityTypeConfiguration<BreedEntity>
 {
 	public void Configure(EntityTypeBuilder<BreedEntity> builder)
 	{
-		// empty
+		builder
+			.HasIndex(b => b.Name).IsUnique();
+
+		builder
+			.Property(b => b.Species)
+			.HasConversion(new EnumToStringConverter<Species>());
 	}
 }
-
-public enum Species
-{
-	Catz,
-	Dogz
-}
-
 #nullable enable

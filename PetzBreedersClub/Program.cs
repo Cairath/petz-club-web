@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PetzBreedersClub.Database;
-using PetzBreedersClub.DTOs.Auth;
 using PetzBreedersClub.Endpoints;
 using PetzBreedersClub.Services;
 using PetzBreedersClub.Services.Auth;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Json;
+using PetzBreedersClub.DTOs.User;
 using MvcJsonOptions = Microsoft.AspNetCore.Mvc.JsonOptions;
 
 namespace PetzBreedersClub;
@@ -23,7 +23,6 @@ public static class Program
 		options.UseSqlServer(builder.Configuration.GetConnectionString("PetzBreedersClub")
 							 ?? throw new InvalidOperationException("Connection string 'PetzBreedersClub' not found.")));
 
-
 		var devCorsPolicy = "Development";
 		builder.Services.AddCors(options =>
 		{
@@ -33,7 +32,6 @@ public static class Program
 					policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
 				});
 		});
-
 
 		builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 			.AddCookie(options =>
@@ -70,13 +68,12 @@ public static class Program
 		builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 
 		builder.Services.AddHttpContextAccessor();
-		builder.Services.AddScoped<IUserService, UserService>();
-		builder.Services.AddScoped<IBreedService, BreedService>();
-		builder.Services.AddScoped<IAffixService, AffixService>();
+
+		builder.Services.AddServices();
+
 		builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 
 		var app = builder.Build();
-		
 		if (app.Environment.IsDevelopment())
 		{
 			app.UseSwagger();
@@ -91,6 +88,14 @@ public static class Program
 		app.MapEndpoints();
 
 		app.Run();
+	}
+
+	private static void AddServices(this IServiceCollection services)
+	{
+		services.AddScoped<IUserService, UserService>();
+		services.AddScoped<INotificationService, NotificationService>();
+		services.AddScoped<IBreedService, BreedService>();
+		services.AddScoped<IAffixService, AffixService>();
 	}
 
 	private static void MapEndpoints(this WebApplication app)

@@ -50,6 +50,9 @@ public class PetEntityConfiguration : IEntityTypeConfiguration<PetEntity>
 	public void Configure(EntityTypeBuilder<PetEntity> builder)
 	{
 		builder
+			.HasIndex(p => p.PedigreeNumber).IsUnique();
+
+		builder
 			.Property(p=>p.Age)
 			.HasConversion(new EnumToStringConverter<Age>());
 

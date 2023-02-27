@@ -1,4 +1,4 @@
-﻿using PetzBreedersClub.Database.Models;
+﻿using PetzBreedersClub.Database.Models.Enums;
 
 namespace PetzBreedersClub.DTOs.Breeds;
 

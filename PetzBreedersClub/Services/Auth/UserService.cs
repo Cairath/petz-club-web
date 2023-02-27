@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using PetzBreedersClub.Database;
 using PetzBreedersClub.Database.Models;
-using PetzBreedersClub.DTOs.Auth;
+using PetzBreedersClub.DTOs.User;
 
 namespace PetzBreedersClub.Services.Auth;
 

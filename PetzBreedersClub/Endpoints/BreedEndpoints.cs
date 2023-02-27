@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PetzBreedersClub.Database.Models;
-using PetzBreedersClub.DTOs.Auth;
+using PetzBreedersClub.Database.Models.Enums;
 using PetzBreedersClub.DTOs.Breeds;
 using PetzBreedersClub.Services;
 using PetzBreedersClub.Services.Auth;

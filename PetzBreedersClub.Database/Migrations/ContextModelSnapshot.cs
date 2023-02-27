@@ -64,16 +64,64 @@ namespace PetzBreedersClub.Database.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("OwnerId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Affixes");
+                });
+
+            modelBuilder.Entity("PetzBreedersClub.Database.Models.AffixPendingRegistrationEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AddedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AffixSyntax")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("OwnerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RegistrationStatus")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("AffixesPendingRegistration");
                 });
 
             modelBuilder.Entity("PetzBreedersClub.Database.Models.BreedEntity", b =>
@@ -99,12 +147,16 @@ namespace PetzBreedersClub.Database.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Species")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Species")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Breeds");
                 });
@@ -220,12 +272,15 @@ namespace PetzBreedersClub.Database.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -276,7 +331,7 @@ namespace PetzBreedersClub.Database.Migrations
 
                     b.Property<string>("PedigreeNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ShowName")
                         .IsRequired()
@@ -295,9 +350,54 @@ namespace PetzBreedersClub.Database.Migrations
 
                     b.HasIndex("OwnerId");
 
+                    b.HasIndex("PedigreeNumber")
+                        .IsUnique();
+
                     b.HasIndex("SireId");
 
                     b.ToTable("Pets");
+                });
+
+            modelBuilder.Entity("PetzBreedersClub.Database.Models.SystemNotificationEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AddedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Read")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SystemNotifications");
                 });
 
             modelBuilder.Entity("PetzBreedersClub.Database.Models.UserEntity", b =>
@@ -317,7 +417,7 @@ namespace PetzBreedersClub.Database.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("LastModifiedDate")
                         .HasColumnType("datetime2");
@@ -330,6 +430,9 @@ namespace PetzBreedersClub.Database.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -353,6 +456,17 @@ namespace PetzBreedersClub.Database.Migrations
                 {
                     b.HasOne("PetzBreedersClub.Database.Models.MemberEntity", "Owner")
                         .WithMany("Affixes")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("PetzBreedersClub.Database.Models.AffixPendingRegistrationEntity", b =>
+                {
+                    b.HasOne("PetzBreedersClub.Database.Models.MemberEntity", "Owner")
+                        .WithMany("AffixesPendingRegistration")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -436,6 +550,17 @@ namespace PetzBreedersClub.Database.Migrations
                     b.Navigation("Sire");
                 });
 
+            modelBuilder.Entity("PetzBreedersClub.Database.Models.SystemNotificationEntity", b =>
+                {
+                    b.HasOne("PetzBreedersClub.Database.Models.UserEntity", "User")
+                        .WithMany("SystemNotifications")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("PetzBreedersClub.Database.Models.BreedEntity", b =>
                 {
                     b.Navigation("BreedFiles");
@@ -447,6 +572,8 @@ namespace PetzBreedersClub.Database.Migrations
                 {
                     b.Navigation("Affixes");
 
+                    b.Navigation("AffixesPendingRegistration");
+
                     b.Navigation("BredPets");
 
                     b.Navigation("OwnedPets");
@@ -455,6 +582,8 @@ namespace PetzBreedersClub.Database.Migrations
             modelBuilder.Entity("PetzBreedersClub.Database.Models.UserEntity", b =>
                 {
                     b.Navigation("Member");
+
+                    b.Navigation("SystemNotifications");
                 });
 #pragma warning restore 612, 618
         }

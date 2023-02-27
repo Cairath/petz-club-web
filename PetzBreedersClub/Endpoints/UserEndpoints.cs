@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PetzBreedersClub.DTOs.Auth;
+using PetzBreedersClub.DTOs.User;
+using PetzBreedersClub.Services;
 using PetzBreedersClub.Services.Auth;
 
 namespace PetzBreedersClub.Endpoints;
@@ -39,5 +40,22 @@ public static class UserEndpoints
 			.WithName("Authenticate")
 			.Produces<bool>()
 			.WithOpenApi();
+
+		group.MapGet("/notifications", async (INotificationService notificationService) =>
+			{
+				return await notificationService.GetUserNotifications();
+			})
+			.WithName("GetUserNotifications")
+			.Produces<List<Notification>>()
+			.WithOpenApi();
+
+#if DEBUG
+		group.MapPost("/notifications/add", async (AddNotification form, INotificationService notificationService) =>
+			{
+				await notificationService.AddNotification(new List<int>(){ form.UserId}, text: form.Text, form.Type);
+			})
+			.WithName("DEV Add Notification")
+			.WithOpenApi();
+#endif
 	}
 }

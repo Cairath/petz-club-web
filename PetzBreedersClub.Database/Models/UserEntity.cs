@@ -16,14 +16,16 @@ public class UserEntity : Entity
 	public string PasswordHash { get; set; }
 	
 	public virtual MemberEntity Member { get; set; }
-	
+	public virtual ICollection<SystemNotificationEntity> SystemNotifications { get; set; } = new List<SystemNotificationEntity>();
+
 }
 
 public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
 {
 	public void Configure(EntityTypeBuilder<UserEntity> builder)
 	{
-		// empty
+		builder
+			.HasIndex(u => u.Email).IsUnique();
 	}
 }
 #nullable enable
