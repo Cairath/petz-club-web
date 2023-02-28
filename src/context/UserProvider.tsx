@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import api from "../api/api";
 import { Notification } from "../api/client";
-import { User, UserContext } from "./UserContext";
+import { UserContext } from "./UserContext";
 
 function getUserFromLS() {
   const userString = localStorage.getItem("user");
@@ -49,7 +49,7 @@ export const UserProvider = (props: Props) => {
     return () => {
       clearInterval(intervalCall);
     };
-  }, []);
+  }, [user]);
 
   return (
     <UserContext.Provider value={{ user, setUser, notifications }}>

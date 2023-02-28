@@ -22,9 +22,9 @@ export const ColorModeSwitch = (props: Props) => {
       color={props.color}
       variant="ghost"
       onClick={() =>
-        props.onClick(props.colorMode == "light" ? "dark" : "light")
+        props.onClick(props.colorMode === "light" ? "dark" : "light")
       }
-      icon={props.colorMode == "light" ? <MoonIcon /> : <SunIcon />}
+      icon={props.colorMode === "light" ? <MoonIcon /> : <SunIcon />}
       aria-label="colorModeSwitch"
     />
   );

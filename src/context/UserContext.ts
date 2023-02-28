@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Notification } from "../api/client";
 
 export interface User {
@@ -8,6 +8,6 @@ export interface User {
 
 export const UserContext = React.createContext<{
   user: User;
-  setUser: (user: User) => void;
+  setUser: (user: User | null) => void;
   notifications: Notification[];
-}>(null);
+}>(null!);

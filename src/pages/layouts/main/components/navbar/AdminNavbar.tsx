@@ -18,28 +18,23 @@ import { MobileSidebar } from "../sidebar/MobileSidebar";
 import { ColorModeSwitch } from "./ColorModeSwitch";
 import { NotificationBell } from "../notifications/NotificationBell";
 
-export const AdminNavbar = (props) => {
-  const { variant, children, secondary, brandText, onOpen, ...rest } = props;
-
+export const AdminNavbar = () => {
   const { user } = useContext(UserContext);
   const { colorMode, setColorMode } = useColorMode();
 
-  // Here are all the props that may change depending on navbar's type or state.(secondary, variant, scrolled)
+  // todo cleanup
   let mainText = useColorModeValue("gray.700", "gray.200");
   let secondaryText = useColorModeValue("gray.400", "gray.200");
   let navbarPosition: "absolute" | "initial" = "initial";
   let navbarFilter = "none";
   let navbarBackdrop = "blur(21px)";
   let navbarShadow = "none";
-  let navbarBg = "transparent"; //useColorModeValue("white", "gray.700");
+  let navbarBg = "transparent";
   let navbarBorder = "transparent";
   let secondaryMargin = "15px";
   let paddingX = "15px";
 
-  let mainTeal = useColorModeValue("teal.300", "teal.300");
-  let inputBg = useColorModeValue("white", "gray.800");
   let navbarIcon = useColorModeValue("gray.500", "gray.200");
-  let searchIcon = useColorModeValue("gray.700", "gray.200");
 
   return (
     <Flex

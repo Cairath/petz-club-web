@@ -10,14 +10,13 @@ import {
   Link,
   Switch,
   Text,
-  useColorMode,
   useColorModeValue
 } from "@chakra-ui/react";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Link as ReactRouterLink } from "react-router-dom";
 import api from "../../api/api";
-import { UserSignIn, SignedInUserInfo } from "../../api/client";
+import { SignedInUserInfo, UserSignIn } from "../../api/client";
 import signInImage from "../../assets/img/signInImage.png";
 import { UserContext } from "../../context/UserContext";
 
@@ -96,7 +95,7 @@ export const SignIn = () => {
                       Email
                     </FormLabel>
                     <FormErrorMessage mt="0px">
-                      {errors.email?.message.toString()}
+                      {errors.email?.message?.toString()}
                     </FormErrorMessage>
                   </Flex>
                   <Input
@@ -126,7 +125,7 @@ export const SignIn = () => {
                       Password
                     </FormLabel>
                     <FormErrorMessage mt="0px">
-                      {errors?.password?.message.toString()}
+                      {errors?.password?.message?.toString()}
                     </FormErrorMessage>
                   </Flex>
                   <Input

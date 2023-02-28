@@ -9,14 +9,13 @@ export type Props = {
 
 export const MainLayout = (props: Props) => {
   const { children } = props;
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <React.Fragment>
       <Sidebar />
       <RightContentBox>
         <ContentContainer>
-          <AdminNavbar onOpen={onOpen} />
+          <AdminNavbar />
           {children}
         </ContentContainer>
       </RightContentBox>
