@@ -1,7 +1,7 @@
 import { Box, Link, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
 import { Link as ReactRouterLink } from "react-router-dom";
-import { Separator } from "../../../../../components/Separator/Separator";
+import { Separator } from "./Separator";
 import { MenuLink } from "./MenuLink";
 import { PawIcon } from "../PawIcon";
 

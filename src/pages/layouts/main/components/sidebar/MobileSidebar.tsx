@@ -15,7 +15,7 @@ import {
   useColorModeValue,
   useDisclosure
 } from "@chakra-ui/react";
-import { Separator } from "../../../../../components/Separator/Separator";
+import { Separator } from "./Separator";
 import { PawIcon } from "../PawIcon";
 import { SidebarContent } from "./SidebarContent";
 

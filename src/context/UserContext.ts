@@ -10,4 +10,5 @@ export const UserContext = React.createContext<{
   user: User;
   setUser: (user: User | null) => void;
   notifications: Notification[];
+  refreshNotifications: () => void;
 }>(null!);

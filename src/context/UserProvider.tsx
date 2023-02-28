@@ -39,11 +39,11 @@ export const UserProvider = (props: Props) => {
   }, [user]);
 
   useEffect(() => {
+    refreshNotifications();
+
     const intervalCall = setInterval(async () => {
       if (user !== undefined && user !== null) {
-        await api.getUserNotifications().then((notifications) => {
-          setNotifications(notifications);
-        });
+        await refreshNotifications();
       }
     }, 10000);
     return () => {
@@ -51,8 +51,16 @@ export const UserProvider = (props: Props) => {
     };
   }, [user]);
 
+  const refreshNotifications = async () => {
+    await api.getUserNotifications().then((notifications) => {
+      setNotifications(notifications);
+    });
+  };
+
   return (
-    <UserContext.Provider value={{ user, setUser, notifications }}>
+    <UserContext.Provider
+      value={{ user, setUser, notifications, refreshNotifications }}
+    >
       {props.children}
     </UserContext.Provider>
   );

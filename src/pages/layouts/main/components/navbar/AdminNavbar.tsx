@@ -16,7 +16,7 @@ import { ProfileIcon } from "../../../../../components/Icons/Icons";
 import { UserContext } from "../../../../../context/UserContext";
 import { MobileSidebar } from "../sidebar/MobileSidebar";
 import { ColorModeSwitch } from "./ColorModeSwitch";
-import { NotificationBell } from "../notifications/NotificationBell";
+import { Notifications } from "../notifications/Notifications";
 
 export const AdminNavbar = () => {
   const { user } = useContext(UserContext);
@@ -125,7 +125,7 @@ export const AdminNavbar = () => {
                 </Button>
               </NavLink>
             )}
-            <NotificationBell color={navbarIcon} />
+            <Notifications color={navbarIcon} />
             <ColorModeSwitch
               color={navbarIcon}
               colorMode={colorMode}
