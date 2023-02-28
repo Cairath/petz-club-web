@@ -473,14 +473,14 @@ export class Client {
 }
 
 export interface AddNotification {
-    userId?: number;
-    text?: string | undefined;
-    type?: NotificationType;
+    userId: number;
+    text: string;
+    type: NotificationType;
 }
 
 export interface AffixRegistrationForm {
-    name?: string | undefined;
-    affixSyntax?: AffixSyntax;
+    name: string;
+    affixSyntax: AffixSyntax;
 }
 
 export enum AffixSyntax {
@@ -493,16 +493,16 @@ export enum AffixSyntax {
 }
 
 export interface BreedNameListItem {
-    id?: number;
-    name?: string | undefined;
-    species?: Species;
+    id: number;
+    name: string;
+    species: Species;
 }
 
 export interface Notification {
-    date?: Date;
-    text?: string | undefined;
-    type?: NotificationType;
-    read?: boolean;
+    date: Date;
+    text: string;
+    type: NotificationType;
+    read: boolean;
 }
 
 export enum NotificationType {
@@ -519,8 +519,8 @@ export interface RegistrationForm {
 }
 
 export interface SignedInUserInfo {
-    id?: number;
-    email?: string | undefined;
+    id: number;
+    email: string;
 }
 
 export enum Species {

@@ -11,7 +11,9 @@ instance.interceptors.response.use((originalResponse: AxiosResponse) => {
   return originalResponse;
 });
 
-export default new Client(
+const client = new Client(
   process.env.NODE_ENV === "production" ? "tbd" : "https://localhost:7017",
   instance
 );
+
+export default client;

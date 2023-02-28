@@ -1,4 +1,4 @@
-import { Box, useDisclosure } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import React from "react";
 import { AdminNavbar } from "./components/navbar/AdminNavbar";
 import { Sidebar } from "./components/sidebar/Sidebar";

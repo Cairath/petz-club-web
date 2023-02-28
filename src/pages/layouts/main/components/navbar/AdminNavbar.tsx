@@ -23,18 +23,18 @@ export const AdminNavbar = () => {
   const { colorMode, setColorMode } = useColorMode();
 
   // todo cleanup
-  let mainText = useColorModeValue("gray.700", "gray.200");
-  let secondaryText = useColorModeValue("gray.400", "gray.200");
-  let navbarPosition: "absolute" | "initial" = "initial";
-  let navbarFilter = "none";
-  let navbarBackdrop = "blur(21px)";
-  let navbarShadow = "none";
-  let navbarBg = "transparent";
-  let navbarBorder = "transparent";
-  let secondaryMargin = "15px";
-  let paddingX = "15px";
+  const mainText = useColorModeValue("gray.700", "gray.200");
+  const secondaryText = useColorModeValue("gray.400", "gray.200");
+  const navbarPosition: "absolute" | "initial" = "initial";
+  const navbarFilter = "none";
+  const navbarBackdrop = "blur(21px)";
+  const navbarShadow = "none";
+  const navbarBg = "transparent";
+  const navbarBorder = "transparent";
+  const secondaryMargin = "15px";
+  const paddingX = "15px";
 
-  let navbarIcon = useColorModeValue("gray.500", "gray.200");
+  const navbarIcon = useColorModeValue("gray.500", "gray.200");
 
   return (
     <Flex
