@@ -1,11 +1,16 @@
-﻿using PetzBreedersClub.Database.Models.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+using PetzBreedersClub.Database.Models.Enums;
 
 namespace PetzBreedersClub.DTOs.User;
 
 public class Notification
 {
-	public DateTime Date { get; set; }
-	public required string Text { get; set; }
-	public NotificationType Type { get; set; }
-	public bool Read { get; set; }
+	[Required] public int Id { get; set; }
+	[Required] public DateTime Date { get; set; }
+
+	[Required] public required string Text { get; set; }
+
+	[Required] public NotificationType Type { get; set; }
+
+	[Required] public bool Read { get; set; }
 }

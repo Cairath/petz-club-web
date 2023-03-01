@@ -3,12 +3,14 @@ using PetzBreedersClub.Database;
 using PetzBreedersClub.DTOs.Affixes;
 using PetzBreedersClub.Services.Auth;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace PetzBreedersClub.Services;
 
 public interface IAffixService
 {
 	Task<IResult> RegisterAffix(AffixRegistrationForm affixRegistrationForm);
+	Task<IResult> GetOwnedAffixes();
 }
 
 public class AffixService : IAffixService
@@ -42,5 +44,19 @@ public class AffixService : IAffixService
 		await _context.SaveChangesAsync();
 
 		return Results.Ok();
+	}
+
+	public async Task<IResult> GetOwnedAffixes()
+	{
+		var userId = int.Parse(_userService.GetUserId()!);
+
+		var affixes = await _context.Affixes.Where(a => a.Owner.UserId == userId).Select(a => new RegisteredAffixListItem
+		{
+			Name = a.Name,
+			Syntax = a.AffixSyntax,
+			RegistrationDate = a.CreatedDate
+		}).ToListAsync();
+
+		return Results.Ok(affixes);
 	}
 }

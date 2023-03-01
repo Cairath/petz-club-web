@@ -28,12 +28,12 @@ public static class UserEndpoints
 
 		group.MapPost("/sign-out", async (IUserService userService) =>
 			{
-				 return await userService.SignOut();
+				return await userService.SignOut();
 			})
 			.WithName("SignOut")
 			.WithOpenApi();
 
-		group.MapPost("/authenticate", ([FromBody]int userId, HttpContext httpContext, IUserService userService) =>
+		group.MapPost("/authenticate", ([FromBody] int userId, HttpContext httpContext, IUserService userService) =>
 			{
 				return httpContext.User.Identity?.IsAuthenticated ?? userService.GetUserId() == userId.ToString();
 			})
@@ -47,14 +47,39 @@ public static class UserEndpoints
 			})
 			.WithName("GetUserNotifications")
 			.Produces<List<Notification>>()
+			.RequireAuthorization()
+			.WithOpenApi();
+
+		group.MapPost("/notifications/delete", async ([FromBody] int notificationId, INotificationService notificationService) =>
+			{
+				return await notificationService.DeleteNotification(notificationId);
+			})
+			.WithName("DeleteNotification")
+			.RequireAuthorization()
+			.WithOpenApi();
+
+		group.MapPost("/notifications/mark-all-read", async (INotificationService notificationService) =>
+			{
+				return await notificationService.MarkNotificationsAsRead();
+			})
+			.WithName("MarkAllNotificationsAsRead")
+			.RequireAuthorization()
+			.WithOpenApi();
+
+		group.MapPost("/notifications/mark-read", async ([FromBody] int notificationId, INotificationService notificationService) =>
+			{
+				return await notificationService.MarkNotificationsAsRead(notificationId);
+			})
+			.WithName("MarkNotificationAsRead")
+			.RequireAuthorization()
 			.WithOpenApi();
 
 #if DEBUG
 		group.MapPost("/notifications/add", async (AddNotification form, INotificationService notificationService) =>
 			{
-				await notificationService.AddNotification(new List<int>(){ form.UserId}, text: form.Text, form.Type);
+				await notificationService.AddNotification(new List<int>() { form.UserId }, text: form.Text, form.Type);
 			})
-			.WithName("DEV Add Notification")
+			.WithName("DEVAddNotification")
 			.WithOpenApi();
 #endif
 	}

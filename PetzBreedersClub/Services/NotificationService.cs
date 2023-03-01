@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using PetzBreedersClub.Database.Models;
 using PetzBreedersClub.Database.Models.Enums;
 using PetzBreedersClub.DTOs.User;
+using PetzBreedersClub.Database.Migrations;
 
 namespace PetzBreedersClub.Services;
 
@@ -13,6 +14,7 @@ public interface INotificationService
 	Task<IResult> GetUserNotifications();
 	Task<IResult> MarkNotificationsAsRead(int? notificationId);
 	Task<IResult> MarkNotificationsAsRead();
+	Task<IResult> DeleteNotification(int notificationId);
 }
 
 public class NotificationService : INotificationService
@@ -54,6 +56,7 @@ public class NotificationService : INotificationService
 		var notifications = await _context.SystemNotifications.Where(sn => sn.UserId == userId)
 			.Select(sn => new Notification
 		{
+			Id = sn.Id,
 			Date = sn.CreatedDate,
 			Read = sn.Read,
 			Text = sn.Text,
@@ -102,4 +105,22 @@ public class NotificationService : INotificationService
 
 		return Results.Ok();
 	}
+
+	public async Task<IResult> DeleteNotification(int notificationId)
+	{
+		var userId = int.Parse(_userService.GetUserId()!);
+		var notification =
+			await _context.SystemNotifications.FirstOrDefaultAsync(sn => sn.UserId == userId && sn.Id == notificationId);
+
+		if (notification == null)
+		{
+			return Results.Unauthorized();
+		}
+
+		_context.SystemNotifications.Remove(notification);
+		await _context.SaveChangesAsync();
+
+		return Results.Ok();
+	}
+
 }

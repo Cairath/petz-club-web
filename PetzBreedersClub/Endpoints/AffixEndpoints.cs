@@ -16,5 +16,14 @@ public static class AffixEndpoints
 			.WithName("RegisterAffix")
 			.RequireAuthorization()
 			.WithOpenApi();
+
+		group.MapGet("/owned", async (IAffixService affixService) =>
+			{
+				return await affixService.GetOwnedAffixes();
+			})
+			.WithName("GetOwnedAffixes")
+			.RequireAuthorization()
+			.Produces<List<RegisteredAffixListItem>>()
+			.WithOpenApi();
 	}
 }

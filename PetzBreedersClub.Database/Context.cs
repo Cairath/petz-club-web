@@ -21,14 +21,15 @@ public class Context : DbContext
 	public DbSet<BreedEntity> Breeds { get; set; } = default!;
 	public DbSet<BreedStandardEntity> BreedStandards { get; set; } = default!;
 	public DbSet<PetEntity> Pets { get; set; } = default!;
-	public DbSet<AffixEntity> Kennels { get; set; } = default!;
+	public DbSet<AffixEntity> Affixes { get; set; } = default!;
 	public DbSet<SystemNotificationEntity> SystemNotifications { get; set; } = default!;
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		base.OnModelCreating(modelBuilder);
 
-		var dateTimeConverter = new ValueConverter<DateTime, DateTime>(v => v,
+		var dateTimeConverter = new ValueConverter<DateTime, DateTime>(
+			v => v.ToUniversalTime(),
 			v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
 
 		foreach (var entityType in modelBuilder.Model.GetEntityTypes())

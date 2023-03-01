@@ -1,12 +1,13 @@
-﻿using PetzBreedersClub.Database.Models.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+using PetzBreedersClub.Database.Models.Enums;
 
 #if DEBUG
 namespace PetzBreedersClub.DTOs.User;
 
 public class AddNotification
 {
-	public int UserId { get; set; }
-	public string Text { get; set; }
-	public NotificationType Type { get; set; }
+	[Required] public int UserId { get; set; }
+	[Required] public string Text { get; set; }
+	[Required] public NotificationType Type { get; set; }
 }
 #endif
