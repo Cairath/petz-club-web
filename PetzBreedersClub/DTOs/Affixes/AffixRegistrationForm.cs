@@ -6,6 +6,6 @@ namespace PetzBreedersClub.DTOs.Affixes
     public class AffixRegistrationForm
 	{
 		[Required] public required string Name { get; set; }
-		[Required] public required AffixSyntax AffixSyntax { get; set; }
+		[Required] public required AffixSyntax Syntax { get; set; }
 	}
 }

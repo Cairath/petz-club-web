@@ -16,11 +16,16 @@ public class AffixEntity : Entity
 	public string Name { get; set; }
 
 	[Required]
-	public AffixSyntax AffixSyntax { get; set; }
+	public AffixSyntax Syntax { get; set; }
+
+	[Required]
+	public AffixStatus Status { get; set; }
 
 	[Required]
 	public int OwnerId { get; set; }
 	public virtual MemberEntity Owner { get; set; }
+
+	public virtual ICollection<PetEntity> Pets { get; set; } = new List<PetEntity>();
 }
 
 public class AffixEntityConfiguration : IEntityTypeConfiguration<AffixEntity>
@@ -28,14 +33,18 @@ public class AffixEntityConfiguration : IEntityTypeConfiguration<AffixEntity>
 	public void Configure(EntityTypeBuilder<AffixEntity> builder)
 	{
 		builder
-			.Property(a => a.AffixSyntax);
+			.Property(a => a.Syntax);
 
 		builder
 			.HasIndex(a => a.Name).IsUnique();
 
 		builder
-			.Property(a => a.AffixSyntax)
+			.Property(a => a.Syntax)
 			.HasConversion(new EnumToStringConverter<AffixSyntax>());
+
+		builder
+			.Property(a => a.Status)
+			.HasConversion(new EnumToStringConverter<AffixStatus>());
 
 		builder
 			.HasOne(a => a.Owner)

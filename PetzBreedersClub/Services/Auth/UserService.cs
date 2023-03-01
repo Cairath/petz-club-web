@@ -71,13 +71,8 @@ public class UserService : IUserService
 
 	public async Task<IResult> SignIn(UserSignIn user)
 	{
-		//var validationResult = await _registrationFormValidator.ValidateAsync(registrationForm);
+		//todo: validate
 
-		//if (!validationResult.IsValid)
-		//{
-		//	return Results.ValidationProblem(validationResult.ToDictionary());
-		//}
-		
 		var userEntity = _context.Users.FirstOrDefault(u => u.Email == user.Email);
 		if (userEntity == null)
 		{
@@ -95,7 +90,7 @@ public class UserService : IUserService
 
 		await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, Convert(userIdentity));
 
-		return TypedResults.Ok(new SignedInUserInfo { Id = userIdentity.Id, Email = userIdentity.Email});
+		return TypedResults.Ok(new SignedInUserInfo { Id = userIdentity.Id, Email = userIdentity.Email });
 	}
 
 	public async Task<IResult> SignOut()
@@ -108,7 +103,7 @@ public class UserService : IUserService
 	{
 		var claims = new List<Claim>
 		{
-			new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+			new(ClaimTypes.NameIdentifier, user.Id.ToString())
 		};
 
 		var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

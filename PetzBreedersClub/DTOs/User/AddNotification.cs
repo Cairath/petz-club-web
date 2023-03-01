@@ -7,7 +7,7 @@ namespace PetzBreedersClub.DTOs.User;
 public class AddNotification
 {
 	[Required] public int UserId { get; set; }
-	[Required] public string Text { get; set; }
+	[Required] public required string Text { get; set; }
 	[Required] public NotificationType Type { get; set; }
 }
 #endif

@@ -16,7 +16,7 @@ public class AffixPendingRegistrationEntity : Entity
 	public string Name { get; set; }
 
 	[Required]
-	public AffixSyntax AffixSyntax { get; set; }
+	public AffixSyntax Syntax { get; set; }
 
 	[Required]
 	public RegistrationStatus RegistrationStatus { get; set; }
@@ -31,14 +31,18 @@ public class AffixPendingRegistrationEntityConfiguration : IEntityTypeConfigurat
 	public void Configure(EntityTypeBuilder<AffixPendingRegistrationEntity> builder)
 	{
 		builder
-			.Property(a => a.AffixSyntax);
+			.Property(a => a.Syntax);
 
 		builder
 			.HasIndex(a => a.Name).IsUnique();
 
 		builder
-			.Property(a => a.AffixSyntax)
+			.Property(a => a.Syntax)
 			.HasConversion(new EnumToStringConverter<AffixSyntax>());
+
+		builder
+			.Property(a => a.RegistrationStatus)
+			.HasConversion(new EnumToStringConverter<RegistrationStatus>());
 
 		builder
 			.HasOne(a => a.Owner)

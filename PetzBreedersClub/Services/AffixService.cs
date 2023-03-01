@@ -3,7 +3,7 @@ using PetzBreedersClub.Database;
 using PetzBreedersClub.DTOs.Affixes;
 using PetzBreedersClub.Services.Auth;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
+using PetzBreedersClub.Database.Models.Enums;
 
 namespace PetzBreedersClub.Services;
 
@@ -11,6 +11,7 @@ public interface IAffixService
 {
 	Task<IResult> RegisterAffix(AffixRegistrationForm affixRegistrationForm);
 	Task<IResult> GetOwnedAffixes();
+	Task<IResult> GetOwnedPendingAffixes();
 }
 
 public class AffixService : IAffixService
@@ -38,7 +39,7 @@ public class AffixService : IAffixService
 
 		_context.Add(new AffixEntity
 		{
-			Name = affixRegistrationForm.Name, AffixSyntax = affixRegistrationForm.AffixSyntax, OwnerId = user.Member.Id
+			Name = affixRegistrationForm.Name, Syntax = affixRegistrationForm.Syntax, OwnerId = user.Member.Id, Status = AffixStatus.Active
 		});
 
 		await _context.SaveChangesAsync();
@@ -50,12 +51,39 @@ public class AffixService : IAffixService
 	{
 		var userId = int.Parse(_userService.GetUserId()!);
 
-		var affixes = await _context.Affixes.Where(a => a.Owner.UserId == userId).Select(a => new RegisteredAffixListItem
+		var affixes = 
+			await _context.Affixes
+			
+			.Where(a => a.Owner.UserId == userId)
+			.Select(a => new RegisteredAffixListItem
 		{
+			Id = a.Id,
 			Name = a.Name,
-			Syntax = a.AffixSyntax,
-			RegistrationDate = a.CreatedDate
+			PetsCount = a.Pets.Count,
+			Syntax = a.Syntax,
+			RegistrationDate = a.CreatedDate,
+			Status = a.Status
 		}).ToListAsync();
+
+		return Results.Ok(affixes);
+	}
+
+	public async Task<IResult> GetOwnedPendingAffixes()
+	{
+		var userId = int.Parse(_userService.GetUserId()!);
+
+		var affixes =
+			await _context.AffixesPendingRegistration
+				.Where(a => a.Owner.UserId == userId)
+				.Select(a => new RegisteredAffixListItem
+				{
+					Id = a.Id,
+					Name = a.Name,
+					PetsCount = 0,
+					Syntax = a.Syntax,
+					RegistrationDate = a.CreatedDate,
+					Status = AffixStatus.PendingRegistration
+				}).ToListAsync();
 
 		return Results.Ok(affixes);
 	}

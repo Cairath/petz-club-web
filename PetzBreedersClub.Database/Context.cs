@@ -22,6 +22,7 @@ public class Context : DbContext
 	public DbSet<BreedStandardEntity> BreedStandards { get; set; } = default!;
 	public DbSet<PetEntity> Pets { get; set; } = default!;
 	public DbSet<AffixEntity> Affixes { get; set; } = default!;
+	public DbSet<AffixPendingRegistrationEntity> AffixesPendingRegistration { get; set; } = default!;
 	public DbSet<SystemNotificationEntity> SystemNotifications { get; set; } = default!;
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)

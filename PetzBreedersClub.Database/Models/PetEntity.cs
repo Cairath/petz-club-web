@@ -15,6 +15,9 @@ public class PetEntity : Entity
 	public string ShowName { get; set; }
 
 	[Required]
+	public string PartialShowName { get; set; }
+
+	[Required]
 	public string CallName { get; set; }
 
 	[Required]
@@ -28,6 +31,10 @@ public class PetEntity : Entity
 	public virtual BreedEntity Breed { get; set; }
 
 	[Required]
+	public int AffixId { get; set; }
+	public virtual AffixEntity Affix { get; set; }
+
+	[Required]
 	public int OwnerId { get; set; }
 	public virtual MemberEntity Owner { get; set; }
 
@@ -35,10 +42,10 @@ public class PetEntity : Entity
 	public int BreederId { get; set; }
 	public virtual MemberEntity Breeder { get; set; }
 	
-	public int DamId { get; set; }
+	public int? DamId { get; set; }
 	public virtual PetEntity Dam { get; set; }
 
-	public int SireId { get; set; }
+	public int? SireId { get; set; }
 	public virtual PetEntity Sire { get; set; }
 	
 
@@ -60,6 +67,11 @@ public class PetEntityConfiguration : IEntityTypeConfiguration<PetEntity>
 			.HasOne(p => p.Breed)
 			.WithMany()
 			.HasForeignKey(p => p.BreedId);
+
+		builder
+			.HasOne(p => p.Affix)
+			.WithMany(a=>a.Pets)
+			.HasForeignKey(p => p.AffixId);
 
 		builder
 			.HasOne(p => p.Owner)

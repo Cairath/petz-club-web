@@ -25,5 +25,14 @@ public static class AffixEndpoints
 			.RequireAuthorization()
 			.Produces<List<RegisteredAffixListItem>>()
 			.WithOpenApi();
+
+		group.MapGet("/owned-pending", async (IAffixService affixService) =>
+			{
+				return await affixService.GetOwnedPendingAffixes();
+			})
+			.WithName("GetOwnedPendingAffixes")
+			.RequireAuthorization()
+			.Produces<List<RegisteredAffixListItem>>()
+			.WithOpenApi();
 	}
 }
