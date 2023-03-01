@@ -1,4 +1,9 @@
-import { IconButton, Menu, MenuButton } from "@chakra-ui/react";
+import {
+  IconButton,
+  IconButtonProps,
+  Menu,
+  MenuButton
+} from "@chakra-ui/react";
 import { useContext, useMemo, useState } from "react";
 import api from "../../../../../api/api";
 import { Notification } from "../../../../../api/client";
@@ -10,11 +15,13 @@ export type Props = {
   color: string;
 };
 
-export const Notifications = (props: Props) => {
+export const Notifications = (
+  props: Props & Omit<IconButtonProps, "aria-label">
+) => {
   const { notifications, refreshNotifications } = useContext(UserContext);
   const [unreadFilter, setUnreadFilter] = useState<"all" | "unread">("all");
 
-  const { color } = props;
+  const { color, ...rest } = props;
 
   const sortedNotifications = useMemo(
     () =>
@@ -55,6 +62,7 @@ export const Notifications = (props: Props) => {
         icon={
           <NotificationBellIcon color={color} showUnreadDot={showUnreadDot} />
         }
+        {...rest}
       />
       <NotificationPortal
         notifications={sortedNotifications}

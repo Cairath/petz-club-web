@@ -125,7 +125,7 @@ export const AdminNavbar = () => {
                 </Button>
               </NavLink>
             )}
-            <Notifications color={navbarIcon} />
+            <Notifications color={navbarIcon} mr="5px" />
             <ColorModeSwitch
               color={navbarIcon}
               colorMode={colorMode}

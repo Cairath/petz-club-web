@@ -8,6 +8,7 @@ import "@fontsource/roboto/700.css";
 import { UserProvider } from "./context/UserProvider";
 import { router } from "./router";
 import theme from "./theme/theme.js";
+
 const App = () => {
   return (
     <UserProvider>

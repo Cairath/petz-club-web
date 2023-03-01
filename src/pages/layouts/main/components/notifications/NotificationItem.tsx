@@ -43,6 +43,8 @@ export const NotificationItem = (props: Props) => {
   return (
     <>
       <MenuItem
+        as="div"
+        cursor="pointer"
         borderRadius="8px"
         onClick={() => {
           /* todo */

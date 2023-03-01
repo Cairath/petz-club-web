@@ -1,70 +1,50 @@
-import {
-  Table,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-  useColorModeValue
-} from "@chakra-ui/react";
-import { DateTime } from "luxon";
-import { AffixSyntax, RegisteredAffixListItem } from "../../../api/client";
-import { ShowNameText } from "./ShowNameText";
+import { Table, useColorModeValue } from "@chakra-ui/react";
+import { RegisteredAffixListItem } from "../../../api/client";
+import { TableContent } from "./TableContent";
 
 export type Props = {
   affixes: RegisteredAffixListItem[];
+  pendingAffixes: RegisteredAffixListItem[];
 };
 
-const syntaxDisplayName: Record<AffixSyntax, string> = {
-  [AffixSyntax.Prefix]: "prefix",
-  [AffixSyntax.Suffix]: "suffix",
-  [AffixSyntax.Names]: "'s",
-  [AffixSyntax.From]: "from",
-  [AffixSyntax.Of]: "of",
-  [AffixSyntax.The]: "the"
-};
-
-export const RegisteredAffixesTable = ({ affixes }: Props) => {
+export const RegisteredAffixesTable = ({ affixes, pendingAffixes }: Props) => {
   const textColor = useColorModeValue("gray.700", "white");
+
+  const pendingHeaders = [
+    "Name",
+    "Syntax",
+    "Show Name Construction",
+    "",
+    "Status",
+    "Submission date",
+    "Actions"
+  ];
 
   const headers = [
     "Name",
     "Syntax",
     "Show Name Construction",
-    "Registration date",
+    "Pets",
     "Status",
+    "Registration date",
     "Actions"
   ];
 
   return (
-    <Table variant="simple" color={textColor}>
-      <Thead>
-        <Tr my=".8rem" pl="0px" color="gray.400">
-          {headers.map((header, idx) => {
-            return (
-              <Th color="gray.400" key={idx}>
-                {header}
-              </Th>
-            );
-          })}
-        </Tr>
-      </Thead>
-      <Tbody>
-        {affixes.map((affix: RegisteredAffixListItem) => (
-          <Tr>
-            <Td py="25px">{affix.name}</Td>
-            <Td>{syntaxDisplayName[affix.syntax]}</Td>
-            <Td>
-              <ShowNameText affix={affix} />
-            </Td>
-            <Td>
-              {DateTime.fromJSDate(affix.registrationDate).toFormat(
-                "yyyy/MM/dd"
-              )}
-            </Td>
-          </Tr>
-        ))}
-      </Tbody>
+    <Table color={textColor}>
+      {pendingAffixes.length > 0 && (
+        <TableContent
+          affixes={pendingAffixes}
+          headers={pendingHeaders}
+          type="pending"
+        />
+      )}
+      <TableContent
+        affixes={affixes}
+        headers={headers}
+        pt={pendingAffixes.length > 0 ? "40px" : undefined}
+        type="registered"
+      />
     </Table>
   );
 };

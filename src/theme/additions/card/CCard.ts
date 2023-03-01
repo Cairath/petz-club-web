@@ -30,21 +30,34 @@ export const CCardComponent = {
   }
 };
 
-const { definePartsStyle, defineMultiStyleConfig } =
-  createMultiStyleConfigHelpers(cardAnatomy.keys);
+const { defineMultiStyleConfig } = createMultiStyleConfigHelpers(
+  cardAnatomy.keys
+);
 
-const baseStyle = definePartsStyle({
-  container: {
-    boxShadow: "0px 3.5px 5.5px rgba(0, 0, 0, 0.02)",
-    borderRadius: "15px"
-  },
-  header: {
-    paddingTop: "25px",
-    paddingBottom: "0px"
+const cardTheme = defineMultiStyleConfig({
+  variants: {
+    panel: (props) => ({
+      container: {
+        boxShadow: "0px 3.5px 5.5px rgba(0, 0, 0, 0.02)",
+        borderRadius: "15px",
+        bg: mode("white", "gray.700")(props)
+      }
+    }),
+    tablePanel: (props) => ({
+      container: {
+        boxShadow: "0px 3.5px 5.5px rgba(0, 0, 0, 0.02)",
+        borderRadius: "15px",
+        bg: mode("white", "gray.700")(props)
+      },
+      header: {
+        paddingTop: "35px",
+        paddingLeft: "40px",
+        paddingRight: "40px",
+        paddingBottom: "0px"
+      }
+    })
   }
 });
-
-const cardTheme = defineMultiStyleConfig({ baseStyle });
 
 export const CardComponent = {
   components: {

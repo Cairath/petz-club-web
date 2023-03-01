@@ -43,6 +43,7 @@ export const NotificationPortal = (props: Props) => {
         <Flex flexDirection="column">
           <Flex flexDirection="row" mb="10px">
             <Button
+              variant="outline"
               mx="10px"
               isActive={unreadFilter === "all"}
               onClick={() => setUnreadFilter("all")}
@@ -50,12 +51,14 @@ export const NotificationPortal = (props: Props) => {
               All
             </Button>
             <Button
+              variant="outline"
               isActive={unreadFilter === "unread"}
               onClick={() => setUnreadFilter("unread")}
             >
               Unread
             </Button>
             <Button
+              variant="ghost"
               ml="auto"
               onClick={async (e) => {
                 e.stopPropagation();

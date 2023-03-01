@@ -45,7 +45,7 @@ export const UserProvider = (props: Props) => {
       if (user !== undefined && user !== null) {
         await refreshNotifications();
       }
-    }, 10000);
+    }, 100000);
     return () => {
       clearInterval(intervalCall);
     };

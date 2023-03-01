@@ -1,13 +1,12 @@
 import { defineStyleConfig, extendTheme } from '@chakra-ui/react';
-import { globalStyles } from './styles';
-import { breakpoints } from './foundations/breakpoints';
-import { buttonStyles } from './components/button';
-import { badgeStyles } from './components/badge';
-import { linkStyles } from './components/link';
-import { drawerStyles } from './components/drawer';
-import { CardComponent, CCardComponent } from './additions/card/CCard';
 import { CardBodyComponent } from './additions/card/CardBody';
 import { CardHeaderComponent } from './additions/card/CardHeader';
+import { CardComponent, CCardComponent } from './additions/card/CCard';
+import { buttonStyles } from './components/button';
+import { drawerStyles } from './components/drawer';
+import { linkStyles } from './components/link';
+import { breakpoints } from './foundations/breakpoints';
+import { globalStyles } from './styles';
 // import { mode } from "@chakra-ui/theme-tools";
 
 const config = {
@@ -31,7 +30,6 @@ export default extendTheme(
 	{ breakpoints }, // Breakpoints
 	globalStyles,
 	buttonStyles, // Button styles
-	badgeStyles, // Badge styles
 	linkStyles, // Link styles
 	drawerStyles, // Sidebar variant for Chakra's drawer
 	CCardComponent, // Card component
