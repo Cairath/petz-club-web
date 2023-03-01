@@ -1,5 +1,7 @@
 import { defineStyleConfig } from "@chakra-ui/system";
 import { mode } from "@chakra-ui/theme-tools";
+import { createMultiStyleConfigHelpers } from "@chakra-ui/styled-system";
+import { cardAnatomy } from "@chakra-ui/anatomy";
 
 const CCard = defineStyleConfig({
   baseStyle: {
@@ -25,5 +27,27 @@ const CCard = defineStyleConfig({
 export const CCardComponent = {
   components: {
     CCard: CCard
+  }
+};
+
+const { definePartsStyle, defineMultiStyleConfig } =
+  createMultiStyleConfigHelpers(cardAnatomy.keys);
+
+const baseStyle = definePartsStyle({
+  container: {
+    boxShadow: "0px 3.5px 5.5px rgba(0, 0, 0, 0.02)",
+    borderRadius: "15px"
+  },
+  header: {
+    paddingTop: "25px",
+    paddingBottom: "0px"
+  }
+});
+
+const cardTheme = defineMultiStyleConfig({ baseStyle });
+
+export const CardComponent = {
+  components: {
+    Card: cardTheme
   }
 };

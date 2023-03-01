@@ -1,11 +1,11 @@
-import { extendTheme } from '@chakra-ui/react';
+import { defineStyleConfig, extendTheme } from '@chakra-ui/react';
 import { globalStyles } from './styles';
 import { breakpoints } from './foundations/breakpoints';
 import { buttonStyles } from './components/button';
 import { badgeStyles } from './components/badge';
 import { linkStyles } from './components/link';
 import { drawerStyles } from './components/drawer';
-import { CCardComponent } from './additions/card/CCard';
+import { CardComponent, CCardComponent } from './additions/card/CCard';
 import { CardBodyComponent } from './additions/card/CardBody';
 import { CardHeaderComponent } from './additions/card/CardHeader';
 // import { mode } from "@chakra-ui/theme-tools";
@@ -14,6 +14,18 @@ const config = {
   initialColorMode: 'light',
   useSystemColorMode: false,
 }
+
+const HeadingStyle = defineStyleConfig({
+  baseStyle: {
+    fontFamily: "'Roboto', sans-serif"
+  }
+});
+
+ const HeadingComponent = {
+  components: {
+    Heading: HeadingStyle
+  }
+};
 
 export default extendTheme(
 	{ breakpoints }, // Breakpoints
@@ -25,5 +37,8 @@ export default extendTheme(
 	CCardComponent, // Card component
 	CardBodyComponent, // Card Body component
 	CardHeaderComponent, // Card Header component
-	{ config }
+	CardComponent,
+	{ config },
+	HeadingComponent
+	
 );

@@ -43,8 +43,9 @@ export const SidebarContent = (props: Props) => {
             category="MY KENNELS & CATTERIES"
             color={activeColor}
           />
+          <MenuLink to="/" entryName="Profile" />
           <MenuLink to="/" entryName="Petz" />
-          <MenuLink to="/" entryName="Affixes" />
+          <MenuLink to="/affixes" entryName="Affixes" />
 
           <CategoryHeader category="SHOWS" color={activeColor} />
           <MenuLink to="/" entryName="Shows" />

@@ -75,6 +75,54 @@ export class Client {
     }
 
     /**
+     * @return OK
+     */
+    getOwnedAffixes(  cancelToken?: CancelToken | undefined): Promise<RegisteredAffixListItem[]> {
+        let url_ = this.baseUrl + "/api/affixes/owned";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: AxiosRequestConfig = {
+            method: "GET",
+            url: url_,
+            headers: {
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processGetOwnedAffixes(_response);
+        });
+    }
+
+    protected processGetOwnedAffixes(response: AxiosResponse): Promise<RegisteredAffixListItem[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+    
+            let result200: any = response.data;
+            return Promise.resolve<RegisteredAffixListItem[]>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            return throwException("An unexpected server error occurred.", status, response.statusText, _headers);
+        }
+        return Promise.resolve<RegisteredAffixListItem[]>(null as any);
+    }
+
+    /**
      * @param species (optional) 
      * @return OK
      */
@@ -657,6 +705,12 @@ export enum NotificationType {
     Warning = "Warning",
     Error = "Error",
     Success = "Success",
+}
+
+export interface RegisteredAffixListItem {
+    name: string;
+    syntax: AffixSyntax;
+    registrationDate: Date;
 }
 
 export interface RegistrationForm {
