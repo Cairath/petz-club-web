@@ -7,36 +7,35 @@ import {
   Heading,
   Text
 } from "@chakra-ui/react";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import api from "../../api/api";
-import { RegisteredAffixListItem } from "../../api/client";
+import { OwnedAffixes } from "../../api/client";
 import { Space } from "../../components/own/Space";
 import { UserContext } from "../../context/UserContext";
 import { RegisteredAffixesTable } from "./components/RegisteredAffixesTable";
 
 export const Affixes = () => {
   const { user } = useContext(UserContext);
-  const [registeredAffixes, setRegisteredAffixes] = useState<
-    RegisteredAffixListItem[]
-  >([]);
-
-  const [pendingAffixes, setPendingAffixes] = useState<
-    RegisteredAffixListItem[]
-  >([]);
-
-  const permittedAffixes = 50;
+  const [affixInfo, setAffixInfo] = useState<OwnedAffixes>({
+    registered: [],
+    pending: [],
+    allowed: 0,
+    owned: 0
+  });
 
   useEffect(() => {
-    api.getOwnedAffixes().then((affixes) => setRegisteredAffixes(affixes));
-    api
-      .getOwnedPendingAffixes()
-      .then((pendingAffixes) => setPendingAffixes(pendingAffixes));
+    getAffixInfo();
   }, [user]);
 
-  const affixCount = useMemo(
-    () => registeredAffixes.length + pendingAffixes.length,
-    [registeredAffixes, pendingAffixes]
-  );
+  const getAffixInfo = async () => {
+    await api.getOwnedAffixes().then((affixes) => setAffixInfo(affixes));
+  };
+
+  const cancelRegistration = async (pendingAffixId: number) => {
+    await api
+      .cancelPendingAffixRegistration(pendingAffixId)
+      .then(async () => await getAffixInfo());
+  };
 
   return (
     <>
@@ -47,7 +46,7 @@ export const Affixes = () => {
             <Button
               ml="auto"
               colorScheme="teal"
-              isDisabled={affixCount > permittedAffixes}
+              isDisabled={affixInfo.owned > affixInfo.allowed}
             >
               <Text>New affix</Text>
             </Button>
@@ -59,7 +58,7 @@ export const Affixes = () => {
               You are currently using
               <Space />
               <Text fontWeight="bold" as="span">
-                {affixCount} / {permittedAffixes}
+                {affixInfo.owned} / {affixInfo.allowed}
               </Text>
               <Space />
               of your affix slots.
@@ -71,8 +70,9 @@ export const Affixes = () => {
           </Flex>
 
           <RegisteredAffixesTable
-            affixes={registeredAffixes}
-            pendingAffixes={pendingAffixes}
+            affixes={affixInfo.registered}
+            pendingAffixes={affixInfo.pending}
+            cancelRegistration={cancelRegistration}
           />
         </CardBody>
       </Card>

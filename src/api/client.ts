@@ -77,7 +77,7 @@ export class Client {
     /**
      * @return OK
      */
-    getOwnedAffixes(  cancelToken?: CancelToken | undefined): Promise<RegisteredAffixListItem[]> {
+    getOwnedAffixes(  cancelToken?: CancelToken | undefined): Promise<OwnedAffixes> {
         let url_ = this.baseUrl + "/api/affixes/owned";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -101,7 +101,7 @@ export class Client {
         });
     }
 
-    protected processGetOwnedAffixes(response: AxiosResponse): Promise<RegisteredAffixListItem[]> {
+    protected processGetOwnedAffixes(response: AxiosResponse): Promise<OwnedAffixes> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -114,26 +114,29 @@ export class Client {
         if (status === 200) {
     
             let result200: any = response.data;
-            return Promise.resolve<RegisteredAffixListItem[]>(result200);
+            return Promise.resolve<OwnedAffixes>(result200);
 
         } else if (status !== 200 && status !== 204) {
             return throwException("An unexpected server error occurred.", status, response.statusText, _headers);
         }
-        return Promise.resolve<RegisteredAffixListItem[]>(null as any);
+        return Promise.resolve<OwnedAffixes>(null as any);
     }
 
     /**
      * @return OK
      */
-    getOwnedPendingAffixes(  cancelToken?: CancelToken | undefined): Promise<RegisteredAffixListItem[]> {
-        let url_ = this.baseUrl + "/api/affixes/owned-pending";
+    cancelPendingAffixRegistration(body: number , cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/api/affixes/cancel-registration";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(body);
+
         let options_: AxiosRequestConfig = {
-            method: "GET",
+            data: content_,
+            method: "POST",
             url: url_,
             headers: {
-                "Accept": "application/json"
+                "Content-Type": "application/json",
             },
             cancelToken
         };
@@ -145,11 +148,11 @@ export class Client {
                 throw _error;
             }
         }).then((_response: AxiosResponse) => {
-            return this.processGetOwnedPendingAffixes(_response);
+            return this.processCancelPendingAffixRegistration(_response);
         });
     }
 
-    protected processGetOwnedPendingAffixes(response: AxiosResponse): Promise<RegisteredAffixListItem[]> {
+    protected processCancelPendingAffixRegistration(response: AxiosResponse): Promise<void> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -161,13 +164,12 @@ export class Client {
         }
         if (status === 200) {
     
-            let result200: any = response.data;
-            return Promise.resolve<RegisteredAffixListItem[]>(result200);
+            return Promise.resolve<void>(null as any);
 
         } else if (status !== 200 && status !== 204) {
             return throwException("An unexpected server error occurred.", status, response.statusText, _headers);
         }
-        return Promise.resolve<RegisteredAffixListItem[]>(null as any);
+        return Promise.resolve<void>(null as any);
     }
 
     /**
@@ -759,6 +761,13 @@ export enum NotificationType {
     Warning = "Warning",
     Error = "Error",
     Success = "Success",
+}
+
+export interface OwnedAffixes {
+    registered: RegisteredAffixListItem[];
+    pending: RegisteredAffixListItem[];
+    owned: number;
+    allowed: number;
 }
 
 export interface RegisteredAffixListItem {

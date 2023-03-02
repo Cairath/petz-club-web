@@ -11,8 +11,8 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { SignOut } from "./pages/auth/SignOut";
 import { Dashboard } from "./pages/dashboard/Dashboard";
-import Demo from "./pages/demo/Demo";
 import { Affixes } from "./pages/affixes/Affixes";
+import { Account } from "./pages/account/Account";
 
 export const router = createBrowserRouter([
   {
@@ -29,18 +29,18 @@ export const router = createBrowserRouter([
     )
   },
   {
-    path: "/demo",
-    element: (
-      <MainLayout>
-        <Demo />
-      </MainLayout>
-    )
-  },
-  {
     path: "/affixes",
     element: (
       <MainLayout>
         <Affixes />
+      </MainLayout>
+    )
+  },
+  {
+    path: "/account",
+    element: (
+      <MainLayout>
+        <Account />
       </MainLayout>
     )
   },

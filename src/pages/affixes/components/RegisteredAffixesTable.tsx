@@ -1,13 +1,19 @@
 import { Table, useColorModeValue } from "@chakra-ui/react";
+import { useMemo } from "react";
 import { RegisteredAffixListItem } from "../../../api/client";
 import { TableContent } from "./TableContent";
 
 export type Props = {
   affixes: RegisteredAffixListItem[];
   pendingAffixes: RegisteredAffixListItem[];
+  cancelRegistration: (pendingAffixId: number) => void;
 };
 
-export const RegisteredAffixesTable = ({ affixes, pendingAffixes }: Props) => {
+export const RegisteredAffixesTable = ({
+  affixes,
+  pendingAffixes,
+  cancelRegistration
+}: Props) => {
   const textColor = useColorModeValue("gray.700", "white");
 
   const pendingHeaders = [
@@ -30,20 +36,27 @@ export const RegisteredAffixesTable = ({ affixes, pendingAffixes }: Props) => {
     "Actions"
   ];
 
+  const showPending = useMemo(
+    () => pendingAffixes.length > 0,
+    [pendingAffixes]
+  );
+
   return (
     <Table color={textColor}>
-      {pendingAffixes.length > 0 && (
+      {showPending && (
         <TableContent
           affixes={pendingAffixes}
           headers={pendingHeaders}
           type="pending"
+          cancelRegistration={cancelRegistration}
         />
       )}
       <TableContent
         affixes={affixes}
         headers={headers}
-        pt={pendingAffixes.length > 0 ? "40px" : undefined}
+        pt={showPending ? "40px" : undefined}
         type="registered"
+        cancelRegistration={cancelRegistration}
       />
     </Table>
   );

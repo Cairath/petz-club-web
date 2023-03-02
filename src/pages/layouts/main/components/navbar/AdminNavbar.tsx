@@ -1,30 +1,33 @@
 // Chakra Imports
 import {
+  Avatar,
   Box,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
   Button,
   Flex,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Portal,
+  Stack,
   Text,
   useColorMode,
   useColorModeValue
 } from "@chakra-ui/react";
 import { useContext } from "react";
-import { NavLink } from "react-router-dom";
-import { ProfileIcon } from "../../../../../components/Icons/Icons";
-import { UserContext } from "../../../../../context/UserContext";
+import { FaSignOutAlt, FaUser } from "react-icons/fa";
+import { Link as ReactRouterLink } from "react-router-dom";
+import api from "../../../../../api/api";
+import { User, UserContext } from "../../../../../context/UserContext";
+import { Notifications } from "../notifications/Notifications";
 import { MobileSidebar } from "../sidebar/MobileSidebar";
 import { ColorModeSwitch } from "./ColorModeSwitch";
-import { Notifications } from "../notifications/Notifications";
 
 export const AdminNavbar = () => {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const { colorMode, setColorMode } = useColorMode();
 
   // todo cleanup
-  const mainText = useColorModeValue("gray.700", "gray.200");
-  const secondaryText = useColorModeValue("gray.400", "gray.200");
   const navbarPosition: "absolute" | "initial" = "initial";
   const navbarFilter = "none";
   const navbarBackdrop = "blur(21px)";
@@ -35,6 +38,10 @@ export const AdminNavbar = () => {
   const paddingX = "15px";
 
   const navbarIcon = useColorModeValue("gray.500", "gray.200");
+
+  const signOut = async () => {
+    api.signOut().then(() => setUser(null));
+  };
 
   return (
     <Flex
@@ -79,19 +86,9 @@ export const AdminNavbar = () => {
         alignItems={{ xl: "center" }}
       >
         <Box mb={{ sm: "8px", md: "0px" }}>
-          <Breadcrumb>
-            <BreadcrumbItem color={mainText}>
-              <BreadcrumbLink href="#" color={secondaryText}>
-                something
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-
-            <BreadcrumbItem color={mainText}>
-              <BreadcrumbLink href="#" color={mainText}>
-                current location
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-          </Breadcrumb>
+          <Text fontStyle="italic">
+            "Quote of the day, for the lack of a better thing"
+          </Text>
         </Box>
         <Box ms="auto" w={{ sm: "100%", md: "unset" }}>
           <Flex
@@ -100,41 +97,67 @@ export const AdminNavbar = () => {
             alignItems="center"
             flexDirection="row"
           >
-            {user ? (
-              <Text me={{ sm: "2px", md: "16px" }}>
-                Hello <b>{user.name}</b>!
-              </Text>
-            ) : (
-              <NavLink to="/sign-in">
-                <Button
-                  ms="0px"
-                  px="0px"
-                  me={{ sm: "2px", md: "16px" }}
-                  color={navbarIcon}
-                  variant="transparent-with-icon"
-                  rightIcon={
-                    <ProfileIcon
-                      color={navbarIcon}
-                      w="22px"
-                      h="22px"
-                      me="0px"
-                    />
-                  }
-                >
-                  <Text display={{ sm: "none", md: "flex" }}>Sign In</Text>
-                </Button>
-              </NavLink>
-            )}
-            <Notifications color={navbarIcon} mr="5px" />
-            <ColorModeSwitch
-              color={navbarIcon}
-              colorMode={colorMode}
-              onClick={setColorMode}
-            />
-            <MobileSidebar />
+            <Stack direction="row" alignItems="center">
+              <ColorModeSwitch
+                color={navbarIcon}
+                colorMode={colorMode}
+                onClick={setColorMode}
+              />
+              <MobileSidebar />
+              {user && <Notifications color={navbarIcon} />}
+              <UserControl user={user} signOut={signOut} />
+            </Stack>
           </Flex>
         </Box>
       </Flex>
+    </Flex>
+  );
+};
+
+const UserControl = ({
+  user,
+  signOut
+}: {
+  user: User;
+  signOut: () => void;
+}) => {
+  const navbarIcon = useColorModeValue("gray.500", "gray.200");
+  return (
+    <Flex>
+      {user ? (
+        <Menu>
+          <MenuButton>
+            <Avatar size="sm" ms="2px" name={user.name}></Avatar>
+          </MenuButton>
+          <Portal>
+            <MenuList minW="150px">
+              <Flex flexDirection="column">
+                <ReactRouterLink to="/account">
+                  <MenuItem icon={<FaUser />}>Account</MenuItem>
+                </ReactRouterLink>
+
+                <MenuItem icon={<FaSignOutAlt />} onClick={() => signOut()}>
+                  Sign Out
+                </MenuItem>
+              </Flex>
+            </MenuList>
+          </Portal>
+        </Menu>
+      ) : (
+        <ReactRouterLink to="/sign-in">
+          <Button
+            ms="0px"
+            ps="5px"
+            pe="10px"
+            color={navbarIcon}
+            variant="ghost"
+            aria-label="sign-in"
+            rightIcon={<FaUser color={navbarIcon} width="22px" height="22px" />}
+          >
+            <Text display={{ sm: "none", md: "flex" }}>Sign In</Text>
+          </Button>
+        </ReactRouterLink>
+      )}
     </Flex>
   );
 };
