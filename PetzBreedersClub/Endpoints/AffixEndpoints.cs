@@ -1,4 +1,5 @@
-﻿using PetzBreedersClub.DTOs.Affixes;
+﻿using Microsoft.AspNetCore.Mvc;
+using PetzBreedersClub.DTOs.Affixes;
 using PetzBreedersClub.Services;
 
 namespace PetzBreedersClub.Endpoints;
@@ -23,16 +24,14 @@ public static class AffixEndpoints
 			})
 			.WithName("GetOwnedAffixes")
 			.RequireAuthorization()
-			.Produces<List<RegisteredAffixListItem>>()
+			.Produces<OwnedAffixes>()
 			.WithOpenApi();
-
-		group.MapGet("/owned-pending", async (IAffixService affixService) =>
+		group.MapPost("/cancel-registration", async ([FromBody] int pendingAffixId, IAffixService affixService) =>
 			{
-				return await affixService.GetOwnedPendingAffixes();
+				return await affixService.CancelPendingAffixRegistration(pendingAffixId);
 			})
-			.WithName("GetOwnedPendingAffixes")
+			.WithName("CancelPendingAffixRegistration")
 			.RequireAuthorization()
-			.Produces<List<RegisteredAffixListItem>>()
 			.WithOpenApi();
 	}
 }

@@ -11,7 +11,7 @@ public interface IAffixService
 {
 	Task<IResult> RegisterAffix(AffixRegistrationForm affixRegistrationForm);
 	Task<IResult> GetOwnedAffixes();
-	Task<IResult> GetOwnedPendingAffixes();
+	Task<IResult> CancelPendingAffixRegistration(int pendingAffixId);
 }
 
 public class AffixService : IAffixService
@@ -51,7 +51,7 @@ public class AffixService : IAffixService
 	{
 		var userId = int.Parse(_userService.GetUserId()!);
 
-		var affixes = 
+		var registeredAffixes = 
 			await _context.Affixes
 			
 			.Where(a => a.Owner.UserId == userId)
@@ -65,14 +65,7 @@ public class AffixService : IAffixService
 			Status = a.Status
 		}).ToListAsync();
 
-		return Results.Ok(affixes);
-	}
-
-	public async Task<IResult> GetOwnedPendingAffixes()
-	{
-		var userId = int.Parse(_userService.GetUserId()!);
-
-		var affixes =
+		var pendingAffixes =
 			await _context.AffixesPendingRegistration
 				.Where(a => a.Owner.UserId == userId)
 				.Select(a => new RegisteredAffixListItem
@@ -85,6 +78,34 @@ public class AffixService : IAffixService
 					Status = AffixStatus.PendingRegistration
 				}).ToListAsync();
 
-		return Results.Ok(affixes);
+		var affixInfo = new OwnedAffixes
+		{
+			Allowed = 50,
+			Owned = registeredAffixes.Count + pendingAffixes.Count,
+			Registered = registeredAffixes,
+			Pending = pendingAffixes
+		};
+
+		return Results.Ok(affixInfo);
+	}
+
+	public async Task<IResult> CancelPendingAffixRegistration(int pendingAffixId)
+	{
+		var userId = int.Parse(_userService.GetUserId()!);
+
+		var pendingAffix =
+			await _context.AffixesPendingRegistration
+				.Where(a => a.Owner.UserId == userId && a.Id == pendingAffixId)
+				.FirstOrDefaultAsync();
+
+		if (pendingAffix == null)
+		{
+			return Results.Unauthorized();
+		}
+
+		_context.AffixesPendingRegistration.Remove(pendingAffix);
+		await _context.SaveChangesAsync();
+
+		return Results.Ok();
 	}
 }
