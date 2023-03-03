@@ -12,6 +12,7 @@ public interface IAffixService
 	Task<IResult> RegisterAffix(AffixRegistrationForm affixRegistrationForm);
 	Task<IResult> GetOwnedAffixes();
 	Task<IResult> CancelPendingAffixRegistration(int pendingAffixId);
+	Task<IResult> GetAffixProfile(int affixId);
 }
 
 public class AffixService : IAffixService
@@ -107,5 +108,22 @@ public class AffixService : IAffixService
 		await _context.SaveChangesAsync();
 
 		return Results.Ok();
+	}
+
+	public async Task<IResult> GetAffixProfile(int affixId)
+	{
+		var affixProfile =
+			await _context.Affixes
+
+				.Where(a => a.Id == affixId)
+				.Select(a => new AffixProfileData
+				{
+					Id = a.Id,
+					Name = a.Name,
+					OwnerId = a.OwnerId,
+					OwnerName = a.Owner.Name
+				}).FirstOrDefaultAsync();
+
+		return Results.Ok(affixProfile);
 	}
 }

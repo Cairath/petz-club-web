@@ -96,6 +96,7 @@ public static class Program
 		services.AddScoped<INotificationService, NotificationService>();
 		services.AddScoped<IBreedService, BreedService>();
 		services.AddScoped<IAffixService, AffixService>();
+		services.AddScoped<IStaffService, StaffService>();
 	}
 
 	private static void MapEndpoints(this WebApplication app)
@@ -104,6 +105,7 @@ public static class Program
 		app.MapUserEndpoints();
 		app.MapBreedsEndpoints();
 		app.MapAffixEndpoints();
+		app.MapStaffEndpoints();
 	}
 }
 
