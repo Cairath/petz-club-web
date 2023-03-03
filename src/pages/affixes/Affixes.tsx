@@ -1,15 +1,8 @@
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Flex,
-  Heading,
-  Text
-} from "@chakra-ui/react";
+import { Card, CardBody, Flex, Text } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import api from "../../api/api";
 import { OwnedAffixes } from "../../api/client";
+import { Header } from "../../components/own/Header";
 import { Space } from "../../components/own/Space";
 import { UserContext } from "../../context/UserContext";
 import { RegisteredAffixesTable } from "./components/RegisteredAffixesTable";
@@ -39,21 +32,10 @@ export const Affixes = () => {
 
   return (
     <>
-      <Card variant="tablePanel">
-        <CardHeader>
-          <Flex direction="row" alignItems="center" mr="50px">
-            <Heading size="md">Registered Affixes</Heading>
-            <Button
-              ml="auto"
-              colorScheme="teal"
-              isDisabled={affixInfo.owned > affixInfo.allowed}
-            >
-              <Text>New affix</Text>
-            </Button>
-          </Flex>
-        </CardHeader>
+      <Header title="Affixes" />
+      <Card variant="panel" mb="20px">
         <CardBody>
-          <Flex px="20px" pb="20px" flexDirection="column">
+          <Flex flexDirection="column">
             <Text>
               You are currently using
               <Space />
@@ -68,7 +50,10 @@ export const Affixes = () => {
               assigned to the affix.
             </Text>
           </Flex>
-
+        </CardBody>
+      </Card>
+      <Card variant="tablePanel">
+        <CardBody>
           <RegisteredAffixesTable
             affixes={affixInfo.registered}
             pendingAffixes={affixInfo.pending}

@@ -38,7 +38,7 @@ export const SidebarContent = (props: Props) => {
         {!!user && (
           <>
             <MenuLink to="/dashboard" entryName="Dashboard" />
-            <MenuLink to="/" entryName="Staff Zone" />
+            <MenuLink to="/staff" entryName="Staff Dashboard" />
             <CategoryHeader
               category="MY KENNELS & CATTERIES"
               color={activeColor}

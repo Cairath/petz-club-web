@@ -36,11 +36,22 @@ const { defineMultiStyleConfig } = createMultiStyleConfigHelpers(
 
 const cardTheme = defineMultiStyleConfig({
   variants: {
-    panel: (props) => ({
+    defaultNoShadow: (props) => ({
       container: {
         boxShadow: "0px 3.5px 5.5px rgba(0, 0, 0, 0.02)",
         borderRadius: "15px",
         bg: mode("white", "gray.700")(props)
+      }
+    }),
+    panel: (props) => ({
+      container: {
+        padding: "20px",
+        boxShadow: "0px 3.5px 5.5px rgba(0, 0, 0, 0.02)",
+        borderRadius: "15px",
+        bg: mode("white", "gray.700")(props)
+      },
+      footer: {
+        paddingBottom: 0
       }
     }),
     tablePanel: (props) => ({

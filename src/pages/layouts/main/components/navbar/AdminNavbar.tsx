@@ -30,14 +30,13 @@ export const AdminNavbar = () => {
   // todo cleanup
   const navbarPosition: "absolute" | "initial" = "initial";
   const navbarFilter = "none";
-  const navbarBackdrop = "blur(21px)";
   const navbarShadow = "none";
   const navbarBg = "transparent";
   const navbarBorder = "transparent";
   const secondaryMargin = "15px";
   const paddingX = "15px";
 
-  const navbarIcon = useColorModeValue("gray.500", "gray.200");
+  const navbarIcon = useColorModeValue("white", "gray.900");
 
   const signOut = async () => {
     api.signOut().then(() => setUser(null));
@@ -50,7 +49,6 @@ export const AdminNavbar = () => {
       bg={navbarBg}
       borderColor={navbarBorder}
       filter={navbarFilter}
-      backdropFilter={navbarBackdrop}
       borderWidth="1.5px"
       borderStyle="solid"
       transitionDelay="0s, 0s, 0s, 0s"
@@ -85,11 +83,6 @@ export const AdminNavbar = () => {
         }}
         alignItems={{ xl: "center" }}
       >
-        <Box mb={{ sm: "8px", md: "0px" }}>
-          <Text fontStyle="italic">
-            "Quote of the day, for the lack of a better thing"
-          </Text>
-        </Box>
         <Box ms="auto" w={{ sm: "100%", md: "unset" }}>
           <Flex
             pe={{ sm: "0px" }}
@@ -105,7 +98,7 @@ export const AdminNavbar = () => {
               />
               <MobileSidebar />
               {user && <Notifications color={navbarIcon} />}
-              <UserControl user={user} signOut={signOut} />
+              <UserControl user={user} signOut={signOut} color={navbarIcon} />
             </Stack>
           </Flex>
         </Box>
@@ -116,12 +109,13 @@ export const AdminNavbar = () => {
 
 const UserControl = ({
   user,
+  color,
   signOut
 }: {
   user: User;
+  color: string;
   signOut: () => void;
 }) => {
-  const navbarIcon = useColorModeValue("gray.500", "gray.200");
   return (
     <Flex>
       {user ? (
@@ -149,10 +143,10 @@ const UserControl = ({
             ms="0px"
             ps="5px"
             pe="10px"
-            color={navbarIcon}
+            color={color}
             variant="ghost"
             aria-label="sign-in"
-            rightIcon={<FaUser color={navbarIcon} width="22px" height="22px" />}
+            rightIcon={<FaUser width="22px" height="22px" />}
           >
             <Text display={{ sm: "none", md: "flex" }}>Sign In</Text>
           </Button>

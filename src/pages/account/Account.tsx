@@ -1,3 +1,5 @@
+import { Header } from "../../components/own/Header";
+
 export const Account = () => {
-  return <div>account</div>;
+  return <Header title="Account" />;
 };

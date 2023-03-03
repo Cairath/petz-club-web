@@ -1,5 +1,6 @@
 import { BellIcon } from "@chakra-ui/icons";
-import { CircleIcon } from "./CircleIcon";
+import { Icon } from "@chakra-ui/react";
+import { FaCircle } from "react-icons/fa";
 
 export type Props = {
   color: string;
@@ -11,7 +12,8 @@ export const NotificationBellIcon = (props: Props) => {
   return (
     <>
       <BellIcon color={color} w="18px" h="18px" />
-      <CircleIcon
+      <Icon
+        as={FaCircle}
         visibility={showUnreadDot ? "visible" : "collapse"}
         w="12px"
         h="12px"

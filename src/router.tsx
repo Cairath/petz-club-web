@@ -13,6 +13,8 @@ import { SignOut } from "./pages/auth/SignOut";
 import { Dashboard } from "./pages/dashboard/Dashboard";
 import { Affixes } from "./pages/affixes/Affixes";
 import { Account } from "./pages/account/Account";
+import { StaffDashboard } from "./pages/Staff/StaffDashboard";
+import { AffixProfile } from "./pages/affix-profile/Account";
 
 export const router = createBrowserRouter([
   {
@@ -29,6 +31,14 @@ export const router = createBrowserRouter([
     )
   },
   {
+    path: "/staff",
+    element: (
+      <MainLayout>
+        <StaffDashboard />
+      </MainLayout>
+    )
+  },
+  {
     path: "/affixes",
     element: (
       <MainLayout>
@@ -41,6 +51,14 @@ export const router = createBrowserRouter([
     element: (
       <MainLayout>
         <Account />
+      </MainLayout>
+    )
+  },
+  {
+    path: "/affix/:affixId",
+    element: (
+      <MainLayout>
+        <AffixProfile />
       </MainLayout>
     )
   },
