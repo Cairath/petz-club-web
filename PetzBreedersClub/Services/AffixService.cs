@@ -1,4 +1,5 @@
-﻿using PetzBreedersClub.Database.Models;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using PetzBreedersClub.Database.Models;
 using PetzBreedersClub.Database;
 using PetzBreedersClub.DTOs.Affixes;
 using PetzBreedersClub.Services.Auth;
@@ -13,6 +14,7 @@ public interface IAffixService
 	Task<IResult> GetOwnedAffixes();
 	Task<IResult> CancelPendingAffixRegistration(int pendingAffixId);
 	Task<IResult> GetAffixProfile(int affixId);
+	Task<IResult> GetPendingAffixRegistrations();
 }
 
 public class AffixService : IAffixService
@@ -126,4 +128,54 @@ public class AffixService : IAffixService
 
 		return Results.Ok(affixProfile);
 	}
+
+	public async Task<IResult> GetPendingAffixRegistrations()
+	{
+		//todo: cache this!
+		var registeredAffixes =
+			await _context.Affixes
+				.Select(a => new { a.Id, a.Name, a.Syntax })
+				.ToListAsync();
+
+		var pendingAffixes =
+			await _context.AffixesPendingRegistration
+				.Select(a => new PendingAffixRegistration
+				{
+					Id = a.Id,
+					Name = a.Name,
+					Syntax = a.Syntax,
+					OwnerId = a.OwnerId,
+					OwnerName = a.Owner.Name,
+					SubmissionDate = a.CreatedDate,
+					SimilarNames = new List<SimilarName>()
+				}).ToListAsync();
+
+		foreach (var pendingAffix in pendingAffixes)
+		{
+			foreach (var registeredAffix in registeredAffixes)
+			{
+				var distance = new Fastenshtein.Levenshtein(pendingAffix.Name).DistanceFrom(registeredAffix.Name); //todo: cache this!
+
+				var longerLength = Math.Max(pendingAffix.Name.Length, registeredAffix.Name.Length);
+				var similarity = (longerLength - distance) / (float) longerLength * 100;
+
+				Console.WriteLine(
+					$"New name: {pendingAffix.Name}, existing: {registeredAffix.Name}; distance: {distance}; similarity: {similarity}");
+
+				if (similarity > 50)
+				{
+					pendingAffix.SimilarNames.Add(new SimilarName
+					{
+						Id = registeredAffix.Id,
+						Name = registeredAffix.Name,
+						SimilarityPercentage = (int)similarity,
+						Syntax = registeredAffix.Syntax
+					});
+				}
+			}
+		}
+
+		return Results.Ok(pendingAffixes);
+	}
+
 }

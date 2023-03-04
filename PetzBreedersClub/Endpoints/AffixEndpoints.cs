@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using PetzBreedersClub.DTOs.Affixes;
 using PetzBreedersClub.Services;
 
@@ -42,6 +41,15 @@ public static class AffixEndpoints
 			})
 			.WithName("GetAffixProfile")
 			.Produces<AffixProfileData>()
+			.WithOpenApi();
+
+		group.MapGet("/pending", async (IAffixService affixService) =>
+			{
+				return await affixService.GetPendingAffixRegistrations();
+			})
+			.WithName("GetPendingAffixRegistrations")
+			.RequireAuthorization(/*registrar*/)
+			.Produces<List<PendingAffixRegistration>>()
 			.WithOpenApi();
 	}
 }

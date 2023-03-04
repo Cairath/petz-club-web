@@ -9,4 +9,5 @@ public enum AffixSyntax
     The, // Buddy The Silver Creek
     Of, // Buddy Of Silver Creek
     From, //Buddy From Silver Creek
+    At
 }

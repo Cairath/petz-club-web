@@ -18,6 +18,11 @@ public class BreedEntity : Entity
 	[Required]
 	public Species Species { get; set; }
 
+	[Required]
+	public int Group { get; set; }
+
+	public int Section { get; set; }
+
 	public virtual BreedStandardEntity BreedStandard { get; set; }
 	public virtual ICollection<BreedFileEntity> BreedFiles { get; set; } = new List<BreedFileEntity>();
 }
