@@ -13,34 +13,10 @@ import {
 } from "@chakra-ui/react";
 import { DateTime } from "luxon";
 import { Link as ReactRouterLink } from "react-router-dom";
-import {
-  AffixStatus,
-  AffixSyntax,
-  RegisteredAffixListItem
-} from "../../../api/client";
+import { RegisteredAffixListItem } from "../../../api/client";
+import { ShowNameText } from "../../../components/ShowNameText";
+import { affixStatusDisplayData, syntaxDisplayName } from "../../../utils";
 import { CancelRegistrationButton } from "./CancelRegistrationButton";
-import { ShowNameText } from "./ShowNameText";
-
-const syntaxDisplayName: Record<AffixSyntax, string> = {
-  [AffixSyntax.Prefix]: "prefix",
-  [AffixSyntax.Suffix]: "suffix",
-  [AffixSyntax.Names]: "'s",
-  [AffixSyntax.From]: "from",
-  [AffixSyntax.Of]: "of",
-  [AffixSyntax.The]: "the"
-};
-
-const affixStatusDisplayData: Record<
-  AffixStatus,
-  { name: string; color: string }
-> = {
-  [AffixStatus.Active]: { name: "Active", color: "green" },
-  [AffixStatus.Inactive]: { name: "Inactive", color: "red" },
-  [AffixStatus.PendingRegistration]: {
-    name: "Pending",
-    color: "yellow"
-  }
-};
 
 export type Props = {
   affixes: RegisteredAffixListItem[];
@@ -50,7 +26,7 @@ export type Props = {
   cancelRegistration: (pendingAffixId: number) => void;
 };
 
-export const TableContent = ({
+export const RegisteredAffixesTableContent = ({
   affixes,
   headers,
   pt,
@@ -99,7 +75,7 @@ const TableRow = ({ affix, type, cancelRegistration }: TableRowProps) => {
         <Text>{syntaxDisplayName[affix.syntax]}</Text>
       </Td>
       <Td>
-        <ShowNameText affix={affix} />
+        <ShowNameText affixName={affix.name} affixSyntax={affix.syntax} />
       </Td>
       <Td>
         <Text>{type === "registered" ? affix.petsCount : ""}</Text>

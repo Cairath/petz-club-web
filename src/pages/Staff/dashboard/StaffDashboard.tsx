@@ -9,9 +9,9 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { FaCat, FaDog, FaPaw } from "react-icons/fa";
-import api from "../../api/api";
-import { StaffDashboardSummary } from "../../api/client";
-import { Header } from "../../components/own/Header";
+import api from "../../../api/api";
+import { StaffDashboardSummary } from "../../../api/client";
+import { Header } from "../../../components/Header";
 import { RegistrationStat } from "./components/RegistrationStat";
 
 export const StaffDashboard = () => {
@@ -38,7 +38,7 @@ export const StaffDashboard = () => {
             label="Pending Affix Registrations"
             value={dashboardData.pendingAffixRegistrations}
             icon={FaPaw}
-            url="/"
+            url="/staff/affix-registrations"
           />
         </GridItem>
         <GridItem>

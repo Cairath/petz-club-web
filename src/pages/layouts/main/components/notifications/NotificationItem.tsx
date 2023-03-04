@@ -4,7 +4,7 @@ import { useColorModeValue } from "@chakra-ui/system";
 import { DateTime } from "luxon";
 import { useState } from "react";
 import { Notification, NotificationType } from "../../../../../api/client";
-import IconBox from "../../../../../components/Icons/IconBox";
+import { IconBox } from "../../../../../components/IconBox";
 import { PawIcon } from "../PawIcon";
 import { NotificationItemMenu } from "./NotificationItemMenu";
 

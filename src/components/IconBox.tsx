@@ -1,7 +1,7 @@
-import React from "react";
-import { Flex } from "@chakra-ui/react";
+import React, { PropsWithChildren } from "react";
+import { Flex, FlexProps } from "@chakra-ui/react";
 
-export default function IconBox(props) {
+export const IconBox = (props: PropsWithChildren & FlexProps) => {
   const { children, ...rest } = props;
 
   return (
@@ -14,4 +14,4 @@ export default function IconBox(props) {
       {children}
     </Flex>
   );
-}
+};

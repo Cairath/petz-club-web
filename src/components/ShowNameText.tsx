@@ -1,24 +1,25 @@
 import { Text } from "@chakra-ui/react";
 import { useMemo } from "react";
-import { AffixSyntax, RegisteredAffixListItem } from "../../../api/client";
-import { Space } from "../../../components/own/Space";
+import { AffixSyntax } from "../api/client";
+import { Space } from "./Space";
 
 export type Props = {
-  affix: RegisteredAffixListItem;
+  affixName: string;
+  affixSyntax: AffixSyntax;
 };
 
-export const ShowNameText = ({ affix }: Props) => {
+export const ShowNameText = ({ affixName, affixSyntax }: Props) => {
   const text = useMemo(() => {
-    let name = affix.name;
-    if (affix.syntax === AffixSyntax.From || affix.syntax === AffixSyntax.Of) {
-      if (affix.name.startsWith("The ")) {
-        name = `t${affix.name.substring(1)}`;
+    let name = affixName;
+    if (affixSyntax === AffixSyntax.From || affixSyntax === AffixSyntax.Of) {
+      if (affixName.startsWith("The ")) {
+        name = `t${affixName.substring(1)}`;
       }
     }
 
     const petName = "Fluffy Butt";
 
-    switch (affix.syntax) {
+    switch (affixSyntax) {
       case AffixSyntax.From:
         return (
           <Text>
@@ -79,8 +80,18 @@ export const ShowNameText = ({ affix }: Props) => {
             {petName}
           </Text>
         );
+      case AffixSyntax.At:
+        return (
+          <Text>
+            {petName}
+            <Space />
+            <Text as="span" fontWeight="bold">
+              at {name}
+            </Text>
+          </Text>
+        );
     }
-  }, [affix]);
+  }, [affixSyntax, affixName]);
 
   return text;
 };

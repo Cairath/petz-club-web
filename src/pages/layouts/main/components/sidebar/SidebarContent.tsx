@@ -38,7 +38,7 @@ export const SidebarContent = (props: Props) => {
         {!!user && (
           <>
             <MenuLink to="/dashboard" entryName="Dashboard" />
-            <MenuLink to="/staff" entryName="Staff Dashboard" />
+            <MenuLink to="/staff/dashboard" entryName="Staff Dashboard" />
             <CategoryHeader
               category="MY KENNELS & CATTERIES"
               color={activeColor}
@@ -56,7 +56,7 @@ export const SidebarContent = (props: Props) => {
 
         <CategoryHeader category="RESOURCES" color={activeColor} />
         <MenuLink to="/" entryName="Browse Registries" />
-        <MenuLink to="/" entryName="Breeds" />
+        <MenuLink to="/breeds" entryName="Breeds" />
       </Box>
     </React.Fragment>
   );

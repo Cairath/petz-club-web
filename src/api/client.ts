@@ -224,6 +224,54 @@ export class Client {
     }
 
     /**
+     * @return OK
+     */
+    getPendingAffixRegistrations(  cancelToken?: CancelToken | undefined): Promise<PendingAffixRegistration[]> {
+        let url_ = this.baseUrl + "/api/affixes/pending";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: AxiosRequestConfig = {
+            method: "GET",
+            url: url_,
+            headers: {
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processGetPendingAffixRegistrations(_response);
+        });
+    }
+
+    protected processGetPendingAffixRegistrations(response: AxiosResponse): Promise<PendingAffixRegistration[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+    
+            let result200: any = response.data;
+            return Promise.resolve<PendingAffixRegistration[]>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            return throwException("An unexpected server error occurred.", status, response.statusText, _headers);
+        }
+        return Promise.resolve<PendingAffixRegistration[]>(null as any);
+    }
+
+    /**
      * @param species (optional) 
      * @return OK
      */
@@ -846,6 +894,7 @@ export enum AffixSyntax {
     The = "The",
     Of = "Of",
     From = "From",
+    At = "At",
 }
 
 export interface BreedNameListItem {
@@ -876,6 +925,16 @@ export interface OwnedAffixes {
     allowed: number;
 }
 
+export interface PendingAffixRegistration {
+    id: number;
+    name: string;
+    syntax: AffixSyntax;
+    ownerId: number;
+    ownerName: string;
+    similarNames: SimilarName[];
+    submissionDate: Date;
+}
+
 export interface RegisteredAffixListItem {
     id: number;
     name: string;
@@ -894,6 +953,13 @@ export interface RegistrationForm {
 export interface SignedInUserInfo {
     id: number;
     email: string;
+}
+
+export interface SimilarName {
+    id: number;
+    name: string;
+    syntax: AffixSyntax;
+    similarityPercentage: number;
 }
 
 export enum Species {

@@ -1,5 +1,5 @@
 import { Box, Heading, useColorModeValue } from "@chakra-ui/react";
-import ProfilePic from "../../assets/img/BgSignUp.png";
+import ProfilePic from "../assets/img/ProfileBackground.png";
 
 export type Props = {
   title: string;

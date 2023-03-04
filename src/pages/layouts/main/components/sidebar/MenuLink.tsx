@@ -1,7 +1,7 @@
 import { Button, Flex, Text } from "@chakra-ui/react";
 import { useColorModeValue } from "@chakra-ui/system";
 import { NavLink, To } from "react-router-dom";
-import IconBox from "../../../../../components/Icons/IconBox";
+import { IconBox } from "../../../../../components/IconBox";
 import { PawIcon } from "../PawIcon";
 
 export type MenuLinkProps = {

@@ -1,5 +1,6 @@
-import { ArrowForwardIcon } from "@chakra-ui/icons";
+import { ArrowRightIcon } from "@chakra-ui/icons";
 import {
+  Box,
   Card,
   CardBody,
   Flex,
@@ -13,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { IconType } from "react-icons/lib";
 import { Link as ReactRouterLink } from "react-router-dom";
-import IconBox from "../../../components/Icons/IconBox";
+import { IconBox } from "../../../../components/IconBox";
 
 export type Props = {
   label: string;
@@ -43,7 +44,7 @@ export const RegistrationStat = ({ label, value, url, icon }: Props) => {
                 bg="transparent"
                 my={{ sm: "1.5rem", lg: "0px" }}
               >
-                <Flex>
+                <Flex alignItems="center">
                   <Text
                     fontWeight="bold"
                     cursor="pointer"
@@ -53,14 +54,12 @@ export const RegistrationStat = ({ label, value, url, icon }: Props) => {
                   >
                     Go to registrations page
                   </Text>
-                  <ArrowForwardIcon
-                    w="20px"
-                    h="20px"
-                    fontSize="2xl"
+                  <ArrowRightIcon
+                    w="12px"
+                    h="12px"
                     transition="all .5s ease"
                     mx=".3rem"
                     cursor="pointer"
-                    pb="1px"
                     _hover={{ transform: "translateX(20%)" }}
                   />
                 </Flex>
@@ -68,7 +67,7 @@ export const RegistrationStat = ({ label, value, url, icon }: Props) => {
             </StatHelpText>
           </Stat>
           <IconBox
-            as="box"
+            as={Box}
             h={"45px"}
             w={"45px"}
             bg={value === 0 ? "green.500" : "red.500"}

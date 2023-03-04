@@ -13,8 +13,12 @@ import { SignOut } from "./pages/auth/SignOut";
 import { Dashboard } from "./pages/dashboard/Dashboard";
 import { Affixes } from "./pages/affixes/Affixes";
 import { Account } from "./pages/account/Account";
-import { StaffDashboard } from "./pages/Staff/StaffDashboard";
-import { AffixProfile } from "./pages/affix-profile/Account";
+import { StaffDashboard } from "./pages/Staff/dashboard/StaffDashboard";
+import { AffixProfile } from "./pages/affix-profile/AffixProfile";
+import { AffixRegistrations } from "./pages/Staff/affix-registration/AffixRegistrations";
+import { Breeds } from "./pages/breeds/Breeds";
+import { CatBreeds } from "./pages/breeds/CatBreeds";
+import { DogBreeds } from "./pages/breeds/DogBreeds";
 
 export const router = createBrowserRouter([
   {
@@ -31,10 +35,18 @@ export const router = createBrowserRouter([
     )
   },
   {
-    path: "/staff",
+    path: "/staff/dashboard",
     element: (
       <MainLayout>
         <StaffDashboard />
+      </MainLayout>
+    )
+  },
+  {
+    path: "/staff/affix-registrations",
+    element: (
+      <MainLayout>
+        <AffixRegistrations />
       </MainLayout>
     )
   },
@@ -59,6 +71,30 @@ export const router = createBrowserRouter([
     element: (
       <MainLayout>
         <AffixProfile />
+      </MainLayout>
+    )
+  },
+  {
+    path: "/breeds",
+    element: (
+      <MainLayout>
+        <Breeds />
+      </MainLayout>
+    )
+  },
+  {
+    path: "/breeds/cats",
+    element: (
+      <MainLayout>
+        <CatBreeds />
+      </MainLayout>
+    )
+  },
+  {
+    path: "/breeds/dogs",
+    element: (
+      <MainLayout>
+        <DogBreeds />
       </MainLayout>
     )
   },

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../../api/api";
 import { AffixProfileData } from "../../api/client";
-import { Header } from "../../components/own/Header";
+import { Header } from "../../components/Header";
 
 export const AffixProfile = () => {
   const { affixId } = useParams();

@@ -1,11 +1,18 @@
-import { Card, CardBody, Flex, Text } from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react";
+import {
+  Card,
+  CardBody,
+  Flex,
+  Table,
+  Text,
+  useColorModeValue
+} from "@chakra-ui/react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import api from "../../api/api";
 import { OwnedAffixes } from "../../api/client";
-import { Header } from "../../components/own/Header";
-import { Space } from "../../components/own/Space";
+import { Header } from "../../components/Header";
+import { Space } from "../../components/Space";
 import { UserContext } from "../../context/UserContext";
-import { RegisteredAffixesTable } from "./components/RegisteredAffixesTable";
+import { RegisteredAffixesTableContent } from "./components/RegisteredAffixesTableContent";
 
 export const Affixes = () => {
   const { user } = useContext(UserContext);
@@ -30,6 +37,33 @@ export const Affixes = () => {
       .then(async () => await getAffixInfo());
   };
 
+  const textColor = useColorModeValue("gray.700", "white");
+
+  const pendingHeaders = [
+    "Name",
+    "Syntax",
+    "Show Name Construction",
+    "",
+    "Status",
+    "Submission date",
+    "Actions"
+  ];
+
+  const headers = [
+    "Name",
+    "Syntax",
+    "Show Name Construction",
+    "Pets",
+    "Status",
+    "Registration date",
+    "Actions"
+  ];
+
+  const showPending = useMemo(
+    () => affixInfo.pending.length > 0,
+    [affixInfo.pending]
+  );
+
   return (
     <>
       <Header title="Affixes" />
@@ -47,18 +81,30 @@ export const Affixes = () => {
             </Text>
             <Text>
               Once registered, an affix can only be removed if there are no pets
-              assigned to the affix.
+              assigned to it.
             </Text>
           </Flex>
         </CardBody>
       </Card>
       <Card variant="tablePanel">
         <CardBody>
-          <RegisteredAffixesTable
-            affixes={affixInfo.registered}
-            pendingAffixes={affixInfo.pending}
-            cancelRegistration={cancelRegistration}
-          />
+          <Table color={textColor}>
+            {showPending && (
+              <RegisteredAffixesTableContent
+                affixes={affixInfo.pending}
+                headers={pendingHeaders}
+                type="pending"
+                cancelRegistration={cancelRegistration}
+              />
+            )}
+            <RegisteredAffixesTableContent
+              affixes={affixInfo.registered}
+              headers={headers}
+              pt={showPending ? "40px" : undefined}
+              type="registered"
+              cancelRegistration={cancelRegistration}
+            />
+          </Table>
         </CardBody>
       </Card>
     </>
