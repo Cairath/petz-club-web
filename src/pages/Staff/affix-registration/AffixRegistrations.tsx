@@ -1,6 +1,6 @@
 import { Card, CardBody } from "@chakra-ui/react";
 import orderBy from "lodash-es/orderBy";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import api from "../../../api/api";
 import { PendingAffixRegistration } from "../../../api/client";
 import { Header } from "../../../components/Header";
@@ -11,29 +11,41 @@ export const AffixRegistrations = () => {
     PendingAffixRegistration[]
   >([]);
 
-  useEffect(() => {
-    api
-      .getPendingAffixRegistrations()
-      .then((pendingRegistrations: PendingAffixRegistration[]) => {
-        pendingRegistrations.forEach((reg: PendingAffixRegistration) => {
-          reg.similarNames = orderBy(
-            reg.similarNames,
-            (name) => name.similarityPercentage,
-            "desc"
-          );
-        });
+  const getPendingAffixes = useCallback(async () => {
+    const pendingRegistrations = await api.getPendingAffixRegistrations();
 
-        setPendingAffixRegistrations(pendingRegistrations);
-      });
+    pendingRegistrations.forEach((reg: PendingAffixRegistration) => {
+      reg.similarNames = orderBy(
+        reg.similarNames,
+        (name) => name.similarityPercentage,
+        "desc"
+      );
+    });
+
+    setPendingAffixRegistrations(pendingRegistrations);
   }, []);
 
-  const acceptRegistration = async (pendingAffixId: number) => {
-    //bla
-  };
+  const approveRegistration = useCallback(
+    (pendingAffixId: number) => {
+      api
+        .approvePendingAffixRegistration(pendingAffixId)
+        .then(() => getPendingAffixes());
+    },
+    [getPendingAffixes]
+  );
 
-  const rejectRegistration = async (pendingAffixId: number, reason: string) => {
-    //bla
-  };
+  const rejectRegistration = useCallback(
+    (pendingAffixId: number, reason: string) => {
+      api
+        .rejectPendingAffixRegistration({ id: pendingAffixId, reason })
+        .then(() => getPendingAffixes());
+    },
+    [getPendingAffixes]
+  );
+
+  useEffect(() => {
+    getPendingAffixes();
+  }, [getPendingAffixes]);
 
   return (
     <>
@@ -42,7 +54,7 @@ export const AffixRegistrations = () => {
         <CardBody>
           <PendingAffixRegistrationsTable
             affixes={pendingAffixRegistrations}
-            accept={acceptRegistration}
+            approve={approveRegistration}
             reject={rejectRegistration}
           />
         </CardBody>

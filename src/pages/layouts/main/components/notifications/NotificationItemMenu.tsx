@@ -34,7 +34,7 @@ export const NotificationItemMenu = (props: Props) => {
           <MenuItem
             icon={<CheckIcon />}
             borderRadius="8px"
-            onClick={async (e) => {
+            onClick={(e) => {
               e.stopPropagation();
               markOneAsRead(notificationId);
             }}
@@ -44,7 +44,7 @@ export const NotificationItemMenu = (props: Props) => {
           <MenuItem
             icon={<DeleteIcon />}
             borderRadius="8px"
-            onClick={async (e) => {
+            onClick={(e) => {
               e.stopPropagation();
               deleteNotification(notificationId);
             }}

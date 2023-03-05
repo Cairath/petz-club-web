@@ -14,6 +14,7 @@ import {
 import { DateTime } from "luxon";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { RegisteredAffixListItem } from "../../../api/client";
+import { NoResultsRow } from "../../../components/NoResultsRow";
 import { ShowNameText } from "../../../components/ShowNameText";
 import { affixStatusDisplayData, syntaxDisplayName } from "../../../utils";
 import { CancelRegistrationButton } from "./CancelRegistrationButton";
@@ -47,13 +48,17 @@ export const RegisteredAffixesTableContent = ({
         </Tr>
       </Thead>
       <Tbody>
-        {affixes.map((affix: RegisteredAffixListItem) => (
-          <TableRow
-            affix={affix}
-            type={type}
-            cancelRegistration={cancelRegistration}
-          />
-        ))}
+        {affixes.length > 0 ? (
+          affixes.map((affix: RegisteredAffixListItem) => (
+            <TableRow
+              affix={affix}
+              type={type}
+              cancelRegistration={cancelRegistration}
+            />
+          ))
+        ) : (
+          <NoResultsRow colSpan={headers.length} />
+        )}
       </Tbody>
     </>
   );

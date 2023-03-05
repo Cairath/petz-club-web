@@ -4,7 +4,7 @@ import {
   Menu,
   MenuButton
 } from "@chakra-ui/react";
-import { useContext, useMemo, useState } from "react";
+import { useCallback, useContext, useMemo, useState } from "react";
 import api from "../../../../../api/api";
 import { Notification } from "../../../../../api/client";
 import { UserContext } from "../../../../../context/UserContext";
@@ -15,13 +15,29 @@ export type Props = {
   color: string;
 };
 
-export const Notifications = (
-  props: Props & Omit<IconButtonProps, "aria-label">
-) => {
+export const Notifications = ({
+  color,
+  ...rest
+}: Props & Omit<IconButtonProps, "aria-label">) => {
   const { notifications, refreshNotifications } = useContext(UserContext);
   const [unreadFilter, setUnreadFilter] = useState<"all" | "unread">("all");
 
-  const { color, ...rest } = props;
+  const markAllAsRead = useCallback(
+    () => api.markAllNotificationsAsRead().then(() => refreshNotifications()),
+    [refreshNotifications]
+  );
+
+  const markOneAsRead = useCallback(
+    (id: number) =>
+      api.markNotificationAsRead(id).then(() => refreshNotifications()),
+    [refreshNotifications]
+  );
+
+  const deleteNotification = useCallback(
+    (id: number) =>
+      api.deleteNotification(id).then(() => refreshNotifications()),
+    [refreshNotifications]
+  );
 
   const sortedNotifications = useMemo(
     () =>
@@ -37,18 +53,6 @@ export const Notifications = (
         ),
     [notifications, unreadFilter]
   );
-
-  const markAllAsRead = async () => {
-    await api.markAllNotificationsAsRead().then(() => refreshNotifications());
-  };
-
-  const markOneAsRead = async (id: number) => {
-    await api.markNotificationAsRead(id).then(() => refreshNotifications());
-  };
-
-  const deleteNotification = async (id: number) => {
-    await api.deleteNotification(id).then(() => refreshNotifications());
-  };
 
   const showUnreadDot = useMemo(() => {
     return sortedNotifications.find((n) => n.read === false) !== undefined;

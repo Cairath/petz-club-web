@@ -60,7 +60,7 @@ export const NotificationPortal = (props: Props) => {
             <Button
               variant="ghost"
               ml="auto"
-              onClick={async (e) => {
+              onClick={(e) => {
                 e.stopPropagation();
                 markAllAsRead();
               }}

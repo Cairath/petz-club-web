@@ -1,7 +1,6 @@
-import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
+import { CheckIcon, SmallCloseIcon } from "@chakra-ui/icons";
 import {
   Flex,
-  IconButton,
   Link,
   Table,
   Tbody,
@@ -9,12 +8,13 @@ import {
   Text,
   Th,
   Thead,
-  Tooltip,
   Tr
 } from "@chakra-ui/react";
 import { DateTime } from "luxon";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { PendingAffixRegistration, SimilarName } from "../../../../api/client";
+import { ButtonWithConfirmationPopover } from "../../../../components/ButtonWithConfirmationPopover";
+import { NoResultsRow } from "../../../../components/NoResultsRow";
 import { ShowNameText } from "../../../../components/ShowNameText";
 import { Space } from "../../../../components/Space";
 import { syntaxDisplayName } from "../../../../utils";
@@ -22,13 +22,13 @@ import { syntaxDisplayName } from "../../../../utils";
 export type Props = {
   affixes: PendingAffixRegistration[];
   reject: (pendingAffixId: number, reason: string) => void;
-  accept: (pendingAffixId: number) => void;
+  approve: (pendingAffixId: number) => void;
 };
 
 export const PendingAffixRegistrationsTable = ({
   affixes,
   reject,
-  accept
+  approve
 }: Props) => {
   const headers = [
     "Name",
@@ -54,12 +54,13 @@ export const PendingAffixRegistrationsTable = ({
         </Tr>
       </Thead>
       <Tbody>
-        {affixes.map((affix: PendingAffixRegistration) => (
-          <TableRow
-            affix={affix}
-            //cancelRegistration={cancelRegistration}
-          />
-        ))}
+        {affixes.length > 0 ? (
+          affixes.map((affix: PendingAffixRegistration) => (
+            <TableRow affix={affix} reject={reject} approve={approve} />
+          ))
+        ) : (
+          <NoResultsRow colSpan={headers.length} />
+        )}
       </Tbody>
     </Table>
   );
@@ -67,13 +68,11 @@ export const PendingAffixRegistrationsTable = ({
 
 type TableRowProps = {
   affix: PendingAffixRegistration;
-  // cancelRegistration: (pendingAffixId: number) => void;
+  reject: (pendingAffixId: number, reason: string) => void;
+  approve: (pendingAffixId: number) => void;
 };
 
-const TableRow = ({
-  affix
-}: // cancelRegistration
-TableRowProps) => {
+const TableRow = ({ affix, reject, approve }: TableRowProps) => {
   return (
     <Tr key={`affix-${affix.id}`}>
       <Td>
@@ -112,23 +111,26 @@ TableRowProps) => {
       </Td>
       <Td>
         <Flex direction="row">
-          <Tooltip label="Reject">
-            <IconButton
-              variant="outline"
-              color="red.500"
-              mr="5px"
-              aria-label="link"
-              icon={<CloseIcon w="16px" h="16px" />}
-            />
-          </Tooltip>
-          <Tooltip label="Accept">
-            <IconButton
-              variant="outline"
-              color="green.500"
-              aria-label="edit"
-              icon={<CheckIcon w="16px" h="16px" />}
-            />
-          </Tooltip>
+          <ButtonWithConfirmationPopover
+            tooltip="Reject"
+            prompt="Reject this affix registration?"
+            confirmationButtonText="Reject"
+            confirmationButtonColor="red"
+            icon={<SmallCloseIcon color="red.500" />}
+            objectId={affix.id}
+            withReason
+            onConfirm={reject}
+            mr="5px"
+          />
+          <ButtonWithConfirmationPopover
+            tooltip="Approve"
+            prompt="Approve this affix registration?"
+            confirmationButtonText="Approve"
+            confirmationButtonColor="green"
+            icon={<CheckIcon color="green.500" />}
+            objectId={affix.id}
+            onConfirm={approve}
+          />
         </Flex>
       </Td>
     </Tr>

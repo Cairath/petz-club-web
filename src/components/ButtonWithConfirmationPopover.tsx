@@ -1,7 +1,7 @@
-import { SmallCloseIcon } from "@chakra-ui/icons";
 import {
   Button,
   ButtonGroup,
+  ButtonProps,
   FocusLock,
   IconButton,
   Popover,
@@ -10,20 +10,35 @@ import {
   PopoverTrigger,
   Stack,
   Text,
+  Textarea,
+  ThemeTypings,
   Tooltip,
   useDisclosure
 } from "@chakra-ui/react";
-import { useRef } from "react";
+import { ReactElement, useRef } from "react";
 
 export type Props = {
-  pendingAffixId: number;
-  onConfirm: (pendingAffixId: number) => void;
+  tooltip: string;
+  withReason?: boolean;
+  objectId: number;
+  icon: ReactElement;
+  prompt: string;
+  confirmationButtonText: string;
+  confirmationButtonColor: ThemeTypings["colorSchemes"];
+  onConfirm: (objectId: number, reason: string) => void;
 };
 
 export const ButtonWithConfirmationPopover = ({
-  pendingAffixId,
-  onConfirm
-}: Props) => {
+  tooltip,
+  withReason = false,
+  objectId,
+  icon,
+  prompt,
+  confirmationButtonText,
+  confirmationButtonColor,
+  onConfirm,
+  ...rest
+}: Props & ButtonProps) => {
   const { onOpen, onClose, isOpen } = useDisclosure();
   const firstFieldRef = useRef(null);
   return (
@@ -37,11 +52,12 @@ export const ButtonWithConfirmationPopover = ({
     >
       <PopoverTrigger>
         <div>
-          <Tooltip label="Cancel registration">
+          <Tooltip label={tooltip}>
             <IconButton
               variant="outline"
               aria-label="cancel"
-              icon={<SmallCloseIcon />}
+              icon={icon}
+              {...rest}
             />
           </Tooltip>
         </div>
@@ -50,9 +66,13 @@ export const ButtonWithConfirmationPopover = ({
         <FocusLock persistentFocus={false}>
           <PopoverArrow />
           <Form
+            withReason={withReason}
+            prompt={prompt}
+            confirmationButtonColor={confirmationButtonColor}
+            confirmationButtonText={confirmationButtonText}
             firstFieldRef={firstFieldRef}
             onCancel={onClose}
-            onConfirm={() => onConfirm(pendingAffixId)}
+            onConfirm={() => onConfirm(objectId, "")}
           />
         </FocusLock>
       </PopoverContent>
@@ -61,21 +81,41 @@ export const ButtonWithConfirmationPopover = ({
 };
 
 type FormProps = {
+  withReason: boolean;
+  prompt: string;
+  confirmationButtonText: string;
+  confirmationButtonColor: ThemeTypings["colorSchemes"];
   onCancel: () => void;
   onConfirm: () => void;
   firstFieldRef: React.MutableRefObject<null>;
 };
 
-const Form = ({ firstFieldRef, onCancel, onConfirm }: FormProps) => {
+const Form = ({
+  firstFieldRef,
+  prompt,
+  confirmationButtonText,
+  confirmationButtonColor,
+  withReason,
+  onCancel,
+  onConfirm
+}: FormProps) => {
   return (
     <Stack spacing={4}>
-      <Text>Are you sure you want to cancel this registration?</Text>
+      <Text>{prompt}</Text>
+
+      {withReason && (
+        <>
+          <Text>Please a provide reason:</Text>
+          <Textarea placeholder="Reason" size="sm" />
+        </>
+      )}
+
       <ButtonGroup display="flex" justifyContent="flex-end">
         <Button variant="outline" onClick={onCancel} ref={firstFieldRef}>
           No
         </Button>
-        <Button colorScheme="red" onClick={onConfirm}>
-          Yes
+        <Button colorScheme={confirmationButtonColor} onClick={onConfirm}>
+          {confirmationButtonText}
         </Button>
       </ButtonGroup>
     </Stack>

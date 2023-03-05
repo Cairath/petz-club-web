@@ -27,14 +27,14 @@ export const Affixes = () => {
     getAffixInfo();
   }, [user]);
 
-  const getAffixInfo = async () => {
-    await api.getOwnedAffixes().then((affixes) => setAffixInfo(affixes));
+  const getAffixInfo = () => {
+    api.getOwnedAffixes().then((affixes) => setAffixInfo(affixes));
   };
 
-  const cancelRegistration = async (pendingAffixId: number) => {
-    await api
+  const cancelRegistration = (pendingAffixId: number) => {
+    api
       .cancelPendingAffixRegistration(pendingAffixId)
-      .then(async () => await getAffixInfo());
+      .then(() => getAffixInfo());
   };
 
   const textColor = useColorModeValue("gray.700", "white");
