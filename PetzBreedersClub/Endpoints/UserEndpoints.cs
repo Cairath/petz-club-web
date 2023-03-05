@@ -23,7 +23,7 @@ public static class UserEndpoints
 				return await userService.SignIn(user);
 			})
 			.WithName("SignIn")
-			.Produces<SignedInUserInfo>()
+			.Produces<ClientUserInfo>()
 			.WithOpenApi();
 
 		group.MapPost("/sign-out", async (IUserService userService) =>
@@ -33,12 +33,12 @@ public static class UserEndpoints
 			.WithName("SignOut")
 			.WithOpenApi();
 
-		group.MapPost("/authenticate", ([FromBody] int userId, HttpContext httpContext, IUserService userService) =>
+		group.MapPost("/authenticate", async (IUserService userService) =>
 			{
-				return httpContext.User.Identity?.IsAuthenticated ?? userService.GetUserId() == userId.ToString();
+				return await userService.GetClientUserInfo();
 			})
 			.WithName("Authenticate")
-			.Produces<bool>()
+			.Produces<ClientUserInfo?>()
 			.WithOpenApi();
 
 		group.MapGet("/notifications", async (INotificationService notificationService) =>

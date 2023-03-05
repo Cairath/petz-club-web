@@ -18,6 +18,8 @@ public interface IAffixService
 	Task<IResult> GetPendingAffixRegistrations();
 	Task<IResult> ApproveAffix(int pendingAffixId);
 	Task<IResult> RejectAffix(AffixRejection affixRejection);
+	Task<IResult> DeleteAffix(int affixId);
+	Task<IResult> SetActive(int affixId, bool active);
 }
 
 public class AffixService : IAffixService
@@ -239,5 +241,39 @@ public class AffixService : IAffixService
 		return Results.Ok();
 	}
 
+	public async Task<IResult> DeleteAffix(int affixId)
+	{
+		//todo validate - pets count 0
+		var affix = _context.Affixes
+			.FirstOrDefault(a => a.Id == affixId);
+
+		if (affix == null)
+		{
+			return Results.BadRequest();
+		}
+
+		_context.Remove(affix);
+		
+		await _context.SaveChangesAsync();
+
+		return Results.Ok();
+	}
+	public async Task<IResult> SetActive(int affixId, bool active)
+	{
+		//todo validate
+		var affix = _context.Affixes
+			.FirstOrDefault(a => a.Id == affixId);
+
+		if (affix == null)
+		{
+			return Results.BadRequest();
+		}
+
+		affix.Status = active ? AffixStatus.Active : AffixStatus.Inactive;
+
+		await _context.SaveChangesAsync();
+
+		return Results.Ok();
+	}
 
 }

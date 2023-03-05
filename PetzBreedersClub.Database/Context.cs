@@ -1,5 +1,7 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetzBreedersClub.Database.Models;
@@ -7,7 +9,7 @@ using PetzBreedersClub.Database.Models.Base;
 
 namespace PetzBreedersClub.Database;
 
-public class Context : DbContext
+public class Context : IdentityDbContext<UserEntity, IdentityRole<int>, int>
 {
 	private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -15,8 +17,7 @@ public class Context : DbContext
 	{
 		_httpContextAccessor = httpContextAccessor;
 	}
-
-	public DbSet<UserEntity> Users { get; set; } = default!;
+	
 	public DbSet<MemberEntity> Members { get; set; } = default!;
 	public DbSet<BreedEntity> Breeds { get; set; } = default!;
 	public DbSet<BreedStandardEntity> BreedStandards { get; set; } = default!;

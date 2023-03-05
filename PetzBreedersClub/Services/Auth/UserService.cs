@@ -1,7 +1,4 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using PetzBreedersClub.Database;
 using PetzBreedersClub.Database.Models;
 using PetzBreedersClub.DTOs.User;
@@ -12,29 +9,60 @@ public interface IUserService
 {
 	string? GetUserId();
 	Task<IResult> RegisterNewUser(RegistrationForm registrationForm);
-	Task<IResult> SignIn(UserSignIn user);
+	Task<IResult> SignIn(UserSignIn userSignIn);
 	Task<IResult> SignOut();
+	Task<UserEntity?> GetUser();
+	Task<ClientUserInfo?> GetClientUserInfo();
 }
 
 public class UserService : IUserService
 {
 	private readonly Context _context;
 	private readonly RegistrationFormValidator _registrationFormValidator;
-	private readonly IPasswordHasher<User> _passwordHasher;
 	private readonly IHttpContextAccessor _httpContextAccessor;
+	private readonly UserManager<UserEntity> _userManager;
+	private readonly SignInManager<UserEntity> _signInManager;
 
-	public UserService(Context context, RegistrationFormValidator registrationFormValidator, IPasswordHasher<User> passwordHasher,
+
+	public UserService(Context context,
+		RegistrationFormValidator registrationFormValidator, 
+		UserManager<UserEntity> userManager,
+		SignInManager<UserEntity> signInManager,
 		IHttpContextAccessor httpContextAccessor)
 	{
 		_context = context;
 		_registrationFormValidator = registrationFormValidator;
-		_passwordHasher = passwordHasher;
 		_httpContextAccessor = httpContextAccessor;
+		_userManager = userManager;
+		_signInManager = signInManager;
+		
 	}
 
 	public string? GetUserId()
 	{
-		return _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+		var claimsPrincipal = _httpContextAccessor.HttpContext?.User;
+		return claimsPrincipal != null ?  _userManager.GetUserId(claimsPrincipal) : null;
+	}
+
+	public async Task<UserEntity?> GetUser()
+	{
+		var claimsPrincipal = _httpContextAccessor.HttpContext?.User;
+		return claimsPrincipal != null ? await _userManager.GetUserAsync(claimsPrincipal) : null;
+	}
+
+	public async Task<ClientUserInfo?> GetClientUserInfo()
+	{
+		var claimsPrincipal = _httpContextAccessor.HttpContext?.User;
+		var user = claimsPrincipal != null ? await _userManager.GetUserAsync(claimsPrincipal) : null;
+
+		if (user == null)
+		{
+			return null;
+		}
+
+		await _context.Entry(user).Reference(u => u.Member).LoadAsync();
+
+		return new ClientUserInfo { Id = user.Id, Email = user.Email, DisplayName = user.Member.Name};
 	}
 
 	public async Task<IResult> RegisterNewUser(RegistrationForm registrationForm)
@@ -45,68 +73,46 @@ public class UserService : IUserService
 		{
 			return Results.ValidationProblem(validationResult.ToDictionary());
 		}
-
-		var user = new User { Email = registrationForm.Email };
-
+		
 		var userEntity = new UserEntity
 		{
+			UserName = registrationForm.Email,
 			Email = registrationForm.Email,
-			PasswordHash = _passwordHasher.HashPassword(user, registrationForm.Password),
 			Member = new MemberEntity
 			{
 				Name = registrationForm.MemberName
 			}
 		};
 
-		userEntity.Member.User = userEntity;
+		await _userManager.CreateAsync(userEntity, registrationForm.Password);
 
-		_context.Users.Add(userEntity);
-
-		await _context.SaveChangesAsync();
-
-		await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, Convert(user));
-
-		return Results.Ok(user);
+		return Results.Ok();
 	}
 
-	public async Task<IResult> SignIn(UserSignIn user)
+	public async Task<IResult> SignIn(UserSignIn userSignIn)
 	{
-		//todo: validate
+		var user = await _userManager.FindByEmailAsync(userSignIn.Email);
 
-		var userEntity = _context.Users.FirstOrDefault(u => u.Email == user.Email);
-		if (userEntity == null)
+		if (user == null)
 		{
-			return Results.Unauthorized(); //?
+			return Results.Unauthorized();
 		}
 
-		var userIdentity = new User { Id = userEntity.Id, Email = user.Email };
+		var signInResult =  await _signInManager.PasswordSignInAsync(userSignIn.Email, userSignIn.Password, userSignIn.RememberMe, false);
 
-
-		var passwordVerificationResult = _passwordHasher.VerifyHashedPassword(userIdentity, userEntity.PasswordHash, user.Password);
-		if (passwordVerificationResult != PasswordVerificationResult.Success)
+		if (!signInResult.Succeeded)
 		{
-			return Results.Unauthorized(); //?
+			return Results.Unauthorized();
 		}
 
-		await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, Convert(userIdentity));
+		await _context.Entry(user).Reference(u => u.Member).LoadAsync();
 
-		return TypedResults.Ok(new SignedInUserInfo { Id = userIdentity.Id, Email = userIdentity.Email });
+		return TypedResults.Ok(new ClientUserInfo { Id = user.Id, Email = user.Email, DisplayName = user.Member.Name });
 	}
 
 	public async Task<IResult> SignOut()
 	{
-		await _httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme); //TODO configure default auth scheme
+		await _signInManager.SignOutAsync();
 		return Results.Ok();
-	}
-
-	public static ClaimsPrincipal Convert(User user)
-	{
-		var claims = new List<Claim>
-		{
-			new(ClaimTypes.NameIdentifier, user.Id.ToString())
-		};
-
-		var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-		return new ClaimsPrincipal(identity);
 	}
 }

@@ -68,6 +68,20 @@ public static class AffixEndpoints
 			.RequireAuthorization(/*registrar*/)
 			.WithOpenApi();
 
+		group.MapPost("/delete", async ([FromBody]int affixId, IAffixService affixService) =>
+			{
+				return await affixService.DeleteAffix(affixId);
+			})
+			.WithName("DeleteAffix")
+			.RequireAuthorization()
+			.WithOpenApi();
 
+		group.MapPost("/set-status", async (SetAffixActiveStatus setAffixStatus, IAffixService affixService) =>
+			{
+				return await affixService.SetActive(setAffixStatus.Id, setAffixStatus.Active);
+			})
+			.WithName("SetAffixActiveStatus")
+			.RequireAuthorization()
+			.WithOpenApi();
 	}
 }

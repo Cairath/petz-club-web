@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PetzBreedersClub.Database;
@@ -9,7 +8,7 @@ using PetzBreedersClub.Services.Auth;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.Extensions.Caching.Memory;
-using PetzBreedersClub.DTOs.User;
+using PetzBreedersClub.Database.Models;
 using MvcJsonOptions = Microsoft.AspNetCore.Mvc.JsonOptions;
 
 namespace PetzBreedersClub;
@@ -34,19 +33,35 @@ public static class Program
 				});
 		});
 
-		builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-			.AddCookie(options =>
+		builder.Services.AddIdentity<UserEntity, IdentityRole<int>>(
+			options =>
+				{
+					options.SignIn.RequireConfirmedAccount = false;
+					options.SignIn.RequireConfirmedEmail = false;
+				})
+				.AddEntityFrameworkStores<Context>()
+			.AddDefaultTokenProviders();
+
+		builder.Services.ConfigureApplicationCookie(options =>
+		{
+			options.Cookie.Name = "PBC.Identity";
+			options.Cookie.IsEssential = true;
+			options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+			options.Cookie.SameSite = SameSiteMode.None; //TODO CHANGE LATER
+
+			options.Events.OnRedirectToLogin = (context) =>
 			{
-				options.Cookie.Name = "PBC.Identity";
-				options.Cookie.IsEssential = true;
-				options.SlidingExpiration = true;
-				options.Cookie.Domain = "localhost";
-				options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
-				options.Cookie.SameSite = SameSiteMode.None; //TODO CHANGE LATER
-				options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
-			});
-		
-		builder.Services.AddAuthentication();
+				context.Response.StatusCode = 401;
+				return Task.CompletedTask;
+			};
+
+			options.Events.OnRedirectToLogout = (context) =>
+			{
+				context.Response.StatusCode = 204;
+				return Task.CompletedTask;
+			};
+		});
+
 		builder.Services.AddAuthorization();
 
 		builder.Services.AddEndpointsApiExplorer();
@@ -73,7 +88,6 @@ public static class Program
 		builder.Services.AddServices();
 
 		builder.Services.AddSingleton<IMemoryCache, MemoryCache>();
-		builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 
 		var app = builder.Build();
 		if (app.Environment.IsDevelopment())
@@ -85,7 +99,6 @@ public static class Program
 		app.UseCors(devCorsPolicy);
 
 		app.UseHttpsRedirection();
-		app.UseAuthorization();
 
 		app.MapEndpoints();
 
