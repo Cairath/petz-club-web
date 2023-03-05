@@ -6,7 +6,7 @@ import {
   Text,
   useColorModeValue
 } from "@chakra-ui/react";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import api from "../../api/api";
 import { OwnedAffixes } from "../../api/client";
 import { Header } from "../../components/Header";
@@ -23,19 +23,38 @@ export const Affixes = () => {
     owned: 0
   });
 
+  const getAffixInfo = useCallback(() => {
+    api.getOwnedAffixes().then((affixes) => setAffixInfo(affixes));
+  }, []);
+
+  const cancelRegistration = useCallback(
+    (pendingAffixId: number) => {
+      api
+        .cancelPendingAffixRegistration(pendingAffixId)
+        .then(() => getAffixInfo());
+    },
+    [getAffixInfo]
+  );
+
+  const deleteAffix = useCallback(
+    (affixId: number) => {
+      api.deleteAffix(affixId).then(() => getAffixInfo());
+    },
+    [getAffixInfo]
+  );
+
+  const setAffixStatus = useCallback(
+    (affixId: number, active: boolean) => {
+      api
+        .setAffixActiveStatus({ id: affixId, active })
+        .then(() => getAffixInfo());
+    },
+    [getAffixInfo]
+  );
+
   useEffect(() => {
     getAffixInfo();
-  }, [user]);
-
-  const getAffixInfo = () => {
-    api.getOwnedAffixes().then((affixes) => setAffixInfo(affixes));
-  };
-
-  const cancelRegistration = (pendingAffixId: number) => {
-    api
-      .cancelPendingAffixRegistration(pendingAffixId)
-      .then(() => getAffixInfo());
-  };
+  }, [user, getAffixInfo]);
 
   const textColor = useColorModeValue("gray.700", "white");
 
@@ -95,6 +114,8 @@ export const Affixes = () => {
                 headers={pendingHeaders}
                 type="pending"
                 cancelRegistration={cancelRegistration}
+                deleteAffix={deleteAffix}
+                setActiveStatus={setAffixStatus}
               />
             )}
             <RegisteredAffixesTableContent
@@ -103,6 +124,8 @@ export const Affixes = () => {
               pt={showPending ? "40px" : undefined}
               type="registered"
               cancelRegistration={cancelRegistration}
+              deleteAffix={deleteAffix}
+              setActiveStatus={setAffixStatus}
             />
           </Table>
         </CardBody>

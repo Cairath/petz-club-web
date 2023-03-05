@@ -16,7 +16,7 @@ import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Link as ReactRouterLink } from "react-router-dom";
 import api from "../../api/api";
-import { SignedInUserInfo, UserSignIn } from "../../api/client";
+import { ClientUserInfo, UserSignIn } from "../../api/client";
 import signInImage from "../../assets/img/signInImage.png";
 import { UserContext } from "../../context/UserContext";
 
@@ -33,11 +33,13 @@ export const SignIn = () => {
   } = useForm();
 
   function onSubmit(values: UserSignIn) {
-    api
-      .signIn(values)
-      .then((signedInUserInfo: SignedInUserInfo) =>
-        setUser({ id: signedInUserInfo.id, name: signedInUserInfo.email })
-      );
+    api.signIn(values).then((clientUserInfo: ClientUserInfo) =>
+      setUser({
+        id: clientUserInfo.id,
+        email: clientUserInfo.email,
+        name: clientUserInfo.displayName
+      })
+    );
   }
 
   return (
@@ -142,7 +144,12 @@ export const SignIn = () => {
                   />
                 </FormControl>
                 <FormControl display="flex" alignItems="center">
-                  <Switch id="remember-login" colorScheme="teal" me="10px" />
+                  <Switch
+                    id="remember-login"
+                    colorScheme="teal"
+                    me="10px"
+                    {...register("rememberMe")}
+                  />
                   <FormLabel
                     htmlFor="remember-login"
                     mb="0"

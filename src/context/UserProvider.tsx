@@ -1,42 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import api from "../api/api";
-import { Notification } from "../api/client";
-import { UserContext } from "./UserContext";
-
-function getUserFromLS() {
-  const userString = localStorage.getItem("user");
-  if (userString !== undefined && userString !== null) {
-    return JSON.parse(userString);
-  } else return null;
-}
+import { ClientUserInfo, Notification } from "../api/client";
+import { User, UserContext } from "./UserContext";
 
 export type Props = {
   children?: React.ReactNode;
 };
 
-//todo: rewrite this to something better than good-enough-for-testing
 export const UserProvider = (props: Props) => {
-  const [user, setUser] = useState(getUserFromLS);
+  const [user, setUser] = useState<User | null>(undefined!);
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  useEffect(() => {
-    const authenticateUser = async (id: number) => {
-      await api.authenticate(id).then((isAuthenticated: boolean) => {
-        if (isAuthenticated) {
-          localStorage.setItem("user", JSON.stringify(user));
+  const authenticateUser = useCallback(() => {
+    return api
+      .authenticate()
+      .then((clientUserInfo: ClientUserInfo) => {
+        if (clientUserInfo) {
+          const newUser = {
+            id: clientUserInfo.id,
+            email: clientUserInfo.email,
+            name: clientUserInfo.displayName
+          };
+
+          localStorage.setItem("user", JSON.stringify(newUser));
+          setUser(newUser);
         } else {
           localStorage.removeItem("user");
-          setUser(null);
+          setUser(null!);
         }
-      });
-    };
+      })
+      .catch(console.log);
+  }, []);
 
-    if (user !== undefined && user !== null) {
-      authenticateUser(user.id);
-    } else {
-      localStorage.removeItem("user");
-    }
-  }, [user]);
+  useEffect(() => {
+    authenticateUser();
+  }, [authenticateUser]);
 
   useEffect(() => {
     refreshNotifications();

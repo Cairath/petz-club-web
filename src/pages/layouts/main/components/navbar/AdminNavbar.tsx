@@ -112,13 +112,13 @@ const UserControl = ({
   color,
   signOut
 }: {
-  user: User;
+  user: User | null;
   color: string;
   signOut: () => void;
 }) => {
   return (
     <Flex>
-      {user ? (
+      {user != null ? ( //todo ===
         <Menu>
           <MenuButton>
             <Avatar size="sm" ms="2px" name={user.name}></Avatar>

@@ -72,7 +72,10 @@ export const ButtonWithConfirmationPopover = ({
             confirmationButtonText={confirmationButtonText}
             firstFieldRef={firstFieldRef}
             onCancel={onClose}
-            onConfirm={() => onConfirm(objectId, "")}
+            onConfirm={() => {
+              onConfirm(objectId, "");
+              onClose();
+            }}
           />
         </FocusLock>
       </PopoverContent>

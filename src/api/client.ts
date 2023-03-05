@@ -372,6 +372,106 @@ export class Client {
     }
 
     /**
+     * @return OK
+     */
+    deleteAffix(body: number , cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/api/affixes/delete";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processDeleteAffix(_response);
+        });
+    }
+
+    protected processDeleteAffix(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+    
+            return Promise.resolve<void>(null as any);
+
+        } else if (status !== 200 && status !== 204) {
+            return throwException("An unexpected server error occurred.", status, response.statusText, _headers);
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    setAffixActiveStatus(body: SetAffixActiveStatus , cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/api/affixes/set-status";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processSetAffixActiveStatus(_response);
+        });
+    }
+
+    protected processSetAffixActiveStatus(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+    
+            return Promise.resolve<void>(null as any);
+
+        } else if (status !== 200 && status !== 204) {
+            return throwException("An unexpected server error occurred.", status, response.statusText, _headers);
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    /**
      * @param species (optional) 
      * @return OK
      */
@@ -571,7 +671,7 @@ export class Client {
     /**
      * @return OK
      */
-    signIn(body: UserSignIn , cancelToken?: CancelToken | undefined): Promise<SignedInUserInfo> {
+    signIn(body: UserSignIn , cancelToken?: CancelToken | undefined): Promise<ClientUserInfo> {
         let url_ = this.baseUrl + "/api/users/sign-in";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -599,7 +699,7 @@ export class Client {
         });
     }
 
-    protected processSignIn(response: AxiosResponse): Promise<SignedInUserInfo> {
+    protected processSignIn(response: AxiosResponse): Promise<ClientUserInfo> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -612,12 +712,12 @@ export class Client {
         if (status === 200) {
     
             let result200: any = response.data;
-            return Promise.resolve<SignedInUserInfo>(result200);
+            return Promise.resolve<ClientUserInfo>(result200);
 
         } else if (status !== 200 && status !== 204) {
             return throwException("An unexpected server error occurred.", status, response.statusText, _headers);
         }
-        return Promise.resolve<SignedInUserInfo>(null as any);
+        return Promise.resolve<ClientUserInfo>(null as any);
     }
 
     /**
@@ -669,18 +769,14 @@ export class Client {
     /**
      * @return OK
      */
-    authenticate(body: number , cancelToken?: CancelToken | undefined): Promise<boolean> {
+    authenticate(  cancelToken?: CancelToken | undefined): Promise<ClientUserInfo> {
         let url_ = this.baseUrl + "/api/users/authenticate";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(body);
-
         let options_: AxiosRequestConfig = {
-            data: content_,
             method: "POST",
             url: url_,
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             },
             cancelToken
@@ -697,7 +793,7 @@ export class Client {
         });
     }
 
-    protected processAuthenticate(response: AxiosResponse): Promise<boolean> {
+    protected processAuthenticate(response: AxiosResponse): Promise<ClientUserInfo> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -710,12 +806,12 @@ export class Client {
         if (status === 200) {
     
             let result200: any = response.data;
-            return Promise.resolve<boolean>(result200);
+            return Promise.resolve<ClientUserInfo>(result200);
 
         } else if (status !== 200 && status !== 204) {
             return throwException("An unexpected server error occurred.", status, response.statusText, _headers);
         }
-        return Promise.resolve<boolean>(null as any);
+        return Promise.resolve<ClientUserInfo>(null as any);
     }
 
     /**
@@ -1008,6 +1104,12 @@ export interface BreedNameListItem {
     species: Species;
 }
 
+export interface ClientUserInfo {
+    id: number;
+    email: string;
+    displayName: string;
+}
+
 export interface Notification {
     id: number;
     date: Date;
@@ -1055,9 +1157,9 @@ export interface RegistrationForm {
     memberName?: string | undefined;
 }
 
-export interface SignedInUserInfo {
-    id: number;
-    email: string;
+export interface SetAffixActiveStatus {
+    id?: number;
+    active?: boolean;
 }
 
 export interface SimilarName {
@@ -1081,6 +1183,7 @@ export interface StaffDashboardSummary {
 export interface UserSignIn {
     email?: string | undefined;
     password?: string | undefined;
+    rememberMe?: boolean;
 }
 
 export class ApiException extends Error {
