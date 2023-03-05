@@ -51,5 +51,23 @@ public static class AffixEndpoints
 			.RequireAuthorization(/*registrar*/)
 			.Produces<List<PendingAffixRegistration>>()
 			.WithOpenApi();
+
+		group.MapPost("/approve", async ([FromBody] int pendingAffixId, IAffixService affixService) =>
+			{
+				return await affixService.ApproveAffix(pendingAffixId);
+			})
+			.WithName("ApprovePendingAffixRegistration")
+			.RequireAuthorization(/*registrar*/)
+			.WithOpenApi();
+
+		group.MapPost("/reject", async (AffixRejection affixRejection, IAffixService affixService) =>
+			{
+				return await affixService.RejectAffix(affixRejection);
+			})
+			.WithName("RejectPendingAffixRegistration")
+			.RequireAuthorization(/*registrar*/)
+			.WithOpenApi();
+
+
 	}
 }

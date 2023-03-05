@@ -8,6 +8,7 @@ using PetzBreedersClub.Services;
 using PetzBreedersClub.Services.Auth;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Json;
+using Microsoft.Extensions.Caching.Memory;
 using PetzBreedersClub.DTOs.User;
 using MvcJsonOptions = Microsoft.AspNetCore.Mvc.JsonOptions;
 
@@ -71,6 +72,7 @@ public static class Program
 
 		builder.Services.AddServices();
 
+		builder.Services.AddSingleton<IMemoryCache, MemoryCache>();
 		builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 
 		var app = builder.Build();
