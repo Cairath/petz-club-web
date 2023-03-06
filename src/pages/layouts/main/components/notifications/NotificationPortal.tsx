@@ -1,4 +1,4 @@
-import { Button, Flex, MenuList, Portal } from "@chakra-ui/react";
+import { Button, Flex, MenuList, Portal, Text } from "@chakra-ui/react";
 import { useMemo } from "react";
 import { Notification } from "../../../../../api/client";
 import { NotificationItem } from "./NotificationItem";
@@ -24,16 +24,22 @@ export const NotificationPortal = (props: Props) => {
 
   const notificationList = useMemo(
     () =>
-      notifications.map((n: Notification) => {
-        return (
-          <NotificationItem
-            key={`notification-${n.id}`}
-            notification={n}
-            markOneAsRead={markOneAsRead}
-            deleteNotification={deleteNotification}
-          />
-        );
-      }),
+      notifications.length === 0 ? (
+        <Text ml="20px" mt="5px">
+          You don't have any notifications
+        </Text>
+      ) : (
+        notifications.map((n: Notification) => {
+          return (
+            <NotificationItem
+              key={`notification-${n.id}`}
+              notification={n}
+              markOneAsRead={markOneAsRead}
+              deleteNotification={deleteNotification}
+            />
+          );
+        })
+      ),
     [notifications, markOneAsRead, deleteNotification]
   );
 

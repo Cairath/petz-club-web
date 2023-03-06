@@ -1,9 +1,4 @@
-import {
-  DeleteIcon,
-  EditIcon,
-  LinkIcon,
-  SmallCloseIcon
-} from "@chakra-ui/icons";
+import { EditIcon, LinkIcon, SmallCloseIcon } from "@chakra-ui/icons";
 import {
   Badge,
   Flex,
@@ -63,6 +58,7 @@ export const RegisteredAffixesTableContent = ({
         {affixes.length > 0 ? (
           affixes.map((affix: RegisteredAffixListItem) => (
             <TableRow
+              key={affix.id}
               affix={affix}
               type={type}
               cancelRegistration={cancelRegistration}

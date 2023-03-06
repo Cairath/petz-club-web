@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import api from "../api/api";
-import { ClientUserInfo, Notification } from "../api/client";
+import { Notification } from "../api/client";
 import { User, UserContext } from "./UserContext";
 
 export type Props = {
@@ -11,26 +11,31 @@ export const UserProvider = (props: Props) => {
   const [user, setUser] = useState<User | null>(undefined!);
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  const authenticateUser = useCallback(() => {
-    return api
-      .authenticate()
-      .then((clientUserInfo: ClientUserInfo) => {
-        if (clientUserInfo) {
-          const newUser = {
-            id: clientUserInfo.id,
-            email: clientUserInfo.email,
-            name: clientUserInfo.displayName
-          };
+  const authenticateUser = useCallback(async () => {
+    const clientUserInfo = await api.authenticate();
 
-          localStorage.setItem("user", JSON.stringify(newUser));
-          setUser(newUser);
-        } else {
-          localStorage.removeItem("user");
-          setUser(null!);
-        }
-      })
-      .catch(console.log);
+    if (clientUserInfo) {
+      const newUser = {
+        id: clientUserInfo.id,
+        email: clientUserInfo.email,
+        name: clientUserInfo.displayName
+      };
+
+      localStorage.setItem("user", JSON.stringify(newUser));
+      setUser(newUser);
+    } else {
+      localStorage.removeItem("user");
+      setUser(null!);
+    }
   }, []);
+
+  const refreshNotifications = useCallback(() => {
+    if (user !== undefined && user !== null && document.hasFocus()) {
+      api.getUserNotifications().then((notifications) => {
+        setNotifications(notifications);
+      });
+    }
+  }, [user]);
 
   useEffect(() => {
     authenticateUser();
@@ -39,21 +44,13 @@ export const UserProvider = (props: Props) => {
   useEffect(() => {
     refreshNotifications();
 
-    const intervalCall = setInterval(async () => {
-      if (user !== undefined && user !== null) {
-        await refreshNotifications();
-      }
-    }, 100000);
+    const intervalCall = setInterval(() => {
+      refreshNotifications();
+    }, 1000 * 60 * 5);
     return () => {
       clearInterval(intervalCall);
     };
-  }, [user]);
-
-  const refreshNotifications = async () => {
-    await api.getUserNotifications().then((notifications) => {
-      setNotifications(notifications);
-    });
-  };
+  }, [user, refreshNotifications]);
 
   return (
     <UserContext.Provider
