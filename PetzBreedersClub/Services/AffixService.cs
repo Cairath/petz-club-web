@@ -6,6 +6,9 @@ using PetzBreedersClub.Services.Auth;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using PetzBreedersClub.Database.Models.Enums;
+using PetzBreedersClub.Services.Notifications;
+using AffixStatus = PetzBreedersClub.Database.Models.Enums.AffixStatus;
+using System.Reflection.Metadata;
 
 namespace PetzBreedersClub.Services;
 
@@ -201,20 +204,24 @@ public class AffixService : IAffixService
 		{
 			return Results.BadRequest("Test Message");
 		}
-		
 
-		_context.Add(new AffixEntity
+		var newAffix = new AffixEntity
 		{
 			Name = pendingAffix.Name,
 			Syntax = pendingAffix.Syntax,
 			OwnerId = pendingAffix.OwnerId,
 			Status = AffixStatus.Active,
-		});
+		};
 
+		_context.Add(newAffix);
 		_context.Remove(pendingAffix);
+		
+		await _context.SaveChangesAsync();
 
-		//todo: notification
+		var notification =
+			NotificationGenerator.AffixRegistrationApproved(newAffix.Id, newAffix.Name, newAffix.OwnerId);
 
+		_context.SystemNotifications.Add(notification);
 		await _context.SaveChangesAsync();
 
 		return Results.Ok();
@@ -231,10 +238,9 @@ public class AffixService : IAffixService
 		{
 			return Results.BadRequest("Test Message");
 		}
-
+		
 		_context.Remove(pendingAffix);
-
-		//todo: notification
+		_context.Add(NotificationGenerator.AffixRegistratonRejected(pendingAffix.Name, affixRejection.Reason, pendingAffix.OwnerId));
 
 		await _context.SaveChangesAsync();
 

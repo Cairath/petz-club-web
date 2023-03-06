@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PetzBreedersClub.DTOs.Notifications;
 using PetzBreedersClub.DTOs.User;
 using PetzBreedersClub.Services;
 using PetzBreedersClub.Services.Auth;

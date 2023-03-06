@@ -65,7 +65,8 @@ public class Context : IdentityDbContext<UserEntity, IdentityRole<int>, int>
 
 				if (entry.State == EntityState.Modified)
 				{
-					entity.ModifiedBy = _httpContextAccessor.HttpContext?.User?.Identity?.Name ?? "system";
+					entity.ModifiedBy = _httpContextAccessor.HttpContext?.User?
+						.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "system";
 					entity.LastModifiedDate = DateTime.Now;
 				}
 			}

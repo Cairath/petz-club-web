@@ -19,7 +19,12 @@ public class SystemNotificationEntity : Entity
 	public NotificationType Type { get; set; }
 
 	[Required]
+	public NotificationContent Content { get; set; }
+
+	[Required]
 	public bool Read { get; set; }
+
+	public string Params { get; set; }
 
 	[Required]
 	public int UserId { get; set; }
@@ -38,6 +43,10 @@ public class SystemNotificationEntityConfiguration : IEntityTypeConfiguration<Sy
 		builder
 			.Property(sn => sn.Type)
 			.HasConversion(new EnumToStringConverter<NotificationType>());
+
+		builder
+			.Property(sn => sn.Content)
+			.HasConversion(new EnumToStringConverter<NotificationContent>());
 	}
 }
 

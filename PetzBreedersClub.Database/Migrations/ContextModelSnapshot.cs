@@ -523,6 +523,10 @@ namespace PetzBreedersClub.Database.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -530,6 +534,9 @@ namespace PetzBreedersClub.Database.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Params")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Read")
@@ -569,6 +576,7 @@ namespace PetzBreedersClub.Database.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -611,8 +619,7 @@ namespace PetzBreedersClub.Database.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
-                        .IsUnique()
-                        .HasFilter("[Email] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");

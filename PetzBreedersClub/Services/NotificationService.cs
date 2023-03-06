@@ -3,8 +3,7 @@ using PetzBreedersClub.Services.Auth;
 using Microsoft.EntityFrameworkCore;
 using PetzBreedersClub.Database.Models;
 using PetzBreedersClub.Database.Models.Enums;
-using PetzBreedersClub.DTOs.User;
-using PetzBreedersClub.Database.Migrations;
+using PetzBreedersClub.DTOs.Notifications;
 
 namespace PetzBreedersClub.Services;
 
