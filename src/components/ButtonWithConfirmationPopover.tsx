@@ -51,7 +51,7 @@ export const ButtonWithConfirmationPopover = ({
       closeOnBlur={false}
     >
       <PopoverTrigger>
-        <div>
+        <div style={{ display: "inline-block" }}>
           <Tooltip label={tooltip}>
             <IconButton
               variant="outline"
