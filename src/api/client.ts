@@ -472,6 +472,57 @@ export class Client {
     }
 
     /**
+     * @return OK
+     */
+    getSimilarNames(name: string , cancelToken?: CancelToken | undefined): Promise<SimilarName[]> {
+        let url_ = this.baseUrl + "/api/affixes/similar-names/{name}";
+        if (name === undefined || name === null)
+            throw new Error("The parameter 'name' must be defined.");
+        url_ = url_.replace("{name}", encodeURIComponent("" + name));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: AxiosRequestConfig = {
+            method: "GET",
+            url: url_,
+            headers: {
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processGetSimilarNames(_response);
+        });
+    }
+
+    protected processGetSimilarNames(response: AxiosResponse): Promise<SimilarName[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+    
+            let result200: any = response.data;
+            return Promise.resolve<SimilarName[]>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            return throwException("An unexpected server error occurred.", status, response.statusText, _headers);
+        }
+        return Promise.resolve<SimilarName[]>(null as any);
+    }
+
+    /**
      * @param species (optional) 
      * @return OK
      */

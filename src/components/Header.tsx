@@ -6,7 +6,7 @@ export type Props = {
 };
 
 export const Header = ({ title }: Props) => {
-  const textColor = useColorModeValue("white", "gray.900");
+  const textColor = useColorModeValue("white", "white");
 
   return (
     <Box

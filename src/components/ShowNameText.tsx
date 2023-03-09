@@ -11,7 +11,11 @@ export type Props = {
 export const ShowNameText = ({ affixName, affixSyntax }: Props) => {
   const text = useMemo(() => {
     let name = affixName;
-    if (affixSyntax === AffixSyntax.From || affixSyntax === AffixSyntax.Of) {
+    if (
+      affixSyntax === AffixSyntax.From ||
+      affixSyntax === AffixSyntax.Of ||
+      affixSyntax === AffixSyntax.At
+    ) {
       if (affixName.startsWith("The ")) {
         name = `t${affixName.substring(1)}`;
       }

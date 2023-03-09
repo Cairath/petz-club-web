@@ -1,10 +1,11 @@
-import { Card, CardBody, Flex, Text } from "@chakra-ui/react";
+import { Box, Card, CardBody, Flex, Text } from "@chakra-ui/react";
 import { useCallback, useContext, useEffect, useState } from "react";
 import api from "../../api/api";
 import { OwnedAffixes } from "../../api/client";
 import { Header } from "../../components/Header";
 import { Space } from "../../components/Space";
 import { UserContext } from "../../context/UserContext";
+import { RegisterAffixModal } from "./RegisterAffixModal";
 import { RegisteredAffixesTable } from "./components/RegisteredAffixesTable";
 
 export const Affixes = () => {
@@ -55,6 +56,12 @@ export const Affixes = () => {
       <Card variant="panel" mb="20px">
         <CardBody>
           <Flex flexDirection="column">
+            <Text mb="2em">
+              Affix refers to your Kennel / Cattery name added to pets' show
+              names. When you register 1st generation pets or offspring born in
+              your Kennel / Cattery, you will be asked to choose from a list of
+              affixes you own.
+            </Text>
             <Text>
               You are currently using
               <Space />
@@ -68,6 +75,9 @@ export const Affixes = () => {
               Once registered, an affix can only be removed if there are no pets
               assigned to it.
             </Text>
+            <Box mt="2em">
+              <RegisterAffixModal />
+            </Box>
           </Flex>
         </CardBody>
       </Card>

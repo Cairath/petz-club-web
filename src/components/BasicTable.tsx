@@ -78,8 +78,17 @@ export const BasicTable = <Data extends object>({
     return withTableTag ? Table : React.Fragment;
   }, [withTableTag]);
 
+  const layout = useMemo(() => {
+    const layout = withTableTag
+      ? useColGroups
+        ? { layout: "fixed" }
+        : {}
+      : {};
+    return layout;
+  }, [withTableTag, useColGroups]);
+
   return (
-    <TopElement layout={useColGroups ? "fixed" : undefined}>
+    <TopElement {...layout}>
       {useColGroups
         ? table.getHeaderGroups().map((headerGroup) => {
             return (

@@ -32,7 +32,7 @@ export const SignIn = () => {
     formState: { errors, isSubmitting }
   } = useForm();
 
-  function onSubmit(values: UserSignIn) {
+  const onSubmit = (values: UserSignIn) => {
     api.signIn(values).then((clientUserInfo: ClientUserInfo) =>
       setUser({
         id: clientUserInfo.id,
@@ -40,7 +40,7 @@ export const SignIn = () => {
         name: clientUserInfo.displayName
       })
     );
-  }
+  };
 
   return (
     <Box w="100%">
