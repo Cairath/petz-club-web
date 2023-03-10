@@ -2,13 +2,12 @@
 using PetzBreedersClub.Database.Models.Enums;
 using PetzBreedersClub.DTOs.Breeds;
 using PetzBreedersClub.Services;
-using PetzBreedersClub.Services.Auth;
 
 namespace PetzBreedersClub.Endpoints;
 
 public static class BreedEndpoints
 {
-	public static void MapBreedsEndpoints(this IEndpointRouteBuilder routes)
+	public static void MapBreedEndpoints(this IEndpointRouteBuilder routes)
 	{
 		var group = routes.MapGroup("/api/breeds").WithTags("Breeds");
 

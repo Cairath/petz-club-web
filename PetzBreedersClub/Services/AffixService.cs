@@ -5,12 +5,9 @@ using PetzBreedersClub.DTOs.Affixes;
 using PetzBreedersClub.Services.Auth;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using PetzBreedersClub.Database.Models.Enums;
 using PetzBreedersClub.Services.Notifications;
 using AffixStatus = PetzBreedersClub.Database.Models.Enums.AffixStatus;
-using PetzBreedersClub.DTOs.User;
 using FluentValidation;
-using System;
 
 namespace PetzBreedersClub.Services;
 

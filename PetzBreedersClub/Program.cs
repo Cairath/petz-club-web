@@ -112,16 +112,15 @@ public static class Program
 		services.AddScoped<IBreedService, BreedService>();
 		services.AddScoped<IAffixService, AffixService>();
 		services.AddScoped<IStaffService, StaffService>();
+		services.AddScoped<IPetService, PetService>();
 	}
 
 	private static void MapEndpoints(this WebApplication app)
 	{
-		app.MapPetsEndpoints();
+		app.MapPetEndpoints();
 		app.MapUserEndpoints();
-		app.MapBreedsEndpoints();
+		app.MapBreedEndpoints();
 		app.MapAffixEndpoints();
 		app.MapStaffEndpoints();
 	}
 }
-
-

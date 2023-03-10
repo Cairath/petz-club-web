@@ -45,6 +45,8 @@ public class Context : IdentityDbContext<UserEntity, IdentityRole<int>, int>
 		}
 
 		modelBuilder.ApplyConfigurationsFromAssembly(typeof(Context).Assembly);
+
+		DogBreedsSeed.Seed(modelBuilder);
 	}
 
 

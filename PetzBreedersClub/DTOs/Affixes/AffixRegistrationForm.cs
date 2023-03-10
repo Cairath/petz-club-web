@@ -24,7 +24,7 @@ namespace PetzBreedersClub.DTOs.Affixes
 				.WithMessage("Affix name can contain only letters")
 				.MustAsync(async (name, ct) => await context.Affixes.AllAsync(u => u.Name != name, ct))
 				.WithMessage("An affix with this name is already registered or pending registration")
-				.CustomAsync(async (x, ctx, ct) =>
+				.CustomAsync(async (_, ctx, ct) =>
 				{
 					var userId = int.Parse(ctx.RootContextData["UserId"] as string ??
 										   throw new InvalidOperationException());

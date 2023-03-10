@@ -265,6 +265,308 @@ namespace PetzBreedersClub.Database.Migrations
                         .IsUnique();
 
                     b.ToTable("Breeds");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7732),
+                            Group = 1,
+                            Name = "Australian Kelpie",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7736),
+                            Group = 1,
+                            Name = "Belgian Shepherd Dog (Groenendael)",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7737),
+                            Group = 1,
+                            Name = "Belgian Shepherd Dog (Laekenois)",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7738),
+                            Group = 1,
+                            Name = "Belgian Shepherd Dog (Malinois)",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7739),
+                            Group = 1,
+                            Name = "Belgian Shepherd Dog (Tervueren)",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7741),
+                            Group = 1,
+                            Name = "Shipperke",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7742),
+                            Group = 1,
+                            Name = "Croatian Shepherd Dog",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7742),
+                            Group = 1,
+                            Name = "Briard",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7742),
+                            Group = 1,
+                            Name = "Pyrenean Sheepdog Longhaired",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7743),
+                            Group = 1,
+                            Name = "Picardy Sheepdog",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7743),
+                            Group = 1,
+                            Name = "Pyrenean Sheepdog Smooth Faced",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7744),
+                            Group = 1,
+                            Name = "German Shepherd Dog (Double Coat)",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7744),
+                            Group = 1,
+                            Name = "German Shepherd Dog (Long and Harsh Outer Coat)",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7744),
+                            Group = 1,
+                            Name = "Bearded Collie",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7745),
+                            Group = 1,
+                            Name = "Border Collie",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7745),
+                            Group = 1,
+                            Name = "Collie (Rough)",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7745),
+                            Group = 1,
+                            Name = "Collie (Smooth)",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7746),
+                            Group = 1,
+                            Name = "Shetland Sheepdog",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7746),
+                            Group = 1,
+                            Name = "Komondor",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7746),
+                            Group = 1,
+                            Name = "Kuvasz",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7747),
+                            Group = 1,
+                            Name = "Mudi",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7747),
+                            Group = 1,
+                            Name = "Puli (pearl-white)",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7747),
+                            Group = 1,
+                            Name = "Puli (other colors)",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7748),
+                            Group = 1,
+                            Name = "Pumi",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7748),
+                            Group = 1,
+                            Name = "Bergamasco Shepherd Dog",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7748),
+                            Group = 1,
+                            Name = "Maremma and the Abruzzes Sheepdog",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7749),
+                            Group = 1,
+                            Name = "Polish Lowland Sheepdog",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7749),
+                            Group = 1,
+                            Name = "Tatra Shepherd Dog",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7749),
+                            Group = 1,
+                            Name = "Portuguese Sheepdog",
+                            Section = 1,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 13, 42, 56, 201, DateTimeKind.Utc).AddTicks(7750),
+                            Group = 1,
+                            Name = "Romanian Carpathian Shepherd Dog",
+                            Section = 1,
+                            Species = "Dogz"
+                        });
                 });
 
             modelBuilder.Entity("PetzBreedersClub.Database.Models.BreedFileEntity", b =>
@@ -452,6 +754,10 @@ namespace PetzBreedersClub.Database.Migrations
 
                     b.Property<int?>("SireId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

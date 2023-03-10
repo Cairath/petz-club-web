@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetzBreedersClub.Database.Models.Base;
+using PetzBreedersClub.Database.Models.Enums;
 
 namespace PetzBreedersClub.Database.Models;
 
@@ -27,6 +28,9 @@ public class PetEntity : Entity
 	public Age Age { get; set; }
 
 	[Required]
+	public PetStatus Status { get; set; }
+
+	[Required]
 	public int BreedId { get; set; }
 	public virtual BreedEntity Breed { get; set; }
 
@@ -43,12 +47,11 @@ public class PetEntity : Entity
 	public virtual MemberEntity Breeder { get; set; }
 	
 	public int? DamId { get; set; }
-	public virtual PetEntity Dam { get; set; }
+	public PetEntity Dam { get; set; }
 
 	public int? SireId { get; set; }
 	public virtual PetEntity Sire { get; set; }
 	
-
 	public virtual ICollection<PetEntity> Offspring { get; set; } = new List<PetEntity>();
 }
 
@@ -62,6 +65,10 @@ public class PetEntityConfiguration : IEntityTypeConfiguration<PetEntity>
 		builder
 			.Property(p=>p.Age)
 			.HasConversion(new EnumToStringConverter<Age>());
+
+		builder
+			.Property(p => p.Status)
+			.HasConversion(new EnumToStringConverter<PetStatus>());
 
 		builder
 			.HasOne(p => p.Breed)
