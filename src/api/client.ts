@@ -578,14 +578,18 @@ export class Client {
     /**
      * @return OK
      */
-    getPetProfileById(  cancelToken?: CancelToken | undefined): Promise<void> {
+    getPetProfile(id: number , cancelToken?: CancelToken | undefined): Promise<PetProfileData> {
         let url_ = this.baseUrl + "/api/pets/profile/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: AxiosRequestConfig = {
             method: "GET",
             url: url_,
             headers: {
+                "Accept": "application/json"
             },
             cancelToken
         };
@@ -597,11 +601,11 @@ export class Client {
                 throw _error;
             }
         }).then((_response: AxiosResponse) => {
-            return this.processGetPetProfileById(_response);
+            return this.processGetPetProfile(_response);
         });
     }
 
-    protected processGetPetProfileById(response: AxiosResponse): Promise<void> {
+    protected processGetPetProfile(response: AxiosResponse): Promise<PetProfileData> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -613,12 +617,67 @@ export class Client {
         }
         if (status === 200) {
     
-            return Promise.resolve<void>(null as any);
+            let result200: any = response.data;
+            return Promise.resolve<PetProfileData>(result200);
 
         } else if (status !== 200 && status !== 204) {
             return throwException("An unexpected server error occurred.", status, response.statusText, _headers);
         }
-        return Promise.resolve<void>(null as any);
+        return Promise.resolve<PetProfileData>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    getPedigree(id: number, generations: number , cancelToken?: CancelToken | undefined): Promise<Pedigree> {
+        let url_ = this.baseUrl + "/api/pets/pedigree/{id}/{generations}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (generations === undefined || generations === null)
+            throw new Error("The parameter 'generations' must be defined.");
+        url_ = url_.replace("{generations}", encodeURIComponent("" + generations));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: AxiosRequestConfig = {
+            method: "GET",
+            url: url_,
+            headers: {
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processGetPedigree(_response);
+        });
+    }
+
+    protected processGetPedigree(response: AxiosResponse): Promise<Pedigree> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+    
+            let result200: any = response.data;
+            return Promise.resolve<Pedigree>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            return throwException("An unexpected server error occurred.", status, response.statusText, _headers);
+        }
+        return Promise.resolve<Pedigree>(null as any);
     }
 
     /**
@@ -1183,6 +1242,16 @@ export interface OwnedAffixes {
     allowed: number;
 }
 
+export interface Pedigree {
+    entries: PedigreeEntry[][];
+}
+
+export interface PedigreeEntry {
+    id: number;
+    showName: string;
+    pedigreeNumber: string;
+}
+
 export interface PendingAffixRegistration {
     id: number;
     name: string;
@@ -1191,6 +1260,11 @@ export interface PendingAffixRegistration {
     ownerName: string;
     similarNames: SimilarName[];
     submissionDate: Date;
+}
+
+export interface PetProfileData {
+    id: number;
+    showName: string;
 }
 
 export interface RegisteredAffixListItem {

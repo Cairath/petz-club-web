@@ -19,12 +19,22 @@ import { AffixRegistrations } from "./pages/Staff/affix-registration/AffixRegist
 import { Breeds } from "./pages/breeds/Breeds";
 import { CatBreeds } from "./pages/breeds/CatBreeds";
 import { DogBreeds } from "./pages/breeds/DogBreeds";
+import { Landing } from "./pages/landing/Landing";
+import { PetProfile } from "./pages/pet-profile/PetProfile";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
     loader: () => redirect("/dashboard")
+  },
+  {
+    path: "/landing",
+    element: (
+      <MainLayout>
+        <Landing />
+      </MainLayout>
+    )
   },
   {
     path: "/dashboard",
@@ -59,18 +69,26 @@ export const router = createBrowserRouter([
     )
   },
   {
-    path: "/account",
-    element: (
-      <MainLayout>
-        <Account />
-      </MainLayout>
-    )
-  },
-  {
     path: "/affix/:affixId",
     element: (
       <MainLayout>
         <AffixProfile />
+      </MainLayout>
+    )
+  },
+  {
+    path: "/pet/:petId",
+    element: (
+      <MainLayout>
+        <PetProfile />
+      </MainLayout>
+    )
+  },
+  {
+    path: "/account",
+    element: (
+      <MainLayout>
+        <Account />
       </MainLayout>
     )
   },

@@ -35,10 +35,11 @@ import { AffixRegistrationRules } from "./components/AffixRegistrationRules";
 import { SimilarAffixNameExistsAlert } from "./components/SimilarAffixNameExistsAlert";
 
 export type Props = {
+  isDisabled: boolean;
   onSubmitted: () => void;
 };
 
-export const RegisterAffixModal = ({ onSubmitted }: Props) => {
+export const RegisterAffixModal = ({ isDisabled, onSubmitted }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [similarNames, setSimilarNames] = useState<SimilarName[]>([]);
   const [highestSimilarity, setHighestSimilarity] = useState<
@@ -117,6 +118,7 @@ export const RegisterAffixModal = ({ onSubmitted }: Props) => {
           bg: "teal.400"
         }}
         onClick={onOpen}
+        isDisabled={isDisabled}
       >
         Register a new affix
       </Button>

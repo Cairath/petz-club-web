@@ -1,5 +1,5 @@
 import { Box, Link, Text, useColorModeValue } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { UserContext } from "../../../../../context/UserContext";
 import { PawIcon } from "../PawIcon";
@@ -13,6 +13,11 @@ export type Props = {
 export const SidebarContent = (props: Props) => {
   const { user } = useContext(UserContext);
   const activeColor = useColorModeValue("gray.700", "white");
+
+  const loggedIn = useMemo(() => {
+    return user !== undefined && user !== null;
+  }, [user]);
+
   return (
     <React.Fragment>
       <Box pt={props.mobile ? "35px" : "25px"} mb="6px">
@@ -35,7 +40,8 @@ export const SidebarContent = (props: Props) => {
         <Separator />
       </Box>
       <Box>
-        {!!user && (
+        {!loggedIn && <MenuLink to="/landing" entryName="Home" />}
+        {loggedIn && (
           <>
             <MenuLink to="/dashboard" entryName="Dashboard" />
             <MenuLink to="/staff/dashboard" entryName="Staff Dashboard" />

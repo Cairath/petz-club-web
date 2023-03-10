@@ -1,5 +1,5 @@
 import { Box, Card, CardBody, Flex, Text } from "@chakra-ui/react";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import api from "../../api/api";
 import { OwnedAffixes } from "../../api/client";
 import { Header } from "../../components/Header";
@@ -54,6 +54,11 @@ export const Affixes = () => {
     getAffixInfo();
   }, [user, getAffixInfo]);
 
+  const canRegisterNew = useMemo(
+    () => affixInfo.owned < affixInfo.allowed,
+    [affixInfo]
+  );
+
   return (
     <>
       <Header title="Affixes" />
@@ -80,7 +85,10 @@ export const Affixes = () => {
               assigned to it.
             </Text>
             <Box mt="2em">
-              <RegisterAffixModal onSubmitted={affixSubmitted} />
+              <RegisterAffixModal
+                onSubmitted={affixSubmitted}
+                isDisabled={!canRegisterNew}
+              />
             </Box>
           </Flex>
         </CardBody>

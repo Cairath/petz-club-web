@@ -103,7 +103,7 @@ export const RegisteredAffixesTable = ({
           <ButtonWithConfirmationPopover
             tooltip="Cancel registration"
             prompt="Are you sure you want to cancel this registration?"
-            confirmationButtonText="Reject"
+            confirmationButtonText="Cancel"
             confirmationButtonColor="red"
             icon={<SmallCloseIcon />}
             objectId={props.row.original.id}
