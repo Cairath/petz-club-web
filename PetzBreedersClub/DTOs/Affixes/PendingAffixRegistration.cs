@@ -10,6 +10,6 @@ public class PendingAffixRegistration
 	[Required] public AffixSyntax Syntax { get; set; }
 	[Required] public int OwnerId { get; set; }
 	[Required] public required string OwnerName { get; set; }
-	[Required] public List<SimilarName> SimilarNames { get; set; }
+	[Required] public required List<SimilarName> SimilarNames { get; set; }
 	[Required] public DateTime SubmissionDate { get; set; }
 }

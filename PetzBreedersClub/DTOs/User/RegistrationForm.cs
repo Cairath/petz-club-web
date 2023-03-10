@@ -13,12 +13,8 @@ namespace PetzBreedersClub.DTOs.User;
 
 public class RegistrationFormValidator : AbstractValidator<RegistrationForm>
 {
-	private readonly Context _context;
-
 	public RegistrationFormValidator(Context context)
 	{
-		_context = context;
-
 		RuleFor(x => x.Email).NotEmpty().EmailAddress()
 			.MustAsync(async (email, ct) =>
 			await context.Users.AllAsync(u => u.Email != email, ct));

@@ -8,7 +8,9 @@ using Microsoft.Extensions.Caching.Memory;
 using PetzBreedersClub.Database.Models.Enums;
 using PetzBreedersClub.Services.Notifications;
 using AffixStatus = PetzBreedersClub.Database.Models.Enums.AffixStatus;
-using System.Reflection.Metadata;
+using PetzBreedersClub.DTOs.User;
+using FluentValidation;
+using System;
 
 namespace PetzBreedersClub.Services;
 
@@ -23,6 +25,7 @@ public interface IAffixService
 	Task<IResult> RejectAffix(AffixRejection affixRejection);
 	Task<IResult> DeleteAffix(int affixId);
 	Task<IResult> SetActive(int affixId, bool active);
+	Task<IResult> GetSimilarNames(string affixName);
 }
 
 public class AffixService : IAffixService
@@ -30,12 +33,14 @@ public class AffixService : IAffixService
 	private readonly Context _context;
 	private readonly IUserService _userService;
 	private readonly IMemoryCache _cache;
+	private readonly AffixRegistrationFormValidator _affixRegistrationFormValidator;
 
-	public AffixService(Context context, IUserService userService, IMemoryCache cache)
+	public AffixService(Context context, IUserService userService, IMemoryCache cache, AffixRegistrationFormValidator affixRegistrationFormValidator)
 	{
 		_context = context;
 		_userService = userService;
 		_cache = cache;
+		_affixRegistrationFormValidator = affixRegistrationFormValidator;
 	}
 
 	public async Task<IResult> GetOwnedAffixes()
@@ -44,7 +49,6 @@ public class AffixService : IAffixService
 
 		var registeredAffixes =
 			await _context.Affixes
-
 			.Where(a => a.Owner.UserId == userId)
 			.Select(a => new RegisteredAffixListItem
 			{
@@ -170,21 +174,31 @@ public class AffixService : IAffixService
 
 	public async Task<IResult> RegisterAffix(AffixRegistrationForm affixRegistrationForm)
 	{
-		var userId = int.Parse(_userService.GetUserId()!);
-		var user = _context.Users.Include(u => u.Member).FirstOrDefault(u => u.Id == userId);
+		affixRegistrationForm.Name = affixRegistrationForm.Name.Trim();
 
-		if (user == null)
+		var context = new ValidationContext<AffixRegistrationForm>(affixRegistrationForm)
 		{
-			return Results.Unauthorized();
+			RootContextData =
+			{
+				["UserId"] = _userService.GetUserId()
+			}
+		};
+
+		var validationResult = await _affixRegistrationFormValidator.ValidateAsync(context);
+
+		if (!validationResult.IsValid)
+		{
+			return Results.ValidationProblem(validationResult.ToDictionary());
 		}
 
-		//todo validate
+		var userId = int.Parse(_userService.GetUserId()!);
+		var user = _context.Users.Include(u => u.Member).FirstOrDefault(u => u.Id == userId);
 
 		_context.Add(new AffixPendingRegistrationEntity
 		{
 			Name = affixRegistrationForm.Name,
 			Syntax = affixRegistrationForm.Syntax,
-			OwnerId = user.Member.Id,
+			OwnerId = user!.Member.Id,
 			RegistrationStatus = RegistrationStatus.Pending
 		});
 
@@ -215,7 +229,7 @@ public class AffixService : IAffixService
 
 		_context.Add(newAffix);
 		_context.Remove(pendingAffix);
-		
+
 		await _context.SaveChangesAsync();
 
 		var notification =
@@ -238,7 +252,7 @@ public class AffixService : IAffixService
 		{
 			return Results.BadRequest("Test Message");
 		}
-		
+
 		_context.Remove(pendingAffix);
 		_context.Add(NotificationGenerator.AffixRegistratonRejected(pendingAffix.Name, affixRejection.Reason, pendingAffix.OwnerId));
 
@@ -251,15 +265,16 @@ public class AffixService : IAffixService
 	{
 		//todo validate - pets count 0
 		var affix = _context.Affixes
+			.Include(a => a.Pets)
 			.FirstOrDefault(a => a.Id == affixId);
 
-		if (affix == null)
+		if (affix == null || affix.Pets.Count != 0)
 		{
 			return Results.BadRequest();
 		}
 
 		_context.Remove(affix);
-		
+
 		await _context.SaveChangesAsync();
 
 		return Results.Ok();
@@ -282,4 +297,48 @@ public class AffixService : IAffixService
 		return Results.Ok();
 	}
 
+	public async Task<IResult> GetSimilarNames(string affixName)
+	{
+		var registeredAffixes = await _cache.GetOrCreateAsync(CacheKeys.GetSimilarAffixesRegisteredAffixes,
+			cacheEntry =>
+			{
+				cacheEntry.SlidingExpiration = TimeSpan.FromSeconds(10);
+				return _context.Affixes
+					.Select(a => new { a.Id, a.Name, a.Syntax })
+					.ToListAsync();
+			});
+
+		var similarNames = new List<SimilarName>();
+
+		if (registeredAffixes == null)
+		{
+			return Results.BadRequest();
+		}
+
+		foreach (var registeredAffix in registeredAffixes)
+		{
+			var distance = _cache.GetOrCreate($"{affixName}{registeredAffix.Name}",
+				entry =>
+				{
+					entry.SetSlidingExpiration(TimeSpan.FromMinutes(5));
+					return new Levenshtein(affixName).DistanceFrom(registeredAffix.Name);
+				});
+
+			var longerLength = Math.Max(affixName.Length, registeredAffix.Name.Length);
+			var similarity = (longerLength - distance) / (float)longerLength * 100;
+
+			if (similarity > 60)
+			{
+				similarNames.Add(new SimilarName
+				{
+					Id = registeredAffix.Id,
+					Name = registeredAffix.Name,
+					SimilarityPercentage = (int)similarity,
+					Syntax = registeredAffix.Syntax
+				});
+			}
+		}
+
+		return Results.Ok(similarNames);
+	}
 }

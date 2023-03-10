@@ -83,5 +83,14 @@ public static class AffixEndpoints
 			.WithName("SetAffixActiveStatus")
 			.RequireAuthorization()
 			.WithOpenApi();
+
+		group.MapGet("/similar-names/{name}", async (string name, IAffixService affixService) =>
+			{
+				return await affixService.GetSimilarNames(name);
+			})
+			.WithName("GetSimilarNames")
+			.RequireAuthorization()
+			.Produces<List<SimilarName>>()
+			.WithOpenApi();
 	}
 }
