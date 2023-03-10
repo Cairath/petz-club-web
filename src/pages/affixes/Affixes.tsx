@@ -37,6 +37,10 @@ export const Affixes = () => {
     [getAffixInfo]
   );
 
+  const affixSubmitted = useCallback(() => {
+    getAffixInfo();
+  }, [getAffixInfo]);
+
   const setAffixStatus = useCallback(
     (affixId: number, active: boolean) => {
       api
@@ -76,7 +80,7 @@ export const Affixes = () => {
               assigned to it.
             </Text>
             <Box mt="2em">
-              <RegisterAffixModal />
+              <RegisterAffixModal onSubmitted={affixSubmitted} />
             </Box>
           </Flex>
         </CardBody>

@@ -19,8 +19,13 @@ import {
 import maxBy from "lodash-es/maxBy";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import api from "../../api/api";
-import { AffixSyntax, SimilarName } from "../../api/client";
+import {
+  AffixRegistrationForm,
+  AffixSyntax,
+  SimilarName
+} from "../../api/client";
 import { DebouncedInput } from "../../components/DebouncedInput";
 import { ShowNameText } from "../../components/ShowNameText";
 import { Space } from "../../components/Space";
@@ -29,7 +34,11 @@ import { AffixAlreadyRegisteredAlert } from "./components/AffixAlreadyRegistered
 import { AffixRegistrationRules } from "./components/AffixRegistrationRules";
 import { SimilarAffixNameExistsAlert } from "./components/SimilarAffixNameExistsAlert";
 
-export const RegisterAffixModal = () => {
+export type Props = {
+  onSubmitted: () => void;
+};
+
+export const RegisterAffixModal = ({ onSubmitted }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [similarNames, setSimilarNames] = useState<SimilarName[]>([]);
   const [highestSimilarity, setHighestSimilarity] = useState<
@@ -40,14 +49,20 @@ export const RegisterAffixModal = () => {
     register,
     formState: { errors, isSubmitting },
     watch,
-    control
-  } = useForm();
+    control,
+    reset
+  } = useForm<AffixRegistrationForm>();
 
-  const onSubmit = (values: any) => {
-    console.log(values);
+  const onSubmit = (values: AffixRegistrationForm) => {
+    api.registerAffix(values).then(() => {
+      onSubmitted();
+      reset();
+      onClose();
+      toast.success("Affix registration has been submitted");
+    });
   };
 
-  const watchAffix = watch("affix");
+  const watchName = watch("name");
   const watchSyntax = watch("syntax");
 
   const getSimilarNames = useCallback((affix: string) => {
@@ -125,7 +140,7 @@ export const RegisterAffixModal = () => {
                   flex="2 1 auto"
                   width="auto"
                   mr="1em"
-                  isInvalid={!!errors.affix}
+                  isInvalid={!!errors.name}
                 >
                   <FormLabel
                     pl="0.5em"
@@ -137,7 +152,7 @@ export const RegisterAffixModal = () => {
                   </FormLabel>
                   <Controller
                     control={control}
-                    name="affix"
+                    name="name"
                     rules={{
                       required: "This is required",
                       minLength: {
@@ -149,8 +164,9 @@ export const RegisterAffixModal = () => {
                         message: "Maximum 35 characters"
                       },
                       pattern: {
-                        value: new RegExp("^[A-Za-zÀ-ȕ ]+$"),
-                        message: "No special characters allowed"
+                        value: /^[A-Za-zÀ-ȕ]([ ]?[A-Za-zÀ-ȕ])*[A-Za-zÀ-ȕ]*$/,
+                        message:
+                          "No special characters allowed. The name cannot start nor end wtih a space."
                       }
                     }}
                     render={({ field: { onChange, value, name } }) => (
@@ -170,9 +186,9 @@ export const RegisterAffixModal = () => {
                     )}
                   />
                   <FormErrorMessage mt="0.5em">
-                    {errors.affix?.message?.toString()}
+                    {errors.name?.message?.toString()}
                   </FormErrorMessage>
-                  {errors.affix === undefined && <Box minHeight="1.7em" />}
+                  {errors.name === undefined && <Box minHeight="1.7em" />}
                 </FormControl>
 
                 <FormControl flex="1 1 auto" width="auto">
@@ -207,9 +223,9 @@ export const RegisterAffixModal = () => {
                 <Text fontSize="sm" color="gray.500" fontWeight="bold">
                   FULL SHOW NAME CONSTRUCTION
                 </Text>
-                {watchAffix && watchSyntax ? (
+                {watchName && watchSyntax ? (
                   <ShowNameText
-                    affixName={watchAffix}
+                    affixName={watchName}
                     affixSyntax={watchSyntax}
                   />
                 ) : (
@@ -252,7 +268,7 @@ export const RegisterAffixModal = () => {
                 _active={{
                   bg: "teal.400"
                 }}
-                isDisabled={highestSimilarity === 100}
+                // isDisabled={highestSimilarity === 100}
               >
                 Submit
               </Button>
