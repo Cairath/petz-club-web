@@ -21,6 +21,11 @@ public class AffixEntity : Entity
 	[Required]
 	public AffixStatus Status { get; set; }
 
+	public DateTime RegistrationDate { get; set; }
+
+	public int? RegistrarId { get; set; }
+	public virtual MemberEntity Registrar { get; set; }
+
 	[Required]
 	public int OwnerId { get; set; }
 	public virtual MemberEntity Owner { get; set; }
@@ -50,6 +55,12 @@ public class AffixEntityConfiguration : IEntityTypeConfiguration<AffixEntity>
 			.HasOne(a => a.Owner)
 			.WithMany(o => o.Affixes)
 			.HasForeignKey(a => a.OwnerId);
+
+		builder
+			.HasOne(a => a.Registrar)
+			.WithMany()
+			.HasForeignKey(a => a.RegistrarId)
+			.OnDelete(DeleteBehavior.NoAction);
 	}
 }
 #nullable enable

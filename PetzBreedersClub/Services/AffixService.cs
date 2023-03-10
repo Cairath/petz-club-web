@@ -46,23 +46,23 @@ public class AffixService : IAffixService
 	public async Task<IResult> GetOwnedAffixes()
 	{
 		var userId = int.Parse(_userService.GetUserId()!);
-
+	
 		var registeredAffixes =
 			await _context.Affixes
-			.Where(a => a.Owner.UserId == userId)
+			.Where(a => a.Owner.UserId == userId && a.Status != AffixStatus.PendingRegistration)
 			.Select(a => new RegisteredAffixListItem
 			{
 				Id = a.Id,
 				Name = a.Name,
 				PetsCount = a.Pets.Count,
 				Syntax = a.Syntax,
-				RegistrationDate = a.CreatedDate,
+				RegistrationDate = a.RegistrationDate,
 				Status = a.Status
 			}).ToListAsync();
 
 		var pendingAffixes =
-			await _context.AffixesPendingRegistration
-				.Where(a => a.Owner.UserId == userId)
+			await _context.Affixes
+				.Where(a => a.Owner.UserId == userId && a.Status == AffixStatus.PendingRegistration)
 				.Select(a => new RegisteredAffixListItem
 				{
 					Id = a.Id,
@@ -70,7 +70,7 @@ public class AffixService : IAffixService
 					PetsCount = 0,
 					Syntax = a.Syntax,
 					RegistrationDate = a.CreatedDate,
-					Status = AffixStatus.PendingRegistration
+					Status = a.Status
 				}).ToListAsync();
 
 		var affixInfo = new OwnedAffixes
@@ -89,17 +89,20 @@ public class AffixService : IAffixService
 		var userId = int.Parse(_userService.GetUserId()!);
 
 		var pendingAffix =
-			await _context.AffixesPendingRegistration
-				.Where(a => a.Owner.UserId == userId && a.Id == pendingAffixId)
+			await _context.Affixes
+				.Where(a => a.Owner.UserId == userId && a.Id == pendingAffixId && a.Status == AffixStatus.PendingRegistration)
 				.FirstOrDefaultAsync();
 
+		//todo validation
 		if (pendingAffix == null)
 		{
 			return Results.Unauthorized();
 		}
 
-		_context.AffixesPendingRegistration.Remove(pendingAffix);
+		_context.Remove(pendingAffix);
 		await _context.SaveChangesAsync();
+
+		_cache.Remove(CacheKeys.GetPendingAffixRegistrationsRegisteredAffixes);
 
 		return Results.Ok();
 	}
@@ -108,8 +111,7 @@ public class AffixService : IAffixService
 	{
 		var affixProfile =
 			await _context.Affixes
-
-				.Where(a => a.Id == affixId)
+				.Where(a => a.Id == affixId && a.Status != AffixStatus.PendingRegistration)
 				.Select(a => new AffixProfileData
 				{
 					Id = a.Id,
@@ -123,14 +125,20 @@ public class AffixService : IAffixService
 
 	public async Task<IResult> GetPendingAffixRegistrations()
 	{
-		//todo: cache this!
-		var registeredAffixes =
-			await _context.Affixes
-				.Select(a => new { a.Id, a.Name, a.Syntax })
-				.ToListAsync();
+		var registeredAffixes = await _cache.GetOrCreateAsync(CacheKeys.GetPendingAffixRegistrationsRegisteredAffixes,
+			 entry =>
+			{
+				entry.SetSlidingExpiration(TimeSpan.FromSeconds(15));
+
+				return _context.Affixes
+					.Where(a => a.Status != AffixStatus.PendingRegistration)
+					.Select(a => new { a.Id, a.Name, a.Syntax })
+					.ToListAsync();
+			});
 
 		var pendingAffixes =
-			await _context.AffixesPendingRegistration
+			await _context.Affixes
+				.Where(a => a.Status == AffixStatus.PendingRegistration)
 				.Select(a => new PendingAffixRegistration
 				{
 					Id = a.Id,
@@ -142,29 +150,32 @@ public class AffixService : IAffixService
 					SimilarNames = new List<SimilarName>()
 				}).ToListAsync();
 
-		foreach (var pendingAffix in pendingAffixes)
+		if (registeredAffixes == null) { return Results.Ok(pendingAffixes); }
 		{
-			foreach (var registeredAffix in registeredAffixes)
+			foreach (var pendingAffix in pendingAffixes)
 			{
-				var distance = _cache.GetOrCreate($"{pendingAffix.Name}{registeredAffix.Name}",
-					entry =>
+				foreach (var registeredAffix in registeredAffixes)
 				{
-					entry.SetSlidingExpiration(TimeSpan.FromMinutes(5));
-					return new Levenshtein(pendingAffix.Name).DistanceFrom(registeredAffix.Name);
-				});
+					var distance = _cache.GetOrCreate($"{pendingAffix.Name}{registeredAffix.Name}",
+						entry =>
+						{
+							entry.SetSlidingExpiration(TimeSpan.FromMinutes(5));
+							return new Levenshtein(pendingAffix.Name).DistanceFrom(registeredAffix.Name);
+						});
 
-				var longerLength = Math.Max(pendingAffix.Name.Length, registeredAffix.Name.Length);
-				var similarity = (longerLength - distance) / (float)longerLength * 100;
+					var longerLength = Math.Max(pendingAffix.Name.Length, registeredAffix.Name.Length);
+					var similarity = (longerLength - distance) / (float)longerLength * 100;
 
-				if (similarity > 60)
-				{
-					pendingAffix.SimilarNames.Add(new SimilarName
+					if (similarity > 60)
 					{
-						Id = registeredAffix.Id,
-						Name = registeredAffix.Name,
-						SimilarityPercentage = (int)similarity,
-						Syntax = registeredAffix.Syntax
-					});
+						pendingAffix.SimilarNames.Add(new SimilarName
+						{
+							Id = registeredAffix.Id,
+							Name = registeredAffix.Name,
+							SimilarityPercentage = (int)similarity,
+							Syntax = registeredAffix.Syntax
+						});
+					}
 				}
 			}
 		}
@@ -194,15 +205,17 @@ public class AffixService : IAffixService
 		var userId = int.Parse(_userService.GetUserId()!);
 		var user = _context.Users.Include(u => u.Member).FirstOrDefault(u => u.Id == userId);
 
-		_context.Add(new AffixPendingRegistrationEntity
+		_context.Add(new AffixEntity
 		{
 			Name = affixRegistrationForm.Name,
 			Syntax = affixRegistrationForm.Syntax,
 			OwnerId = user!.Member.Id,
-			RegistrationStatus = RegistrationStatus.Pending
+			Status = AffixStatus.PendingRegistration
 		});
 
 		await _context.SaveChangesAsync();
+
+		_cache.Remove(CacheKeys.GetPendingAffixRegistrationsRegisteredAffixes);
 
 		return Results.Ok();
 	}
@@ -210,33 +223,23 @@ public class AffixService : IAffixService
 	public async Task<IResult> ApproveAffix(int pendingAffixId)
 	{
 		//todo validate
-		var pendingAffix = _context.AffixesPendingRegistration
+		var affix = _context.Affixes
 			.Include(u => u.Owner)
-			.FirstOrDefault(pa => pa.Id == pendingAffixId);
+			.FirstOrDefault(a => a.Id == pendingAffixId && a.Status == AffixStatus.PendingRegistration);
 
-		if (pendingAffix == null)
+		if (affix == null)
 		{
 			return Results.BadRequest("Test Message");
 		}
 
-		var newAffix = new AffixEntity
-		{
-			Name = pendingAffix.Name,
-			Syntax = pendingAffix.Syntax,
-			OwnerId = pendingAffix.OwnerId,
-			Status = AffixStatus.Active,
-		};
+		affix.Status = AffixStatus.Active;
+		affix.RegistrationDate = DateTime.UtcNow;
+		affix.RegistrarId = await _userService.GetMemberId();
 
-		_context.Add(newAffix);
-		_context.Remove(pendingAffix);
-
+		_context.Add(NotificationGenerator.AffixRegistrationApproved(affix.Id, affix.Name, affix.OwnerId));
 		await _context.SaveChangesAsync();
-
-		var notification =
-			NotificationGenerator.AffixRegistrationApproved(newAffix.Id, newAffix.Name, newAffix.OwnerId);
-
-		_context.SystemNotifications.Add(notification);
-		await _context.SaveChangesAsync();
+		
+		_cache.Remove(CacheKeys.GetPendingAffixRegistrationsRegisteredAffixes);
 
 		return Results.Ok();
 	}
@@ -244,19 +247,21 @@ public class AffixService : IAffixService
 	public async Task<IResult> RejectAffix(AffixRejection affixRejection)
 	{
 		//todo validate
-		var pendingAffix = _context.AffixesPendingRegistration
-			.Include(u => u.Owner)
-			.FirstOrDefault(pa => pa.Id == affixRejection.Id);
+		var affix = _context.Affixes
+			.Include(u => u.Owner )
+			.FirstOrDefault(a => a.Id == affixRejection.Id&& a.Status == AffixStatus.PendingRegistration);
 
-		if (pendingAffix == null)
+		if (affix == null)
 		{
 			return Results.BadRequest("Test Message");
 		}
 
-		_context.Remove(pendingAffix);
-		_context.Add(NotificationGenerator.AffixRegistratonRejected(pendingAffix.Name, affixRejection.Reason, pendingAffix.OwnerId));
+		_context.Remove(affix);
+		_context.Add(NotificationGenerator.AffixRegistratonRejected(affix.Name, affixRejection.Reason, affix.OwnerId));
 
 		await _context.SaveChangesAsync();
+
+		_cache.Remove(CacheKeys.GetPendingAffixRegistrationsRegisteredAffixes);
 
 		return Results.Ok();
 	}
@@ -266,7 +271,7 @@ public class AffixService : IAffixService
 		//todo validate - pets count 0
 		var affix = _context.Affixes
 			.Include(a => a.Pets)
-			.FirstOrDefault(a => a.Id == affixId);
+			.FirstOrDefault(a => a.Id == affixId && a.Status != AffixStatus.PendingRegistration);
 
 		if (affix == null || affix.Pets.Count != 0)
 		{
@@ -283,7 +288,7 @@ public class AffixService : IAffixService
 	{
 		//todo validate
 		var affix = _context.Affixes
-			.FirstOrDefault(a => a.Id == affixId);
+			.FirstOrDefault(a => a.Id == affixId && a.Status != AffixStatus.PendingRegistration);
 
 		if (affix == null)
 		{
@@ -304,6 +309,7 @@ public class AffixService : IAffixService
 			{
 				cacheEntry.SlidingExpiration = TimeSpan.FromSeconds(10);
 				return _context.Affixes
+					.Where(a=>a.Status != AffixStatus.PendingRegistration)
 					.Select(a => new { a.Id, a.Name, a.Syntax })
 					.ToListAsync();
 			});
@@ -312,7 +318,7 @@ public class AffixService : IAffixService
 
 		if (registeredAffixes == null)
 		{
-			return Results.BadRequest();
+			return Results.Ok(similarNames);
 		}
 
 		foreach (var registeredAffix in registeredAffixes)

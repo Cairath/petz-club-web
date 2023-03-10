@@ -2,5 +2,6 @@
 
 public enum CacheKeys
 {
-	GetSimilarAffixesRegisteredAffixes
+	GetSimilarAffixesRegisteredAffixes,
+	GetPendingAffixRegistrationsRegisteredAffixes
 }

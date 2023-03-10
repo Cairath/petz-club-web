@@ -1,6 +1,7 @@
 ﻿using PetzBreedersClub.Database;
 using PetzBreedersClub.Services.Auth;
 using Microsoft.EntityFrameworkCore;
+using PetzBreedersClub.Database.Models.Enums;
 using PetzBreedersClub.DTOs.StaffDashboard;
 
 namespace PetzBreedersClub.Services;
@@ -23,7 +24,7 @@ public class StaffService : IStaffService
 
 	public async Task<IResult> GetDashboardSummary()
 	{
-		var pendingAffixesCount = await _context.AffixesPendingRegistration.CountAsync();
+		var pendingAffixesCount = await _context.Affixes.Where(a=>a.Status == AffixStatus.PendingRegistration).CountAsync();
 
 		var dashboardSummary = new StaffDashboardSummary
 		{

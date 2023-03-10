@@ -13,6 +13,7 @@ public interface IUserService
 	Task<IResult> SignOut();
 	Task<UserEntity?> GetUser();
 	Task<ClientUserInfo?> GetClientUserInfo();
+	Task<int?> GetMemberId();
 }
 
 public class UserService : IUserService
@@ -44,6 +45,19 @@ public class UserService : IUserService
 		return claimsPrincipal != null ?  _userManager.GetUserId(claimsPrincipal) : null;
 	}
 
+	public async Task<int?> GetMemberId()
+	{
+		var user = await GetUser();
+
+		if (user == null)
+		{
+			return null;
+		}
+
+		await _context.Entry(user).Reference(u => u.Member).LoadAsync();
+		return user.Member.Id;
+	}
+	
 	public async Task<UserEntity?> GetUser()
 	{
 		var claimsPrincipal = _httpContextAccessor.HttpContext?.User;
