@@ -1,6 +1,4 @@
-﻿#nullable disable
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -12,47 +10,38 @@ namespace PetzBreedersClub.Database.Models;
 [Table("Pets")]
 public class PetEntity : Entity
 {
-	[Required]
-	public string ShowName { get; set; }
-
-	[Required]
-	public string PartialShowName { get; set; }
-
-	[Required]
-	public string CallName { get; set; }
-
-	[Required]
-	public string PedigreeNumber { get; set; }
-
-	[Required]
+	public required string ShowName { get; set; }
+	public required string PartialShowName { get; set; }
+	public required string CallName { get; set; }
+	public required string PedigreeNumber { get; set; }
 	public Age Age { get; set; }
-
-	[Required]
+	public Sex Sex { get; set; }
+	public GameVersion GameVersion { get; set; }
 	public PetStatus Status { get; set; }
+	public DateTime? RegistrationDate { get; set; }
 
-	[Required]
 	public int BreedId { get; set; }
-	public virtual BreedEntity Breed { get; set; }
+	public virtual BreedEntity Breed { get; set; } = null!;
 
-	[Required]
 	public int AffixId { get; set; }
-	public virtual AffixEntity Affix { get; set; }
+	public virtual AffixEntity Affix { get; set; } = null!;
 
-	[Required]
 	public int OwnerId { get; set; }
-	public virtual MemberEntity Owner { get; set; }
+	public virtual MemberEntity Owner { get; set; } = null!;
 
-	[Required]
 	public int BreederId { get; set; }
-	public virtual MemberEntity Breeder { get; set; }
-	
+	public virtual MemberEntity Breeder { get; set; } = null!;
+
 	public int? DamId { get; set; }
-	public PetEntity Dam { get; set; }
+	public virtual PetEntity Dam { get; set; } = null!;
 
 	public int? SireId { get; set; }
-	public virtual PetEntity Sire { get; set; }
-	
+	public virtual PetEntity Sire { get; set; } = null!;
+
 	public virtual ICollection<PetEntity> Offspring { get; set; } = new List<PetEntity>();
+
+	public int? RegistrarId { get; set; }
+	public virtual MemberEntity Registrar { get; set; } = null!;
 }
 
 public class PetEntityConfiguration : IEntityTypeConfiguration<PetEntity>
@@ -63,12 +52,20 @@ public class PetEntityConfiguration : IEntityTypeConfiguration<PetEntity>
 			.HasIndex(p => p.PedigreeNumber).IsUnique();
 
 		builder
-			.Property(p=>p.Age)
+			.Property(p => p.Age)
 			.HasConversion(new EnumToStringConverter<Age>());
+
+		builder
+			.Property(p => p.Sex)
+			.HasConversion(new EnumToStringConverter<Sex>());
 
 		builder
 			.Property(p => p.Status)
 			.HasConversion(new EnumToStringConverter<PetStatus>());
+
+		builder
+			.Property(p => p.GameVersion)
+			.HasConversion(new EnumToStringConverter<GameVersion>());
 
 		builder
 			.HasOne(p => p.Breed)
@@ -77,7 +74,7 @@ public class PetEntityConfiguration : IEntityTypeConfiguration<PetEntity>
 
 		builder
 			.HasOne(p => p.Affix)
-			.WithMany(a=>a.Pets)
+			.WithMany(a => a.Pets)
 			.HasForeignKey(p => p.AffixId);
 
 		builder
@@ -96,13 +93,15 @@ public class PetEntityConfiguration : IEntityTypeConfiguration<PetEntity>
 			.HasOne(p => p.Dam)
 			.WithMany()
 			.HasForeignKey(p => p.DamId)
-			.OnDelete(DeleteBehavior.NoAction);
+			.OnDelete(DeleteBehavior.NoAction)
+			.IsRequired(false);
 
 		builder
 			.HasOne(p => p.Sire)
 			.WithMany()
 			.HasForeignKey(p => p.SireId)
-			.OnDelete(DeleteBehavior.NoAction);
+			.OnDelete(DeleteBehavior.NoAction)
+			.IsRequired(false);
 
 		builder
 			.HasMany(p => p.Offspring)
@@ -111,12 +110,12 @@ public class PetEntityConfiguration : IEntityTypeConfiguration<PetEntity>
 				"Offspring",
 				o => o.HasOne<PetEntity>().WithMany().HasForeignKey("ChildId"),
 				o => o.HasOne<PetEntity>().WithMany().HasForeignKey("ParentId"));
+
+		builder
+			.HasOne(p => p.Registrar)
+			.WithMany()
+			.HasForeignKey(p => p.RegistrarId)
+			.OnDelete(DeleteBehavior.NoAction)
+			.IsRequired(false);
 	}
 }
-
-public enum Age
-{
-	Junior,
-	Adult
-}
-#nullable enable

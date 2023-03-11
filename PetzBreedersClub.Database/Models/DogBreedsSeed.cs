@@ -173,13 +173,15 @@ public class DogBreedsSeed
 
 	public static void Seed(ModelBuilder modelBuilder)
 	{
+		var date = new DateTime(2023, 3, 11);
+
 		var id = 1;
 		foreach (var b in Breeds)
 		{
 			b.Species = Species.Dogz;
 			b.Id = id++;
 			b.AddedBy = "system";
-			b.CreatedDate = DateTime.UtcNow;
+			b.CreatedDate = date;
 		}
 
 		modelBuilder.Entity<BreedEntity>().HasData(Breeds);

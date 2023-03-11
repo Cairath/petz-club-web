@@ -28,7 +28,6 @@
 
   <ItemGroup>
     <Folder Include="DTOs\Breeds\" />
-    <Folder Include="DTOs\Pets\" />
     <Folder Include="Services\Auth\" />
   </ItemGroup>
 
