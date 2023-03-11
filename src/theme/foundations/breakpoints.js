@@ -3,5 +3,5 @@ export const breakpoints = {
   md: '48em',
   lg: '62em',
   xl: '80em',
-  '2xl': '96em',
+  '2xl': '126em',
 };

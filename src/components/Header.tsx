@@ -2,7 +2,7 @@ import { Box, Heading, useColorModeValue } from "@chakra-ui/react";
 import ProfilePic from "../assets/img/ProfileBackground.png";
 
 export type Props = {
-  title: string;
+  title: string | undefined;
 };
 
 export const Header = ({ title }: Props) => {
@@ -23,7 +23,7 @@ export const Header = ({ title }: Props) => {
       pl="40px"
       pb="70px"
     >
-      <Heading>{title}</Heading>
+      <Heading>{title ?? ""}</Heading>
     </Box>
   );
 };

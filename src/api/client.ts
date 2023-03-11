@@ -1208,6 +1208,11 @@ export enum AffixSyntax {
     At = "At",
 }
 
+export enum Age {
+    Junior = "Junior",
+    Adult = "Adult",
+}
+
 export interface BreedNameListItem {
     id: number;
     name: string;
@@ -1218,6 +1223,12 @@ export interface ClientUserInfo {
     id: number;
     email: string;
     displayName: string;
+}
+
+export enum GameVersion {
+    Petz3 = "Petz3",
+    Petz4 = "Petz4",
+    Petz5 = "Petz5",
 }
 
 export interface Notification {
@@ -1262,9 +1273,31 @@ export interface PendingAffixRegistration {
     submissionDate: Date;
 }
 
+export interface PetLink {
+    id: number;
+    showName: string;
+    sex: Sex;
+}
+
 export interface PetProfileData {
     id: number;
     showName: string;
+    pedigreeNumber: string;
+    registrationDate: Date;
+    age: Age;
+    sex: Sex;
+    gameVersion: GameVersion;
+    breedId: number;
+    breedName: string;
+    ownerId: number;
+    ownerName: string;
+    breederId: number;
+    breederName: string;
+    affixId: number;
+    affixName: string;
+    pedigree: Pedigree;
+    offspring: PetLink[];
+    siblings: SiblingLink[];
 }
 
 export interface RegisteredAffixListItem {
@@ -1285,6 +1318,18 @@ export interface RegistrationForm {
 export interface SetAffixActiveStatus {
     id?: number;
     active?: boolean;
+}
+
+export enum Sex {
+    Male = "Male",
+    Female = "Female",
+}
+
+export interface SiblingLink {
+    id: number;
+    showName: string;
+    sex: Sex;
+    full: boolean;
 }
 
 export interface SimilarName {

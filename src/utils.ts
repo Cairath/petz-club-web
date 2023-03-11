@@ -1,4 +1,4 @@
-import { AffixStatus, AffixSyntax } from "./api/client";
+import { AffixStatus, AffixSyntax, GameVersion } from "./api/client";
 
 export const syntaxDisplayName: Record<AffixSyntax, string> = {
   [AffixSyntax.Prefix]: "prefix",
@@ -20,4 +20,10 @@ export const affixStatusDisplayData: Record<
     name: "Pending",
     color: "yellow"
   }
+};
+
+export const gameVersionDisplay: Record<GameVersion, string> = {
+  [GameVersion.Petz3]: "Petz 3",
+  [GameVersion.Petz4]: "Petz 4",
+  [GameVersion.Petz5]: "Petz 5"
 };

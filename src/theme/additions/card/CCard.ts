@@ -52,7 +52,8 @@ const cardTheme = defineMultiStyleConfig({
       },
       footer: {
         paddingBottom: 0
-      }
+      },
+      header: { paddingBottom: 0 }
     }),
     tablePanel: (props) => ({
       container: {
