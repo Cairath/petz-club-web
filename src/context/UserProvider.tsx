@@ -18,7 +18,8 @@ export const UserProvider = (props: Props) => {
       const newUser = {
         id: clientUserInfo.id,
         email: clientUserInfo.email,
-        name: clientUserInfo.displayName
+        name: clientUserInfo.displayName,
+        memberId: clientUserInfo.memberId
       };
 
       localStorage.setItem("user", JSON.stringify(newUser));

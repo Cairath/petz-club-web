@@ -5,6 +5,7 @@ export interface User {
   id: number;
   email: string;
   name: string;
+  memberId: number;
 }
 
 export const UserContext = React.createContext<{

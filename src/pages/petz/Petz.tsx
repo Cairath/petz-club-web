@@ -28,7 +28,7 @@ export const Petz = () => {
 
     api
       .getPets(
-        user.id, //todo: this needs to be member but we dont have that data stored rn
+        user.memberId,
         filters?.affixId,
         filters?.affixName,
         filters?.breedId,

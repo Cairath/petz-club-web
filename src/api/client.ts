@@ -1334,6 +1334,7 @@ export interface ClientUserInfo {
     id: number;
     email: string;
     displayName: string;
+    memberId: number;
 }
 
 export enum GameVersion {

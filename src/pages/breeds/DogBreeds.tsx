@@ -11,6 +11,7 @@ import { Header } from "../../components/Header";
 import api from "../../api/api";
 import { BreedNameListItem, Species } from "../../api/client";
 import { maxBy } from "lodash-es";
+import { PageLoader } from "../layouts/main/components/PageLoader";
 
 export const DogBreeds = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -71,27 +72,30 @@ export const DogBreeds = () => {
   return (
     <>
       <Header title="Dog Breeds" />
-      <SimpleGrid columns={{ sm: 1, md: 2, xl: 2, "2xl": 5 }} spacing={10}>
-        {groups.map((group) => (
-          <Card variant="panel">
-            <CardHeader>
-              <Heading size="md">
-                Group {group.id} (
-                {breeds.filter((b) => b.group === group.id).length})
-              </Heading>
-              <Text fontSize="sm" color="gray.400" fontWeight="bold">
-                {group.name}
-              </Text>
-            </CardHeader>
-            <CardBody>
-              <Group
-                groupId={group.id}
-                groupBreeds={breeds.filter((b) => b.group === group.id)}
-              />
-            </CardBody>
-          </Card>
-        ))}
-      </SimpleGrid>
+      <PageLoader loading={loading} />
+      {!loading && (
+        <SimpleGrid columns={{ sm: 1, md: 2, xl: 2, "2xl": 5 }} spacing={10}>
+          {groups.map((group) => (
+            <Card variant="panel">
+              <CardHeader>
+                <Heading size="md">
+                  Group {group.id} (
+                  {breeds.filter((b) => b.group === group.id).length})
+                </Heading>
+                <Text fontSize="sm" color="gray.400" fontWeight="bold">
+                  {group.name}
+                </Text>
+              </CardHeader>
+              <CardBody>
+                <Group
+                  groupId={group.id}
+                  groupBreeds={breeds.filter((b) => b.group === group.id)}
+                />
+              </CardBody>
+            </Card>
+          ))}
+        </SimpleGrid>
+      )}
     </>
   );
 };
