@@ -21,6 +21,7 @@ import { CatBreeds } from "./pages/breeds/CatBreeds";
 import { DogBreeds } from "./pages/breeds/DogBreeds";
 import { Landing } from "./pages/landing/Landing";
 import { PetProfile } from "./pages/pet-profile/PetProfile";
+import { Petz } from "./pages/petz/Petz";
 
 export const router = createBrowserRouter([
   {
@@ -61,7 +62,15 @@ export const router = createBrowserRouter([
     )
   },
   {
-    path: "/affixes",
+    path: "/member/petz",
+    element: (
+      <MainLayout>
+        <Petz />
+      </MainLayout>
+    )
+  },
+  {
+    path: "/member/affixes",
     element: (
       <MainLayout>
         <Affixes />

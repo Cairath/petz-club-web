@@ -1,6 +1,6 @@
-import { Heading, Link, Text, useColorModeValue } from "@chakra-ui/react";
-import { Link as ReactRouterLink } from "react-router-dom";
+import { Heading, Text } from "@chakra-ui/react";
 import { Age, PetProfileData } from "../../../api/client";
+import { BreedLink } from "../../../components/BreedLink";
 import { Space } from "../../../components/Space";
 
 export type Props = {
@@ -8,8 +8,6 @@ export type Props = {
 };
 
 export const PetNameHeader = ({ petProfileData }: Props) => {
-  const linkColor = useColorModeValue("teal.600", "teal.200");
-
   return (
     <Heading size="sm">
       GCh {petProfileData.showName} DSM CW'22
@@ -22,13 +20,10 @@ export const PetNameHeader = ({ petProfileData }: Props) => {
         )}
         {petProfileData.sex}
         <Space />
-        <Link
-          as={ReactRouterLink}
-          to={`/breed/${petProfileData.breedId}`}
-          color={linkColor}
-        >
-          {petProfileData.breedName}
-        </Link>
+        <BreedLink
+          breedId={petProfileData.breedId}
+          breedName={petProfileData.breedName}
+        />
         , PBC. B/{petProfileData.pedigreeNumber}
       </Text>
     </Heading>

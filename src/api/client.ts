@@ -681,6 +681,107 @@ export class Client {
     }
 
     /**
+     * @param ownerId (optional) 
+     * @param affixId (optional) 
+     * @param affixName (optional) 
+     * @param breedId (optional) 
+     * @param sex (optional) 
+     * @param species (optional) 
+     * @param showName (optional) 
+     * @param sortField (optional) 
+     * @param sortDirection (optional) 
+     * @return OK
+     */
+    getPets(ownerId: number | undefined, affixId: number | undefined, affixName: string | undefined, breedId: number | undefined, sex: string | undefined, species: string | undefined, showName: string | undefined, pageSize: number, page: number, sortField: string | undefined, sortDirection: string | undefined , cancelToken?: CancelToken | undefined): Promise<PetListItemPaged> {
+        let url_ = this.baseUrl + "/api/pets/list?";
+        if (ownerId === null)
+            throw new Error("The parameter 'ownerId' cannot be null.");
+        else if (ownerId !== undefined)
+            url_ += "OwnerId=" + encodeURIComponent("" + ownerId) + "&";
+        if (affixId === null)
+            throw new Error("The parameter 'affixId' cannot be null.");
+        else if (affixId !== undefined)
+            url_ += "AffixId=" + encodeURIComponent("" + affixId) + "&";
+        if (affixName === null)
+            throw new Error("The parameter 'affixName' cannot be null.");
+        else if (affixName !== undefined)
+            url_ += "AffixName=" + encodeURIComponent("" + affixName) + "&";
+        if (breedId === null)
+            throw new Error("The parameter 'breedId' cannot be null.");
+        else if (breedId !== undefined)
+            url_ += "BreedId=" + encodeURIComponent("" + breedId) + "&";
+        if (sex === null)
+            throw new Error("The parameter 'sex' cannot be null.");
+        else if (sex !== undefined)
+            url_ += "Sex=" + encodeURIComponent("" + sex) + "&";
+        if (species === null)
+            throw new Error("The parameter 'species' cannot be null.");
+        else if (species !== undefined)
+            url_ += "Species=" + encodeURIComponent("" + species) + "&";
+        if (showName === null)
+            throw new Error("The parameter 'showName' cannot be null.");
+        else if (showName !== undefined)
+            url_ += "ShowName=" + encodeURIComponent("" + showName) + "&";
+        if (pageSize === undefined || pageSize === null)
+            throw new Error("The parameter 'pageSize' must be defined and cannot be null.");
+        else
+            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+        if (page === undefined || page === null)
+            throw new Error("The parameter 'page' must be defined and cannot be null.");
+        else
+            url_ += "Page=" + encodeURIComponent("" + page) + "&";
+        if (sortField === null)
+            throw new Error("The parameter 'sortField' cannot be null.");
+        else if (sortField !== undefined)
+            url_ += "SortField=" + encodeURIComponent("" + sortField) + "&";
+        if (sortDirection === null)
+            throw new Error("The parameter 'sortDirection' cannot be null.");
+        else if (sortDirection !== undefined)
+            url_ += "SortDirection=" + encodeURIComponent("" + sortDirection) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: AxiosRequestConfig = {
+            method: "GET",
+            url: url_,
+            headers: {
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processGetPets(_response);
+        });
+    }
+
+    protected processGetPets(response: AxiosResponse): Promise<PetListItemPaged> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+    
+            let result200: any = response.data;
+            return Promise.resolve<PetListItemPaged>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            return throwException("An unexpected server error occurred.", status, response.statusText, _headers);
+        }
+        return Promise.resolve<PetListItemPaged>(null as any);
+    }
+
+    /**
      * @return OK
      */
     getStaffDashboard(  cancelToken?: CancelToken | undefined): Promise<StaffDashboardSummary> {
@@ -1175,6 +1276,15 @@ export interface AddNotification {
     type: NotificationType;
 }
 
+export interface AffixListItem {
+    id: number;
+    name: string;
+    petsCount: number;
+    syntax: AffixSyntax;
+    registrationDate: Date;
+    status: AffixStatus;
+}
+
 export interface AffixProfileData {
     id: number;
     name: string;
@@ -1216,7 +1326,8 @@ export enum Age {
 export interface BreedNameListItem {
     id: number;
     name: string;
-    species: Species;
+    group: number;
+    section: number;
 }
 
 export interface ClientUserInfo {
@@ -1247,8 +1358,8 @@ export enum NotificationType {
 }
 
 export interface OwnedAffixes {
-    registered: RegisteredAffixListItem[];
-    pending: RegisteredAffixListItem[];
+    registered: AffixListItem[];
+    pending: AffixListItem[];
     owned: number;
     allowed: number;
 }
@@ -1279,6 +1390,27 @@ export interface PetLink {
     sex: Sex;
 }
 
+export interface PetListItem {
+    id: number;
+    showName: string;
+    pedigreeNumber: string;
+    age: Age;
+    sex: Sex;
+    gameVersion: GameVersion;
+    species: Species;
+    breedId: number;
+    breedName: string;
+    ownerId: number;
+    ownerName: string;
+    affixId: number;
+    affixName: string;
+}
+
+export interface PetListItemPaged {
+    total?: number;
+    items?: PetListItem[] | undefined;
+}
+
 export interface PetProfileData {
     id: number;
     showName: string;
@@ -1298,15 +1430,6 @@ export interface PetProfileData {
     pedigree: Pedigree;
     offspring: PetLink[];
     siblings: SiblingLink[];
-}
-
-export interface RegisteredAffixListItem {
-    id: number;
-    name: string;
-    petsCount: number;
-    syntax: AffixSyntax;
-    registrationDate: Date;
-    status: AffixStatus;
 }
 
 export interface RegistrationForm {

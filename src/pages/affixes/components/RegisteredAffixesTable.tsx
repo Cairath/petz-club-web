@@ -15,15 +15,15 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { FiArchive } from "react-icons/fi";
 import { MdRefresh } from "react-icons/md";
 import { Link as ReactRouterLink } from "react-router-dom";
-import { AffixStatus, RegisteredAffixListItem } from "../../../api/client";
+import { AffixStatus, AffixListItem } from "../../../api/client";
 import { BasicTable } from "../../../components/BasicTable";
 import { ButtonWithConfirmationPopover } from "../../../components/ButtonWithConfirmationPopover";
 import { ShowNameText } from "../../../components/ShowNameText";
 import { affixStatusDisplayData, syntaxDisplayName } from "../../../utils";
 
 export type Props = {
-  pendingAffixes: RegisteredAffixListItem[];
-  registeredAffixes: RegisteredAffixListItem[];
+  pendingAffixes: AffixListItem[];
+  registeredAffixes: AffixListItem[];
   cancelRegistration: (pendingAffixId: number) => void;
   deleteAffix: (affixId: number) => void;
   setActiveStatus: (affixId: number, active: boolean) => void;
@@ -37,40 +37,38 @@ export const RegisteredAffixesTable = ({
   setActiveStatus
 }: Props) => {
   const textColor = useColorModeValue("gray.700", "white");
-  const columnHelper = createColumnHelper<RegisteredAffixListItem>();
+  const columnHelper = createColumnHelper<AffixListItem>();
 
   const nameColumns = useMemo(() => {
     return [
       columnHelper.accessor("name", {
         header: "Name",
-        cell: (props) => <Text fontWeight="bold">{props.getValue()}</Text>,
-        enableColumnFilter: true,
-        enableGlobalFilter: true
+        meta: { width: "22%", minWidth: "200px" },
+        cell: (props) => <Text fontWeight="bold">{props.getValue()}</Text>
       }),
       columnHelper.accessor("syntax", {
         header: "Syntax",
-        cell: (props) => <Text>{syntaxDisplayName[props.getValue()]}</Text>,
-        enableColumnFilter: false,
-        enableGlobalFilter: false
+        meta: { width: "8%", minWidth: "100px" },
+        cell: (props) => <Text>{syntaxDisplayName[props.getValue()]}</Text>
       }),
       columnHelper.display({
         header: "Show name construction",
         id: "showName",
+        meta: { width: "30%", minWidth: "250px" },
         cell: (props) => (
           <ShowNameText
             affixName={props.row.original.name}
             affixSyntax={props.row.original.syntax}
           />
-        ),
-        enableColumnFilter: false,
-        enableGlobalFilter: false
+        )
       }),
       columnHelper.accessor("status", {
         header: "Status",
+        meta: { width: "8%", minWidth: "100px" },
         cell: (props) => (
           <Badge
             w="70px"
-            textAlign={"center"}
+            textAlign="center"
             colorScheme={affixStatusDisplayData[props.getValue()].color}
             variant="subtle"
           >
@@ -120,32 +118,23 @@ export const RegisteredAffixesTable = ({
       ...nameColumns,
       columnHelper.accessor("petsCount", {
         header: "Pet Count",
-        cell: (props) => <Text>{props.getValue()}</Text>,
-        meta: {
-          isNumeric: true
-        }
+        meta: { width: "8%", minWidth: "100px" },
+        cell: (props) => <Text>{props.getValue()}</Text>
       }),
 
       columnHelper.accessor("registrationDate", {
         header: "Registration date",
+        meta: { width: "12%", minWidth: "150px" },
         cell: (props) => (
           <Text>
             {DateTime.fromJSDate(props.getValue()).toFormat("yyyy/MM/dd")}
           </Text>
         )
       }),
-      // {
-      //   accessorFn: row => `${row.firstName} ${row.lastName}`,
-      //   id: 'fullName',
-      //   header: 'Full Name',
-      //   cell: info => info.getValue(),
-      //   footer: props => props.column.id,
-      //   filterFn: 'fuzzy',
-      //   sortingFn: fuzzySort,
-      // },
       columnHelper.display({
         header: "Actions",
         id: "actions",
+        meta: { minWidth: "150px" },
         cell: (props) => {
           const affix = props.row.original;
 
@@ -234,21 +223,12 @@ export const RegisteredAffixesTable = ({
           initialSortingState={pendingInitialSortingState}
         />
       )}
-      {/* <Tr>
-        <Td
-          colSpan={registeredAffixesColumns.length}
-          my="40px"
-          //  __css={{ borderBottom: "none" }}
-        >
-          <Input />
-        </Td>
-      </Tr> */}
       <BasicTable
         data={registeredAffixes}
         columns={registeredAffixesColumns}
         withTableTag={false}
-        //   tableColumnHeaderProps={{ pt: showPending ? "40px" : undefined }}
         initialSortingState={initialSortingState}
+        useColGroups={true}
       />
     </Table>
   );

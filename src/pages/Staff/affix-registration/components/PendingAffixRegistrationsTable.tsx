@@ -50,7 +50,6 @@ export const PendingAffixRegistrationsTable = ({
         header: "Similar Names",
         meta: { width: "20%", minWidth: "200px" },
         enableSorting: false,
-        enableColumnFilter: false,
         cell: (props) => (
           <Flex direction="column">
             {props.getValue().map((similarName: SimilarName) => (

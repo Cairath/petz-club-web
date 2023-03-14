@@ -13,12 +13,9 @@ import {
 } from "@chakra-ui/react";
 import {
   ColumnDef,
-  ColumnFiltersState,
   ColumnMeta,
   flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   RowData,
   SortingState,
@@ -26,6 +23,7 @@ import {
 } from "@tanstack/react-table";
 import React, { useMemo, useState } from "react";
 import { NoResultsRow } from "./NoResultsRow";
+import { ColumnFilter } from "./tables/ColumnFilter";
 
 export type Props<Data extends object> = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -49,8 +47,8 @@ export const BasicTable = <Data extends object>({
     initialSortingState ?? undefined!
   );
 
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [globalFilter, setGlobalFilter] = useState("");
+  //const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  //const [globalFilter, setGlobalFilter] = useState("");
 
   const table = useReactTable<Data>({
     columns,
@@ -59,16 +57,16 @@ export const BasicTable = <Data extends object>({
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     state: {
-      sorting,
-      columnFilters,
-      globalFilter
-    },
+      sorting
+      //   columnFilters,
+      //   globalFilter
+    }
     // filterFns: { fuzzy: {}},
-    onColumnFiltersChange: setColumnFilters,
-    onGlobalFilterChange: setGlobalFilter,
+    //onColumnFiltersChange: setColumnFilters,
+    //onGlobalFilterChange: setGlobalFilter,
     // globalFilterFn: fuzzyFilter,
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel()
+    // getFilteredRowModel: getFilteredRowModel(),
+    //getPaginationRowModel: getPaginationRowModel()
     //  getFacetedRowModel: getFacetedRowModel(),
     //  getFacetedUniqueValues: getFacetedUniqueValues(),
     // getFacetedMinMaxValues: getFacetedMinMaxValues()
@@ -94,7 +92,6 @@ export const BasicTable = <Data extends object>({
             return (
               <colgroup>
                 {headerGroup.headers.map((header) => {
-                  console.log(header.column.columnDef.meta);
                   const width = header.column.columnDef.meta?.width;
                   const minWidth = header.column.columnDef.meta?.minWidth;
 
@@ -148,12 +145,15 @@ export const BasicTable = <Data extends object>({
                       </Text>
                     </Box>
 
-                    {header.column.getCanFilter()
-                      ? flexRender(meta?.Filter, {
+                    {header.column.getCanFilter() ? (
+                      <ColumnFilter
+                        filterOptions={meta?.filter}
+                        filterProps={{
                           column: header.column,
                           table: table
-                        })
-                      : null}
+                        }}
+                      />
+                    ) : null}
                   </Flex>
                 </Th>
               );

@@ -50,8 +50,8 @@ export const SidebarContent = (props: Props) => {
               color={activeColor}
             />
             <MenuLink to="/" entryName="Profile" />
-            <MenuLink to="/" entryName="Petz" />
-            <MenuLink to="/affixes" entryName="Affixes" />
+            <MenuLink to="/member/petz" entryName="Petz" />
+            <MenuLink to="/member/affixes" entryName="Affixes" />
           </>
         )}
 
