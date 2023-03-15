@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using PetzBreedersClub.DTOs.Pets;
+﻿using PetzBreedersClub.DTOs.Pets;
 using PetzBreedersClub.Services;
 
 namespace PetzBreedersClub.Endpoints;

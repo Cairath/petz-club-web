@@ -4715,6 +4715,9 @@ namespace PetzBreedersClub.Database.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("BreedFileId")
+                        .HasColumnType("int");
+
                     b.Property<int>("BreedId")
                         .HasColumnType("int");
 
@@ -4776,6 +4779,8 @@ namespace PetzBreedersClub.Database.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AffixId");
+
+                    b.HasIndex("BreedFileId");
 
                     b.HasIndex("BreedId");
 
@@ -5041,6 +5046,12 @@ namespace PetzBreedersClub.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("PetzBreedersClub.Database.Models.BreedFileEntity", "BreedFile")
+                        .WithMany()
+                        .HasForeignKey("BreedFileId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("PetzBreedersClub.Database.Models.BreedEntity", "Breed")
                         .WithMany()
                         .HasForeignKey("BreedId")
@@ -5077,6 +5088,8 @@ namespace PetzBreedersClub.Database.Migrations
                     b.Navigation("Affix");
 
                     b.Navigation("Breed");
+
+                    b.Navigation("BreedFile");
 
                     b.Navigation("Breeder");
 

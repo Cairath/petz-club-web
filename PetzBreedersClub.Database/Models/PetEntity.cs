@@ -23,6 +23,9 @@ public class PetEntity : Entity
 	public int BreedId { get; set; }
 	public virtual BreedEntity Breed { get; set; } = null!;
 
+	public int BreedFileId { get; set; }
+	public virtual BreedFileEntity BreedFile { get; set; } = null!;
+
 	public int AffixId { get; set; }
 	public virtual AffixEntity Affix { get; set; } = null!;
 
@@ -71,6 +74,12 @@ public class PetEntityConfiguration : IEntityTypeConfiguration<PetEntity>
 			.HasOne(p => p.Breed)
 			.WithMany()
 			.HasForeignKey(p => p.BreedId);
+
+		builder
+			.HasOne(p => p.BreedFile)
+			.WithMany()
+			.HasForeignKey(p => p.BreedFileId)
+			.OnDelete(DeleteBehavior.NoAction);
 
 		builder
 			.HasOne(p => p.Affix)
