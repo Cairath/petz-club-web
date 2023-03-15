@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Http.Json;
 using Microsoft.Extensions.Caching.Memory;
 using PetzBreedersClub.Database.Models;
 using MvcJsonOptions = Microsoft.AspNetCore.Mvc.JsonOptions;
+using Microsoft.OpenApi.Models;
+using PetzBreedersClub.DTOs.Pets;
 
 namespace PetzBreedersClub;
 

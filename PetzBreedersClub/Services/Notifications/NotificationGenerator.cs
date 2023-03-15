@@ -14,7 +14,7 @@ public static class NotificationGenerator
 			Type = NotificationType.Success,
 			Text = $"Pet {showName} has been registered.",
 			UserId = userId,
-			Params = JsonConvert.SerializeObject(new { petId = petId })
+			Params = JsonConvert.SerializeObject(new { petId })
 		};
 	}
 
@@ -30,7 +30,7 @@ public static class NotificationGenerator
 		};
 	}
 
-	public static SystemNotificationEntity AffixRegistratonRejected(string name, string reason, int userId)
+	public static SystemNotificationEntity AffixRegistrationRejected(string name, string reason, int userId)
 	{
 		return new SystemNotificationEntity
 		{

@@ -3,7 +3,7 @@ using PetzBreedersClub.Database.Models.Enums;
 
 namespace PetzBreedersClub.DTOs.Affixes;
 
-public class RegisteredAffixListItem
+public class AffixListItem
 {
 	[Required] public int Id { get; set; }
 	[Required] public required string Name { get; set; }

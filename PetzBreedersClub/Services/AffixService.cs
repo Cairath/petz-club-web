@@ -47,20 +47,20 @@ public class AffixService : IAffixService
 		var registeredAffixes =
 			await _context.Affixes
 			.Where(a => a.Owner.UserId == userId && a.Status != AffixStatus.PendingRegistration)
-			.Select(a => new RegisteredAffixListItem
+			.Select(a => new AffixListItem
 			{
 				Id = a.Id,
 				Name = a.Name,
 				PetsCount = a.Pets.Count,
 				Syntax = a.Syntax,
-				RegistrationDate = a.RegistrationDate,
+				RegistrationDate = a.RegistrationDate!.Value,
 				Status = a.Status
 			}).ToListAsync();
 
 		var pendingAffixes =
 			await _context.Affixes
 				.Where(a => a.Owner.UserId == userId && a.Status == AffixStatus.PendingRegistration)
-				.Select(a => new RegisteredAffixListItem
+				.Select(a => new AffixListItem
 				{
 					Id = a.Id,
 					Name = a.Name,
@@ -254,7 +254,7 @@ public class AffixService : IAffixService
 		}
 
 		_context.Remove(affix);
-		_context.Add(NotificationGenerator.AffixRegistratonRejected(affix.Name, affixRejection.Reason, affix.OwnerId));
+		_context.Add(NotificationGenerator.AffixRegistrationRejected(affix.Name, affixRejection.Reason, affix.OwnerId));
 
 		await _context.SaveChangesAsync();
 

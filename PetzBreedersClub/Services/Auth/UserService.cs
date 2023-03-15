@@ -76,7 +76,7 @@ public class UserService : IUserService
 
 		await _context.Entry(user).Reference(u => u.Member).LoadAsync();
 
-		return new ClientUserInfo { Id = user.Id, Email = user.Email, DisplayName = user.Member.Name};
+		return new ClientUserInfo { Id = user.Id, Email = user.Email, DisplayName = user.Member.Name, MemberId = user.Member.Id};
 	}
 
 	public async Task<IResult> RegisterNewUser(RegistrationForm registrationForm)

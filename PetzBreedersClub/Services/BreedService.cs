@@ -32,7 +32,8 @@ public class BreedService : IBreedService
 		{
 			Id = b.Id,
 			Name = b.Name,
-			Species = b.Species
+			Group = b.Group,
+			Section = b.Section
 		}).ToListAsync();
 
 		return Results.Ok(breeds);

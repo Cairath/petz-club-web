@@ -1,4 +1,5 @@
-﻿using PetzBreedersClub.Database;
+﻿using System.Collections.Immutable;
+using PetzBreedersClub.Database;
 using PetzBreedersClub.DTOs.Affixes;
 using PetzBreedersClub.Services.Auth;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ public interface IPetService
 {
 	Task<IResult> GetPetProfile(int petId);
 	Task<IResult> GetPedigree(int petId, int generations);
+	Task<IResult> GetPets(PetListRequest request);
 }
 
 public class PetService : IPetService
@@ -101,6 +103,126 @@ public class PetService : IPetService
 
 		return Results.Ok(petProfile);
 	}
+
+	public async Task<IResult> GetPets(PetListRequest request)
+	{
+		var petsQueryable =
+			_context.Pets
+				.Include(p => p.Offspring)
+				.Include(p => p.Affix)
+				.Include(p => p.Breed)
+				.Include(p => p.Owner)
+				.Include(p => p.Breeder)
+				.Where(p => p.Status != PetStatus.PendingRegistration)
+				.Select(p => new PetListItem
+				{
+					Id = p.Id,
+					ShowName = p.ShowName,
+					AffixId = p.AffixId,
+					AffixName = p.Affix.Name,
+					PedigreeNumber = p.PedigreeNumber,
+					Age = p.Age,
+					Sex = p.Sex,
+					Status = p.Status,
+					GameVersion = p.GameVersion,
+					BreedId = p.BreedId,
+					BreedName = p.Breed.Name,
+					OwnerId = p.OwnerId,
+					OwnerName = p.Owner.Name,
+					Species = p.Breed.Species
+				}).AsQueryable();
+
+		if (request.ShowName != null && !string.IsNullOrEmpty(request.ShowName))
+		{
+			petsQueryable = petsQueryable.Where(p => p.ShowName.Contains(request.ShowName));
+		}
+
+		if (request.AffixId != null)
+		{
+			petsQueryable = petsQueryable.Where(p => p.AffixId == request.AffixId);
+		}
+
+		if (request.AffixName != null && !string.IsNullOrEmpty(request.AffixName))
+		{
+			petsQueryable = petsQueryable.Where(p => p.AffixName.Contains(request.AffixName));
+		}
+
+		if (request.PedigreeNumber != null && !string.IsNullOrEmpty(request.PedigreeNumber))
+		{
+			petsQueryable = petsQueryable.Where(p => p.PedigreeNumber.Contains(request.PedigreeNumber));
+		}
+
+		if (request.Age != null)
+		{
+			petsQueryable = petsQueryable.Where(p => p.Age == request.Age);
+		}
+
+		if (request.Sex != null)
+		{
+			petsQueryable = petsQueryable.Where(p => p.Sex == request.Sex);
+		}
+
+		if (request.Status != null)
+		{
+			petsQueryable = petsQueryable.Where(p => p.Status == request.Status);
+		}
+
+		if (request.GameVersion != null)
+		{
+			petsQueryable = petsQueryable.Where(p => p.GameVersion == request.GameVersion);
+		}
+
+		if (request.BreedId != null)
+		{
+			petsQueryable = petsQueryable.Where(p => p.BreedId == request.BreedId);
+		}
+
+		if (request.BreedName != null && !string.IsNullOrEmpty(request.BreedName))
+		{
+			petsQueryable = petsQueryable.Where(p => p.BreedName.Contains(request.BreedName));
+		}
+
+		if (request.OwnerId != null)
+		{
+			petsQueryable = petsQueryable.Where(p => p.OwnerId == request.OwnerId);
+		}
+
+		if (request.OwnerName != null && !string.IsNullOrEmpty(request.OwnerName))
+		{
+			petsQueryable = petsQueryable.Where(p => p.OwnerName.Contains(request.OwnerName));
+		}
+
+		if (request.Species != null)
+		{
+			petsQueryable = petsQueryable.Where(p => p.Species == request.Species);
+		}
+
+		if (request.SortField != null)
+		{
+			petsQueryable = request.SortDirection == SortDirection.Asc
+				? petsQueryable.OrderBy(p => EF.Property<object>(p, request.SortField))
+				: petsQueryable.OrderByDescending(p => EF.Property<object>(p, request.SortField));
+		}
+
+		var count = await petsQueryable.CountAsync();
+
+		var page = request.Page;
+		var pageSize = request.PageSize;
+
+		var results = await petsQueryable
+			.Skip((page - 1) * pageSize)
+			.Take(pageSize)
+			.ToListAsync();
+
+		var pagedList = new Paged<PetListItem>
+		{
+			Total = count,
+			Items = results
+		};
+
+		return Results.Ok(pagedList);
+	}
+
 
 	public async Task<IResult> GetPedigree(int petId, int generations)
 	{

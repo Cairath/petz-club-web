@@ -21,7 +21,7 @@ public class AffixEntity : Entity
 	[Required]
 	public AffixStatus Status { get; set; }
 
-	public DateTime RegistrationDate { get; set; }
+	public DateTime? RegistrationDate { get; set; }
 
 	public int? RegistrarId { get; set; }
 	public virtual MemberEntity Registrar { get; set; }
