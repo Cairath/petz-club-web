@@ -48,12 +48,7 @@ export const Petz = () => {
       <Card variant="panel" mb="20px">
         <CardBody>
           <Flex flexDirection="column">
-            <Text mb="2em">
-              Affix refers to your Kennel / Cattery name added to pets' show
-              names. When you register 1st generation pets or offspring born in
-              your Kennel / Cattery, you will be asked to choose from a list of
-              affixes you own.
-            </Text>
+            <Text>Some informational stuff will go here.</Text>
           </Flex>
         </CardBody>
       </Card>

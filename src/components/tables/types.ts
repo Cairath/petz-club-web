@@ -1,14 +1,16 @@
-import { Column, RowData, Table } from "@tanstack/react-table";
+import { Column, RowData, Table as ReactTable } from "@tanstack/react-table";
 
 export enum ColumnFilterType {
   Text = "text",
   Enum = "enum"
 }
 
+export type Table = ReactTable<any>;
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type FilterProps = {
   column: Column<any, unknown>;
-  table: Table<any>;
+  table: Table;
 };
 /* eslint-enable @typescript-eslint/no-explicit-any */
 

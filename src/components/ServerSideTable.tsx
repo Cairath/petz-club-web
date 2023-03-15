@@ -1,7 +1,7 @@
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import {
   Box,
-  Button,
+  CircularProgress,
   Flex,
   Table,
   TableColumnHeaderProps,
@@ -26,8 +26,10 @@ import {
 } from "@tanstack/react-table";
 import React, { useMemo, useState } from "react";
 import { Pagination, SortDirection, Sorting } from "../api/requests";
+import { PageLoader } from "../pages/layouts/main/components/PageLoader";
 import { NoResultsRow } from "./NoResultsRow";
 import { ColumnFilter } from "./tables/ColumnFilter";
+import { PaginationBox } from "./tables/PaginationBox";
 
 export type Props<Data extends object> = {
   loading: boolean;
@@ -155,22 +157,14 @@ export const ServerSideTable = <Data extends object>({
     return withTableTag ? Table : React.Fragment;
   }, [withTableTag]);
 
-  const layout = useMemo(() => {
-    const layout = withTableTag
-      ? useColGroups
-        ? { layout: "fixed" }
-        : {}
-      : {};
-    return layout;
-  }, [withTableTag, useColGroups]);
-
   return (
     <>
-      <TopElement {...layout}>
+      <PaginationBox table={table} itemTotalCount={itemTotalCount} size="sm" />
+      <TopElement>
         {useColGroups
           ? table.getHeaderGroups().map((headerGroup) => {
               return (
-                <colgroup>
+                <colgroup key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
                     const width = header.column.columnDef.meta?.width;
                     const minWidth = header.column.columnDef.meta?.minWidth;
@@ -179,14 +173,15 @@ export const ServerSideTable = <Data extends object>({
                       ? { minWidth: minWidth }
                       : undefined;
 
-                    const widthStyle = width ? { width: width } : undefined;
-
                     return (
                       <col
                         id={header.id}
+                        key={header.id}
                         span={1}
                         width={width}
-                        style={{ ...minWidthStyle, ...widthStyle }}
+                        style={{
+                          ...minWidthStyle
+                        }}
                       />
                     );
                   })}
@@ -197,7 +192,7 @@ export const ServerSideTable = <Data extends object>({
         <Thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <Tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
+              {headerGroup.headers.map((header, i) => {
                 const meta: ColumnMeta<RowData, unknown> | undefined =
                   header.column.columnDef.meta;
 
@@ -233,6 +228,18 @@ export const ServerSideTable = <Data extends object>({
                           }}
                         />
                       ) : null}
+                      {loading && i === 0 && (
+                        <Box
+                          display="flex"
+                          justifyContent="center"
+                          position="absolute"
+                          top="54%"
+                          left="50%"
+                          transform="translateX(-50%)"
+                        >
+                          <CircularProgress isIndeterminate color="teal" />
+                        </Box>
+                      )}
                     </Flex>
                   </Th>
                 );
@@ -240,7 +247,8 @@ export const ServerSideTable = <Data extends object>({
             </Tr>
           ))}
         </Thead>
-        <Tbody>
+
+        <Tbody style={{ filter: loading ? "blur(5px)" : undefined }}>
           {table.getRowModel().rows.map((row) => (
             <Tr key={row.id}>
               {row.getVisibleCells().map((cell) => {
@@ -257,80 +265,12 @@ export const ServerSideTable = <Data extends object>({
           )}
         </Tbody>
       </TopElement>
-      <div className="h-2">
-        <div className="flex items-center gap-2">
-          <Button
-            className="border rounded p-1"
-            onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
-          >
-            {"<<"}
-          </Button>
-          <Button
-            className="border rounded p-1"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            {"<"}
-          </Button>
-          <Button
-            className="border rounded p-1"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            {">"}
-          </Button>
-          <Button
-            className="border rounded p-1"
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
-          >
-            {">>"}
-          </Button>
-          <span className="flex items-center gap-1">
-            <div>Page</div>
-            <strong>
-              {table.getState().pagination.pageIndex + 1} of{" "}
-              {table.getPageCount()}
-            </strong>
-          </span>
-          <span className="flex items-center gap-1">
-            | Go to page:
-            <input
-              type="number"
-              defaultValue={table.getState().pagination.pageIndex + 1}
-              onChange={(e) => {
-                const page = e.target.value ? Number(e.target.value) - 1 : 0;
-                table.setPageIndex(page);
-              }}
-              className="border p-1 rounded w-16"
-            />
-          </span>
-          <select
-            value={table.getState().pagination.pageSize}
-            onChange={(e) => {
-              table.setPageSize(Number(e.target.value));
-            }}
-          >
-            {[10, 20, 30, 40, 50].map((pageSize) => (
-              <option key={pageSize} value={pageSize}>
-                Show {pageSize}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>{table.getRowModel().rows.length} Rows</div>
-        <div>
-          Showing{" "}
-          {table.getState().pagination.pageIndex *
-            table.getState().pagination.pageSize +
-            1}{" "}
-          -{" "}
-          {(table.getState().pagination.pageIndex + 1) *
-            table.getState().pagination.pageSize}{" "}
-          of {itemTotalCount}
-        </div>
-      </div>
+      <PaginationBox
+        table={table}
+        itemTotalCount={itemTotalCount}
+        size="sm"
+        mt="10px"
+      />
     </>
   );
 };

@@ -48,7 +48,9 @@ export const PetzListTable = ({
         meta: {
           filter: {
             type: ColumnFilterType.Text
-          }
+          },
+          width: "45%",
+          minWidth: "200px"
         }
       }),
       columnHelper.accessor("breedName", {
@@ -62,7 +64,9 @@ export const PetzListTable = ({
         meta: {
           filter: {
             type: ColumnFilterType.Text
-          }
+          },
+          width: "30%",
+          minWidth: "200px"
         }
       }),
       columnHelper.accessor("age", {
@@ -73,7 +77,9 @@ export const PetzListTable = ({
             type: ColumnFilterType.Enum,
             enumValues: Age,
             isSearchable: false
-          }
+          },
+          width: "0%",
+          minWidth: "200px"
         }
       }),
       columnHelper.accessor("sex", {
@@ -94,24 +100,26 @@ export const PetzListTable = ({
             type: ColumnFilterType.Enum,
             enumValues: Sex,
             isSearchable: false
-          }
+          },
+          width: "0%",
+          minWidth: "200px"
         }
       }),
       columnHelper.accessor("affixName", {
         header: "Affix",
-        meta: {
-          width: "8%",
-          minWidth: "100px",
-          filter: {
-            type: ColumnFilterType.Text
-          }
-        },
         cell: (props) => (
           <AffixLink
             affixName={props.getValue()}
             affixId={props.row.original.affixId}
           />
-        )
+        ),
+        meta: {
+          filter: {
+            type: ColumnFilterType.Text
+          },
+          width: "25%",
+          minWidth: "200px"
+        }
       }),
       columnHelper.accessor("status", {
         header: "Status",
@@ -133,7 +141,9 @@ export const PetzListTable = ({
             enumValues: PetStatus,
             omitEnumValues: ["PendingRegistration"],
             isSearchable: false
-          }
+          },
+          width: "0%",
+          minWidth: "150px"
         }
       })
     ],
@@ -145,6 +155,7 @@ export const PetzListTable = ({
   return (
     <ServerSideTable
       loading={loading || pagedPetsList === undefined}
+      useColGroups={true}
       data={pagedPetsList?.items ?? []}
       itemTotalCount={pagedPetsList?.total ?? 0}
       columns={columns}
