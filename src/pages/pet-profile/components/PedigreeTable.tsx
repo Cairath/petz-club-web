@@ -1,6 +1,6 @@
-import { Box, Flex, Link, Text, useColorModeValue } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { Pedigree, PedigreeEntry } from "../../../api/client";
-import { Link as ReactRouterLink } from "react-router-dom";
+import { PetLink } from "../../../components/PetLink";
 export type Props = {
   pedigree: Pedigree;
   generations: number;
@@ -31,8 +31,6 @@ export type PedigreeEntryBoxProps = {
   entry: PedigreeEntry | undefined;
 };
 export const PedigreeEntryBox = ({ entry }: PedigreeEntryBoxProps) => {
-  const linkColor = useColorModeValue("teal.600", "teal.200");
-
   return (
     <Box
       m="-0.5px"
@@ -54,9 +52,11 @@ export const PedigreeEntryBox = ({ entry }: PedigreeEntryBoxProps) => {
       )}
       {entry != null && (
         <>
-          <Link as={ReactRouterLink} to={`/pet/${entry.id}`} color={linkColor}>
-            <Text fontWeight="bold">{entry.showName}</Text>
-          </Link>
+          <PetLink
+            petName={entry.showName}
+            petId={entry.id}
+            fontWeight="bold"
+          />
           <Text>#{entry.pedigreeNumber}</Text>
         </>
       )}

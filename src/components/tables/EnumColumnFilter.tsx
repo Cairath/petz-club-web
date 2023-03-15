@@ -1,7 +1,7 @@
 import { Select } from "chakra-react-select";
+import { pull } from "lodash-es";
 import { useMemo } from "react";
 import { EnumFilterOptions, FilterProps } from "./types";
-import { pull } from "lodash-es";
 
 export type Props = FilterProps & Omit<EnumFilterOptions, "type">;
 

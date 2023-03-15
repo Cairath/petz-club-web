@@ -11,6 +11,7 @@ import {
 import { Pagination, PetListFilters, Sorting } from "../../../api/requests";
 import { AffixLink } from "../../../components/AffixLink";
 import { BreedLink } from "../../../components/BreedLink";
+import { PetLink } from "../../../components/PetLink";
 import { ServerSideTable } from "../../../components/ServerSideTable";
 import { ColumnFilterType } from "../../../components/tables/types";
 
@@ -37,7 +38,13 @@ export const PetzListTable = ({
     () => [
       columnHelper.accessor("showName", {
         header: "Show Name",
-        cell: (props) => <Text fontWeight="bold">{props.getValue()}</Text>,
+        cell: (props) => (
+          <PetLink
+            fontWeight="bold"
+            petName={props.getValue()}
+            petId={props.row.original.id}
+          />
+        ),
         meta: {
           filter: {
             type: ColumnFilterType.Text
@@ -133,7 +140,7 @@ export const PetzListTable = ({
     [columnHelper]
   );
 
-  const initialSortingState: SortingState = [{ id: "ShowName", desc: false }];
+  const initialSortingState: SortingState = [{ id: "showName", desc: false }];
 
   return (
     <ServerSideTable

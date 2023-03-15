@@ -18,8 +18,6 @@ import {
   ColumnMeta,
   flexRender,
   getCoreRowModel,
-  getFacetedRowModel,
-  getFacetedUniqueValues,
   PaginationState,
   RowData,
   SortingState,
@@ -133,15 +131,13 @@ export const ServerSideTable = <Data extends object>({
   const table = useReactTable<Data>({
     columns,
     data,
-    getCoreRowModel: getCoreRowModel(),
-    getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
-    // getSortedRowModel: getSortedRowModel(),
-
     state: {
       sorting,
       pagination: internalPaginationState
     },
+
+    getCoreRowModel: getCoreRowModel(),
+
     /* pagination */
     manualPagination: true,
     onPaginationChange: paginationChanged,
@@ -208,7 +204,7 @@ export const ServerSideTable = <Data extends object>({
                 return (
                   <Th
                     key={header.id}
-                    //   color="gray.400"
+                    //color="gray.400"
                     cursor={header.column.getCanSort() ? "pointer" : undefined}
                     {...tableColumnHeaderProps}
                   >

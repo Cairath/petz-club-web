@@ -5,6 +5,7 @@ import {
   getPetsList,
   Pagination,
   PetListFilters,
+  SortDirection,
   Sorting
 } from "../../api/requests";
 import { Header } from "../../components/Header";
@@ -21,7 +22,10 @@ export const Petz = () => {
     page: 1,
     pageSize: 10
   });
-  const [sorting, setSorting] = useState<Sorting>({});
+  const [sorting, setSorting] = useState<Sorting>({
+    sortDirection: SortDirection.Asc,
+    sortField: "ShowName"
+  });
 
   useEffect(() => {
     setLoading(true);
@@ -49,10 +53,6 @@ export const Petz = () => {
               names. When you register 1st generation pets or offspring born in
               your Kennel / Cattery, you will be asked to choose from a list of
               affixes you own.
-            </Text>
-            <Text>
-              Once registered, an affix can only be removed if there are no pets
-              assigned to it.
             </Text>
           </Flex>
         </CardBody>
