@@ -682,22 +682,36 @@ export class Client {
 
     /**
      * @param ownerId (optional) 
+     * @param ownerName (optional) 
+     * @param showName (optional) 
      * @param affixId (optional) 
      * @param affixName (optional) 
+     * @param pedigreeNumber (optional) 
      * @param breedId (optional) 
+     * @param breedName (optional) 
      * @param sex (optional) 
+     * @param age (optional) 
      * @param species (optional) 
-     * @param showName (optional) 
+     * @param status (optional) 
+     * @param gameVersion (optional) 
      * @param sortField (optional) 
      * @param sortDirection (optional) 
      * @return OK
      */
-    getPets(ownerId: number | undefined, affixId: number | undefined, affixName: string | undefined, breedId: number | undefined, sex: string | undefined, species: string | undefined, showName: string | undefined, pageSize: number, page: number, sortField: string | undefined, sortDirection: string | undefined , cancelToken?: CancelToken | undefined): Promise<PetListItemPaged> {
+    getPets(ownerId: number | undefined, ownerName: string | undefined, showName: string | undefined, affixId: number | undefined, affixName: string | undefined, pedigreeNumber: string | undefined, breedId: number | undefined, breedName: string | undefined, sex: string | undefined, age: string | undefined, species: string | undefined, status: string | undefined, gameVersion: string | undefined, pageSize: number, page: number, sortField: string | undefined, sortDirection: string | undefined , cancelToken?: CancelToken | undefined): Promise<PetListItemPaged> {
         let url_ = this.baseUrl + "/api/pets/list?";
         if (ownerId === null)
             throw new Error("The parameter 'ownerId' cannot be null.");
         else if (ownerId !== undefined)
             url_ += "OwnerId=" + encodeURIComponent("" + ownerId) + "&";
+        if (ownerName === null)
+            throw new Error("The parameter 'ownerName' cannot be null.");
+        else if (ownerName !== undefined)
+            url_ += "OwnerName=" + encodeURIComponent("" + ownerName) + "&";
+        if (showName === null)
+            throw new Error("The parameter 'showName' cannot be null.");
+        else if (showName !== undefined)
+            url_ += "ShowName=" + encodeURIComponent("" + showName) + "&";
         if (affixId === null)
             throw new Error("The parameter 'affixId' cannot be null.");
         else if (affixId !== undefined)
@@ -706,22 +720,38 @@ export class Client {
             throw new Error("The parameter 'affixName' cannot be null.");
         else if (affixName !== undefined)
             url_ += "AffixName=" + encodeURIComponent("" + affixName) + "&";
+        if (pedigreeNumber === null)
+            throw new Error("The parameter 'pedigreeNumber' cannot be null.");
+        else if (pedigreeNumber !== undefined)
+            url_ += "PedigreeNumber=" + encodeURIComponent("" + pedigreeNumber) + "&";
         if (breedId === null)
             throw new Error("The parameter 'breedId' cannot be null.");
         else if (breedId !== undefined)
             url_ += "BreedId=" + encodeURIComponent("" + breedId) + "&";
+        if (breedName === null)
+            throw new Error("The parameter 'breedName' cannot be null.");
+        else if (breedName !== undefined)
+            url_ += "BreedName=" + encodeURIComponent("" + breedName) + "&";
         if (sex === null)
             throw new Error("The parameter 'sex' cannot be null.");
         else if (sex !== undefined)
             url_ += "Sex=" + encodeURIComponent("" + sex) + "&";
+        if (age === null)
+            throw new Error("The parameter 'age' cannot be null.");
+        else if (age !== undefined)
+            url_ += "Age=" + encodeURIComponent("" + age) + "&";
         if (species === null)
             throw new Error("The parameter 'species' cannot be null.");
         else if (species !== undefined)
             url_ += "Species=" + encodeURIComponent("" + species) + "&";
-        if (showName === null)
-            throw new Error("The parameter 'showName' cannot be null.");
-        else if (showName !== undefined)
-            url_ += "ShowName=" + encodeURIComponent("" + showName) + "&";
+        if (status === null)
+            throw new Error("The parameter 'status' cannot be null.");
+        else if (status !== undefined)
+            url_ += "Status=" + encodeURIComponent("" + status) + "&";
+        if (gameVersion === null)
+            throw new Error("The parameter 'gameVersion' cannot be null.");
+        else if (gameVersion !== undefined)
+            url_ += "GameVersion=" + encodeURIComponent("" + gameVersion) + "&";
         if (pageSize === undefined || pageSize === null)
             throw new Error("The parameter 'pageSize' must be defined and cannot be null.");
         else
@@ -1399,6 +1429,7 @@ export interface PetListItem {
     sex: Sex;
     gameVersion: GameVersion;
     species: Species;
+    status: PetStatus;
     breedId: number;
     breedName: string;
     ownerId: number;
@@ -1431,6 +1462,12 @@ export interface PetProfileData {
     pedigree: Pedigree;
     offspring: PetLink[];
     siblings: SiblingLink[];
+}
+
+export enum PetStatus {
+    Active = "Active",
+    Inactive = "Inactive",
+    PendingRegistration = "PendingRegistration",
 }
 
 export interface RegistrationForm {

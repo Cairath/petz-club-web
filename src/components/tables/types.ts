@@ -23,6 +23,7 @@ export interface TextFilterOptions
 export interface EnumFilterOptions
   extends FilterOptionsBase<ColumnFilterType.Enum> {
   enumValues: Record<string, string>;
+  omitEnumValues?: string[];
   isSearchable?: boolean;
 }
 

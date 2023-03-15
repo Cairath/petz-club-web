@@ -116,7 +116,6 @@ export const ServerSideTable = <Data extends object>({
   ) => {
     if (typeof columnFiltersStateUpdater === "function") {
       const vals = columnFiltersStateUpdater(columnFilters);
-      console.log(vals);
 
       const filterRecord = vals.reduce<Record<string, unknown>>(
         (prev, columnFilter) => {

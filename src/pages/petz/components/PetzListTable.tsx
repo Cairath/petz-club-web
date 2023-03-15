@@ -1,7 +1,13 @@
 import { Badge, Text } from "@chakra-ui/react";
 import { createColumnHelper, SortingState } from "@tanstack/react-table";
 import { useMemo } from "react";
-import { Age, PetListItem, PetListItemPaged, Sex } from "../../../api/client";
+import {
+  Age,
+  PetListItem,
+  PetListItemPaged,
+  PetStatus,
+  Sex
+} from "../../../api/client";
 import { Pagination, PetListFilters, Sorting } from "../../../api/requests";
 import { AffixLink } from "../../../components/AffixLink";
 import { BreedLink } from "../../../components/BreedLink";
@@ -99,6 +105,29 @@ export const PetzListTable = ({
             affixId={props.row.original.affixId}
           />
         )
+      }),
+      columnHelper.accessor("status", {
+        header: "Status",
+        cell: (props) => (
+          <Badge
+            width="70px"
+            textAlign={"center"}
+            colorScheme={
+              props.getValue() === PetStatus.Active ? "green" : "red"
+            }
+            variant="subtle"
+          >
+            {props.getValue()}
+          </Badge>
+        ),
+        meta: {
+          filter: {
+            type: ColumnFilterType.Enum,
+            enumValues: PetStatus,
+            omitEnumValues: ["PendingRegistration"],
+            isSearchable: false
+          }
+        }
       })
     ],
     [columnHelper]

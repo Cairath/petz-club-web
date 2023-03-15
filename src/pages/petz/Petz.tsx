@@ -1,8 +1,12 @@
 import { Card, CardBody, Flex, Text } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
-import api from "../../api/api";
 import { PetListItemPaged } from "../../api/client";
-import { Pagination, PetListFilters, Sorting } from "../../api/requests";
+import {
+  getPetsList,
+  Pagination,
+  PetListFilters,
+  Sorting
+} from "../../api/requests";
 import { Header } from "../../components/Header";
 import { UserContext } from "../../context/UserContext";
 import { PetzListTable } from "./components/PetzListTable";
@@ -26,24 +30,12 @@ export const Petz = () => {
       return;
     }
 
-    api
-      .getPets(
-        user.memberId,
-        filters?.affixId,
-        filters?.affixName,
-        filters?.breedId,
-        filters?.sex,
-        filters?.species,
-        filters?.showName,
-        pagination.pageSize,
-        pagination.page,
-        sorting.sortField,
-        sorting.sortDirection
-      )
-      .then((petList: PetListItemPaged) => {
+    getPetsList({ ...filters, ownerId: user.id }, pagination, sorting).then(
+      (petList: PetListItemPaged) => {
         setPetList(petList);
         setLoading(false);
-      });
+      }
+    );
   }, [filters, pagination, sorting, user]);
 
   return (

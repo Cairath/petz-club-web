@@ -37,7 +37,8 @@ export const SignIn = () => {
       setUser({
         id: clientUserInfo.id,
         email: clientUserInfo.email,
-        name: clientUserInfo.displayName
+        name: clientUserInfo.displayName,
+        memberId: clientUserInfo.memberId
       })
     );
   };
