@@ -15,19 +15,19 @@ export type Props = {
   header?: string;
 };
 
-export const PetPhotoCard = ({
+export const PetRegistrationPhotoCard = ({
   profileData,
   header,
   ...rest
 }: Props & CardProps) => {
   return (
     <Card variant="panel" minWidth="200px" {...rest}>
-      <CardBody
-        display="flex"
-        placeContent="center"
-        flexDirection="column"
-        alignItems="center"
-      >
+      {header && (
+        <CardHeader>
+          <Heading size="sm">{header}</Heading>
+        </CardHeader>
+      )}
+      <CardBody display="flex" placeContent="center" flexDirection="column">
         <div
           style={{
             background: "url(http://i.imgur.com/rFNHVyy.png) no-repeat 50% 0",
@@ -36,10 +36,7 @@ export const PetPhotoCard = ({
           }}
         ></div>
         {/* <Image src="http://i.imgur.com/rFNHVyy.png" objectFit="none" /> */}
-        <Flex direction="row" width="100%">
-          <Button variant="link" colorScheme="teal">
-            Show registration pic
-          </Button>
+        <Flex direction="row">
           <Button variant="link" colorScheme="teal" ml="auto">
             Upload new
           </Button>
