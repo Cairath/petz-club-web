@@ -12,6 +12,8 @@ public class PetProfileData
 	[Required] public Age Age { get; set; }
 	[Required] public Sex Sex { get; set; }
 	[Required] public GameVersion GameVersion { get; set; }
+	[Required] public PetStatus Status { get; set; }
+	[Required] public bool IsAvailableForBreeding { get; set; }
 	[Required] public int BreedId { get; set; }
 	[Required] public required string BreedName { get; set; }
 	[Required] public int OwnerId { get; set; }

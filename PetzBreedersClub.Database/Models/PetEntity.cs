@@ -19,6 +19,7 @@ public class PetEntity : Entity
 	public GameVersion GameVersion { get; set; }
 	public PetStatus Status { get; set; }
 	public DateTime? RegistrationDate { get; set; }
+	public bool IsAvailableForBreeding { get; set; }
 
 	public int BreedId { get; set; }
 	public virtual BreedEntity Breed { get; set; } = null!;

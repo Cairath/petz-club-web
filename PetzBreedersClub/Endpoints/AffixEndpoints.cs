@@ -76,6 +76,7 @@ public static class AffixEndpoints
 			.RequireAuthorization()
 			.WithOpenApi();
 
+		//todo: change to enum?
 		group.MapPost("/set-status", async (SetAffixActiveStatus setAffixStatus, IAffixService affixService) =>
 			{
 				return await affixService.SetActive(setAffixStatus.Id, setAffixStatus.Active);

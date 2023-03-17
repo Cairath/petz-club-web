@@ -1,4 +1,5 @@
-﻿using PetzBreedersClub.DTOs.Pets;
+﻿using Microsoft.AspNetCore.Mvc;
+using PetzBreedersClub.DTOs.Pets;
 using PetzBreedersClub.Services;
 
 namespace PetzBreedersClub.Endpoints;
@@ -25,12 +26,36 @@ public static class PetEndpoints
 			.Produces<Pedigree>()
 			.WithOpenApi();
 
-		group.MapGet("/list", async ([AsParameters]PetListRequest request, IPetService petService) =>
+		group.MapGet("/list", async ([AsParameters] PetListRequest request, IPetService petService) =>
 			{
 				return await petService.GetPets(request);
 			})
 			.WithName("GetPets")
 			.Produces<Paged<PetListItem>>()
+			.WithOpenApi();
+
+		group.MapPost("/set-breeding-availability", async ([FromBody] BreedingAvailability breedingAvailability, IPetService petService) =>
+			{
+				return await petService.SetBreedingAvailability(breedingAvailability);
+			})
+			.WithName("SetBreedingAvailability")
+			.RequireAuthorization()
+			.WithOpenApi();
+
+		group.MapPost("/set-status", async ([FromBody] SetPetActiveStatus petActiveStatus, IPetService petService) =>
+			{
+				return await petService.SetStatus(petActiveStatus);
+			})
+			.WithName("SetPetActiveStatus")
+			.RequireAuthorization()
+			.WithOpenApi();
+
+		group.MapPost("/set-adult", async ([FromBody] int petId, IPetService petService) =>
+			{
+				return await petService.SetAdult(petId);
+			})
+			.WithName("SetAdult")
+			.RequireAuthorization()
 			.WithOpenApi();
 	}
 }

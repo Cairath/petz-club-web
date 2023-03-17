@@ -1,6 +1,4 @@
-﻿using System.Collections.Immutable;
-using PetzBreedersClub.Database;
-using PetzBreedersClub.DTOs.Affixes;
+﻿using PetzBreedersClub.Database;
 using PetzBreedersClub.Services.Auth;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -15,6 +13,9 @@ public interface IPetService
 	Task<IResult> GetPetProfile(int petId);
 	Task<IResult> GetPedigree(int petId, int generations);
 	Task<IResult> GetPets(PetListRequest request);
+	Task<IResult> SetAdult(int petId);
+	Task<IResult> SetBreedingAvailability(BreedingAvailability breedingAvailability);
+	Task<IResult> SetStatus(SetPetActiveStatus petActiveStatus);
 }
 
 public class PetService : IPetService
@@ -22,14 +23,12 @@ public class PetService : IPetService
 	private readonly Context _context;
 	private readonly IUserService _userService;
 	private readonly IMemoryCache _cache;
-	private readonly AffixRegistrationFormValidator _affixRegistrationFormValidator;
 
-	public PetService(Context context, IUserService userService, IMemoryCache cache, AffixRegistrationFormValidator affixRegistrationFormValidator)
+	public PetService(Context context, IUserService userService, IMemoryCache cache)
 	{
 		_context = context;
 		_userService = userService;
 		_cache = cache;
-		_affixRegistrationFormValidator = affixRegistrationFormValidator;
 	}
 
 	public async Task<IResult> GetPetProfile(int petId)
@@ -53,6 +52,8 @@ public class PetService : IPetService
 					Age = p.Age,
 					Sex = p.Sex,
 					GameVersion = p.GameVersion,
+					IsAvailableForBreeding = p.IsAvailableForBreeding,
+					Status = p.Status,
 					BreedId = p.BreedId,
 					BreedName = p.Breed.Name,
 					OwnerId = p.OwnerId,
@@ -90,6 +91,8 @@ public class PetService : IPetService
 			Age = petData.Age,
 			Sex = petData.Sex,
 			GameVersion = petData.GameVersion,
+			IsAvailableForBreeding = petData.IsAvailableForBreeding,
+			Status = petData.Status, 
 			BreedId = petData.BreedId,
 			BreedName = petData.BreedName,
 			OwnerId = petData.OwnerId,
@@ -231,6 +234,63 @@ public class PetService : IPetService
 		return pedigreeData == null ? Results.NotFound() : Results.Ok(pedigreeData);
 	}
 
+	public async Task<IResult> SetAdult(int petId)
+	{
+		var pet =
+			await _context.Pets
+				.Where(p => p.Id == petId && p.Status != PetStatus.PendingRegistration)
+				.FirstOrDefaultAsync();
+
+		if (pet == null) //todo: use validation
+		{
+			return Results.BadRequest();
+		}
+
+		pet.Age = Age.Adult;
+
+		await _context.SaveChangesAsync();
+
+		return Results.Ok();
+	}
+
+	public async Task<IResult> SetBreedingAvailability(BreedingAvailability breedingAvailability)
+	{
+		var pet =
+			await _context.Pets
+				.Where(p => p.Id == breedingAvailability.PetId && p.Status != PetStatus.PendingRegistration)
+				.FirstOrDefaultAsync();
+
+		if (pet == null) //todo: use validation
+		{
+			return Results.BadRequest();
+		}
+
+		pet.IsAvailableForBreeding = breedingAvailability.IsAvailable;
+
+		await _context.SaveChangesAsync();
+
+		return Results.Ok();
+	}
+
+	public async Task<IResult> SetStatus(SetPetActiveStatus petActiveStatus)
+	{
+		var pet =
+			await _context.Pets
+				.Where(p => p.Id == petActiveStatus.PetId && p.Status != PetStatus.PendingRegistration)
+				.FirstOrDefaultAsync();
+
+		if (pet == null) //todo: use validation
+		{
+			return Results.BadRequest();
+		}
+
+		pet.Status = petActiveStatus.Active ? PetStatus.Active : PetStatus.Inactive;
+
+		await _context.SaveChangesAsync();
+
+		return Results.Ok();
+	}
+
 	private async Task<Pedigree?> GetPedigreeData(int petId, int generations)
 	{
 		var pedigreeEntries = new List<List<PedigreeEntry?>>();
@@ -296,57 +356,16 @@ public class PetService : IPetService
 
 	private Task<List<PetEntity>> GetAncestors(int petId, int generations)
 	{
+		var columns = GetPetColumns();
+		var pColumns = GetPetColumns("p");
+
 		return _context.Pets.FromSqlRaw($@"
 					WITH Ancestors (
-					    {nameof(PetEntity.Id)}, 
-					    {nameof(PetEntity.ShowName)}, 
-					    {nameof(PetEntity.PartialShowName)}, 
-					    {nameof(PetEntity.CallName)}, 
-					    {nameof(PetEntity.PedigreeNumber)}, 
-					    {nameof(PetEntity.RegistrationDate)}, 
-						{nameof(PetEntity.RegistrationPicId)}, 
-					    {nameof(PetEntity.RegistrarId)}, 
-					    {nameof(PetEntity.Age)}, 
-					    {nameof(PetEntity.Sex)}, 
-					    {nameof(PetEntity.GameVersion)}, 
-					    {nameof(PetEntity.Status)}, 
-					    {nameof(PetEntity.SireId)}, 
-					    {nameof(PetEntity.DamId)}, 
-					    {nameof(PetEntity.AffixId)}, 
-					    {nameof(PetEntity.BreedId)}, 
-					    {nameof(PetEntity.OwnerId)}, 
-					    {nameof(PetEntity.BreederId)}, 
-					    {nameof(PetEntity.BreedFileId)}, 
-					    {nameof(PetEntity.CreatedDate)}, 
-					    {nameof(PetEntity.AddedBy)}, 
-					    {nameof(PetEntity.LastModifiedDate)}, 
-					    {nameof(PetEntity.ModifiedBy)}, 
+					    {columns},
 					    Depth
 					) AS (
 					    SELECT 
-						    {nameof(PetEntity.Id)}, 
-						    {nameof(PetEntity.ShowName)}, 
-						    {nameof(PetEntity.PartialShowName)}, 
-						    {nameof(PetEntity.CallName)}, 
-						    {nameof(PetEntity.PedigreeNumber)}, 
-							{nameof(PetEntity.RegistrationDate)}, 
-							{nameof(PetEntity.RegistrationPicId)}, 
-							{nameof(PetEntity.RegistrarId)}, 
-						    {nameof(PetEntity.Age)}, 
-							{nameof(PetEntity.Sex)}, 
-							{nameof(PetEntity.GameVersion)}, 
-							{nameof(PetEntity.Status)}, 
-						    {nameof(PetEntity.SireId)}, 
-						    {nameof(PetEntity.DamId)}, 
-						    {nameof(PetEntity.AffixId)}, 
-						    {nameof(PetEntity.BreedId)}, 
-						    {nameof(PetEntity.OwnerId)}, 
-						    {nameof(PetEntity.BreederId)}, 
-							{nameof(PetEntity.BreedFileId)}, 
-						    {nameof(PetEntity.CreatedDate)}, 
-						    {nameof(PetEntity.AddedBy)}, 
-						    {nameof(PetEntity.LastModifiedDate)}, 
-						    {nameof(PetEntity.ModifiedBy)}, 
+						    {columns},
 					        0
 					    FROM dbo.Pets
 					    WHERE Id = {petId}
@@ -354,29 +373,7 @@ public class PetService : IPetService
 					    UNION ALL
 
 					    SELECT 
-					        p.{nameof(PetEntity.Id)}, 
-					        p.{nameof(PetEntity.ShowName)}, 
-					        p.{nameof(PetEntity.PartialShowName)}, 
-					        p.{nameof(PetEntity.CallName)}, 
-					        p.{nameof(PetEntity.PedigreeNumber)},
-							p.{nameof(PetEntity.RegistrationDate)}, 
-							p.{nameof(PetEntity.RegistrationPicId)}, 
-							p.{nameof(PetEntity.RegistrarId)}, 
-					        p.{nameof(PetEntity.Age)},
-							p.{nameof(PetEntity.Sex)}, 
-							p.{nameof(PetEntity.GameVersion)}, 
-					        p.{nameof(PetEntity.Status)}, 
-					        p.{nameof(PetEntity.SireId)}, 
-					        p.{nameof(PetEntity.DamId)}, 
-					        p.{nameof(PetEntity.AffixId)}, 
-					        p.{nameof(PetEntity.BreedId)}, 
-					        p.{nameof(PetEntity.OwnerId)}, 
-					        p.{nameof(PetEntity.BreederId)}, 
-							p.{nameof(PetEntity.BreedFileId)}, 
-					        p.{nameof(PetEntity.CreatedDate)}, 
-					        p.{nameof(PetEntity.AddedBy)}, 
-					        p.{nameof(PetEntity.LastModifiedDate)},  
-					        p.{nameof(PetEntity.ModifiedBy)}, 
+					        {pColumns},
 					        pa.Depth + 1
 					    FROM 
 					        dbo.Pets AS p
@@ -385,29 +382,7 @@ public class PetService : IPetService
 					    UNION ALL
 
 					    SELECT 
-					        p.{nameof(PetEntity.Id)}, 
-					        p.{nameof(PetEntity.ShowName)}, 
-					        p.{nameof(PetEntity.PartialShowName)}, 
-					        p.{nameof(PetEntity.CallName)}, 
-					        p.{nameof(PetEntity.PedigreeNumber)}, 
-							p.{nameof(PetEntity.RegistrationDate)}, 
-							p.{nameof(PetEntity.RegistrationPicId)}, 
-							p.{nameof(PetEntity.RegistrarId)}, 
-					        p.{nameof(PetEntity.Age)},
-							p.{nameof(PetEntity.Sex)}, 
-							p.{nameof(PetEntity.GameVersion)}, 
-					        p.{nameof(PetEntity.Status)}, 
-					        p.{nameof(PetEntity.SireId)}, 
-					        p.{nameof(PetEntity.DamId)}, 
-					        p.{nameof(PetEntity.AffixId)}, 
-					        p.{nameof(PetEntity.BreedId)}, 
-					        p.{nameof(PetEntity.OwnerId)}, 
-					        p.{nameof(PetEntity.BreederId)}, 
-							p.{nameof(PetEntity.BreedFileId)}, 
-					        p.{nameof(PetEntity.CreatedDate)}, 
-					        p.{nameof(PetEntity.AddedBy)}, 
-					        p.{nameof(PetEntity.LastModifiedDate)}, 
-					        p.{nameof(PetEntity.ModifiedBy)}, 
+							{pColumns},
 					        pa.Depth + 1
 					    FROM 
 					        dbo.Pets AS p
@@ -416,5 +391,36 @@ public class PetService : IPetService
 					SELECT * FROM Ancestors WHERE Depth <= {generations}")
 			.AsNoTrackingWithIdentityResolution()
 			.ToListAsync();
+	}
+
+	private static string GetPetColumns(string? alias = null)
+	{
+		var prefix = string.IsNullOrEmpty(alias) ? "" : $"{alias}.";
+
+		return $@"
+				{prefix}{nameof(PetEntity.Id)}, 
+				{prefix}{nameof(PetEntity.ShowName)}, 
+				{prefix}{nameof(PetEntity.PartialShowName)}, 
+				{prefix}{nameof(PetEntity.CallName)}, 
+				{prefix}{nameof(PetEntity.PedigreeNumber)}, 
+				{prefix}{nameof(PetEntity.RegistrationDate)}, 
+				{prefix}{nameof(PetEntity.RegistrationPicId)}, 
+				{prefix}{nameof(PetEntity.RegistrarId)}, 
+				{prefix}{nameof(PetEntity.Age)}, 
+				{prefix}{nameof(PetEntity.Sex)}, 
+				{prefix}{nameof(PetEntity.GameVersion)}, 
+				{prefix}{nameof(PetEntity.IsAvailableForBreeding)}, 
+				{prefix}{nameof(PetEntity.Status)}, 
+				{prefix}{nameof(PetEntity.SireId)}, 
+				{prefix}{nameof(PetEntity.DamId)}, 
+				{prefix}{nameof(PetEntity.AffixId)}, 
+				{prefix}{nameof(PetEntity.BreedId)}, 
+				{prefix}{nameof(PetEntity.OwnerId)}, 
+				{prefix}{nameof(PetEntity.BreederId)}, 
+				{prefix}{nameof(PetEntity.BreedFileId)}, 
+				{prefix}{nameof(PetEntity.CreatedDate)}, 
+				{prefix}{nameof(PetEntity.AddedBy)}, 
+				{prefix}{nameof(PetEntity.LastModifiedDate)}, 
+				{prefix}{nameof(PetEntity.ModifiedBy)}";
 	}
 }
