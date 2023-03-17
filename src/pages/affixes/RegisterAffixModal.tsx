@@ -127,7 +127,7 @@ export const RegisterAffixModal = ({ isDisabled, onSubmitted }: Props) => {
         size="lg"
         isOpen={isOpen}
         onClose={onClose}
-        closeOnEsc={false}
+        closeOnEsc={true}
         closeOnOverlayClick={false}
       >
         <ModalOverlay />

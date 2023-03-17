@@ -2,10 +2,8 @@ import {
   Button,
   Card,
   CardBody,
-  CardHeader,
   CardProps,
   Flex,
-  Heading,
   Image
 } from "@chakra-ui/react";
 import { PetProfileData } from "../../../api/client";

@@ -12,7 +12,7 @@ import { DateTime } from "luxon";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { PetProfileData } from "../../../api/client";
 import { Space } from "../../../components/Space";
-import { gameVersionDisplay } from "../../../utils";
+import { gameVersionDisplay, petStatusDisplayData } from "../../../utils";
 import { PetNameHeader } from "./PetNameHeader";
 
 export type Props = {
@@ -79,6 +79,11 @@ export const PetInfoCard = ({ profileData, ...rest }: Props & CardProps) => {
             for
             <Space />
             {gameVersionDisplay[profileData.gameVersion]}
+          </Text>
+          <Text>
+            Status:
+            <Space />
+            {petStatusDisplayData[profileData.status].name}
           </Text>
         </Stack>
       </CardBody>

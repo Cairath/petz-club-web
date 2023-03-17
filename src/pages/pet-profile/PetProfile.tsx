@@ -1,5 +1,5 @@
 import { Flex, SimpleGrid } from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../../api/api";
 import { PetProfileData } from "../../api/client";
@@ -21,17 +21,21 @@ export const PetProfile = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [petProfileData, setPetProfileData] = useState<PetProfileData>();
 
-  useEffect(() => {
-    setLoading(true);
-
+  const getPetProfile = useCallback(() => {
     if (petId === undefined) {
       return;
     }
+
     api.getPetProfile(+petId).then((petProfileData: PetProfileData) => {
       setPetProfileData(petProfileData);
       setLoading(false);
     });
   }, [petId]);
+
+  useEffect(() => {
+    setLoading(true);
+    getPetProfile();
+  }, [getPetProfile]);
 
   return (
     <>
@@ -45,7 +49,10 @@ export const PetProfile = () => {
               spacing={6}
               mb="25px"
             >
-              <OwnerActionsCard />
+              <OwnerActionsCard
+                petProfileData={petProfileData}
+                onChanges={getPetProfile}
+              />
               <MonthlyShowPoseCard />
             </SimpleGrid>
           )}

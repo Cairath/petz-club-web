@@ -48,7 +48,7 @@ export const ButtonWithConfirmationPopover = ({
       onOpen={onOpen}
       onClose={onClose}
       placement="left"
-      closeOnBlur={false}
+      closeOnBlur={true}
     >
       <PopoverTrigger>
         <div style={{ display: "inline-block" }}>
