@@ -4696,6 +4696,47 @@ namespace PetzBreedersClub.Database.Migrations
                     b.ToTable("Members");
                 });
 
+            modelBuilder.Entity("PetzBreedersClub.Database.Models.MonthlyShowPicEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AddedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Month")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PetId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PetId");
+
+                    b.ToTable("MonthlyShowPics");
+                });
+
             modelBuilder.Entity("PetzBreedersClub.Database.Models.PetEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -4761,6 +4802,9 @@ namespace PetzBreedersClub.Database.Migrations
                     b.Property<DateTime?>("RegistrationDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("RegistrationPicId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Sex")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -4798,6 +4842,121 @@ namespace PetzBreedersClub.Database.Migrations
                     b.HasIndex("SireId");
 
                     b.ToTable("Pets");
+                });
+
+            modelBuilder.Entity("PetzBreedersClub.Database.Models.RegistrationPicEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AddedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PetId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PetId")
+                        .IsUnique();
+
+                    b.ToTable("RegistrationPics");
+                });
+
+            modelBuilder.Entity("PetzBreedersClub.Database.Models.ShowEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AddedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("JudgeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JudgeId");
+
+                    b.ToTable("Shows");
+                });
+
+            modelBuilder.Entity("PetzBreedersClub.Database.Models.ShowEntryEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AddedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PetId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ShowId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PetId");
+
+                    b.HasIndex("ShowId");
+
+                    b.ToTable("ShowEntries");
                 });
 
             modelBuilder.Entity("PetzBreedersClub.Database.Models.SystemNotificationEntity", b =>
@@ -5038,6 +5197,17 @@ namespace PetzBreedersClub.Database.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("PetzBreedersClub.Database.Models.MonthlyShowPicEntity", b =>
+                {
+                    b.HasOne("PetzBreedersClub.Database.Models.PetEntity", "Pet")
+                        .WithMany("MonthlyShowPics")
+                        .HasForeignKey("PetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pet");
+                });
+
             modelBuilder.Entity("PetzBreedersClub.Database.Models.PetEntity", b =>
                 {
                     b.HasOne("PetzBreedersClub.Database.Models.AffixEntity", "Affix")
@@ -5102,6 +5272,47 @@ namespace PetzBreedersClub.Database.Migrations
                     b.Navigation("Sire");
                 });
 
+            modelBuilder.Entity("PetzBreedersClub.Database.Models.RegistrationPicEntity", b =>
+                {
+                    b.HasOne("PetzBreedersClub.Database.Models.PetEntity", "Pet")
+                        .WithOne("RegistrationPic")
+                        .HasForeignKey("PetzBreedersClub.Database.Models.RegistrationPicEntity", "PetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pet");
+                });
+
+            modelBuilder.Entity("PetzBreedersClub.Database.Models.ShowEntity", b =>
+                {
+                    b.HasOne("PetzBreedersClub.Database.Models.MemberEntity", "Judge")
+                        .WithMany()
+                        .HasForeignKey("JudgeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Judge");
+                });
+
+            modelBuilder.Entity("PetzBreedersClub.Database.Models.ShowEntryEntity", b =>
+                {
+                    b.HasOne("PetzBreedersClub.Database.Models.PetEntity", "Pet")
+                        .WithMany("ShowEntries")
+                        .HasForeignKey("PetId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("PetzBreedersClub.Database.Models.ShowEntity", "Show")
+                        .WithMany("ShowEntries")
+                        .HasForeignKey("ShowId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Pet");
+
+                    b.Navigation("Show");
+                });
+
             modelBuilder.Entity("PetzBreedersClub.Database.Models.SystemNotificationEntity", b =>
                 {
                     b.HasOne("PetzBreedersClub.Database.Models.UserEntity", "User")
@@ -5132,6 +5343,21 @@ namespace PetzBreedersClub.Database.Migrations
                     b.Navigation("BredPets");
 
                     b.Navigation("OwnedPets");
+                });
+
+            modelBuilder.Entity("PetzBreedersClub.Database.Models.PetEntity", b =>
+                {
+                    b.Navigation("MonthlyShowPics");
+
+                    b.Navigation("RegistrationPic")
+                        .IsRequired();
+
+                    b.Navigation("ShowEntries");
+                });
+
+            modelBuilder.Entity("PetzBreedersClub.Database.Models.ShowEntity", b =>
+                {
+                    b.Navigation("ShowEntries");
                 });
 
             modelBuilder.Entity("PetzBreedersClub.Database.Models.UserEntity", b =>

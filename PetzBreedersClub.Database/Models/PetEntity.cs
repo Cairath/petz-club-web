@@ -42,6 +42,11 @@ public class PetEntity : Entity
 	public virtual PetEntity Sire { get; set; } = null!;
 
 	public virtual ICollection<PetEntity> Offspring { get; set; } = new List<PetEntity>();
+	public virtual ICollection<MonthlyShowPicEntity> MonthlyShowPics { get; set; } = new List<MonthlyShowPicEntity>();
+	public virtual ICollection<ShowEntryEntity> ShowEntries { get; set; } = null!;
+
+	public int RegistrationPicId { get; set; }
+	public virtual RegistrationPicEntity RegistrationPic { get; set; } = null!;
 
 	public int? RegistrarId { get; set; }
 	public virtual MemberEntity Registrar { get; set; } = null!;

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetzBreedersClub.Database.Models;
 using PetzBreedersClub.Database.Models.Base;
+using PetzBreedersClub.Database.Models.Seeds;
 
 namespace PetzBreedersClub.Database;
 
@@ -22,6 +23,7 @@ public class Context : IdentityDbContext<UserEntity, IdentityRole<int>, int>
 	public DbSet<BreedEntity> Breeds { get; set; } = default!;
 	public DbSet<BreedStandardEntity> BreedStandards { get; set; } = default!;
 	public DbSet<PetEntity> Pets { get; set; } = default!;
+	public DbSet<ShowEntity> Shows { get; set; } = default!;
 	public DbSet<AffixEntity> Affixes { get; set; } = default!;
 	public DbSet<SystemNotificationEntity> SystemNotifications { get; set; } = default!;
 
