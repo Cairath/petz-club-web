@@ -28,22 +28,22 @@ export const PetPhotoCard = ({
         flexDirection="column"
         alignItems="center"
       >
-        <div
+        {/* <div
           style={{
             background: "url(http://i.imgur.com/rFNHVyy.png) no-repeat 50% 0",
             height: "250px",
             width: "400px"
           }}
-        ></div>
-        {/* <Image src="http://i.imgur.com/rFNHVyy.png" objectFit="none" /> */}
+        ></div> */}
+        <Image src="http://i.imgur.com/rFNHVyy.png" objectFit="none" />
         <Flex direction="row" width="100%">
-          <Button variant="link" colorScheme="teal">
+          <Button variant="link" colorScheme="teal" size="sm">
             Show registration pic
           </Button>
-          <Button variant="link" colorScheme="teal" ml="auto">
+          <Button variant="link" colorScheme="teal" size="sm" ml="auto">
             Upload new
           </Button>
-          <Button variant="link" colorScheme="teal" ml="10px">
+          <Button variant="link" colorScheme="teal" size="sm" ml="10px">
             Remove
           </Button>
         </Flex>

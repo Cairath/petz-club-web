@@ -1,4 +1,4 @@
-import { QuestionOutlineIcon } from "@chakra-ui/icons";
+import { QuestionOutlineIcon, WarningTwoIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -8,26 +8,19 @@ import {
   CardProps,
   Heading,
   Image,
-  Link,
   Stack,
-  Text,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   Tooltip
 } from "@chakra-ui/react";
 import { DateTime } from "luxon";
-import Slider from "react-slick";
-
-import "./slick.css";
 
 export type Props = { poop?: boolean };
 
 export const MonthlyShowPoseCard = ({ ...rest }: Props & CardProps) => {
-  const settings = {
-    dots: true,
-    infinite: true,
-    autoplay: false,
-    slidesToShow: 1
-  };
-
   return (
     <Card variant="panel" {...rest}>
       <CardHeader>
@@ -43,66 +36,62 @@ export const MonthlyShowPoseCard = ({ ...rest }: Props & CardProps) => {
         </Heading>
       </CardHeader>
       <CardBody>
-        <Slider {...settings}>
-          <Box>
-            <Stack
-              direction="column"
-              justifyContent="center"
-              alignItems="center"
+        <Tabs variant="enclosed" colorScheme="teal" size="sm">
+          <TabList>
+            <Tab
+              color="gray.500"
+              fontWeight="bold"
+              fontSize="12px"
+              fontFamily="Segoe UI"
+              style={{ textTransform: "uppercase" }}
             >
-              <Stack direction="row">
-                <Text fontWeight="bold">Conformation -</Text>
-                <Button colorScheme="teal" variant="link" size="sm" ml="2px!">
-                  Upload
-                </Button>
-              </Stack>
-
-              <Image
-                src="http://i.imgur.com/rFNHVyy.png"
-                objectFit="none"
-                minH="200px"
-              />
-            </Stack>
-          </Box>
-          <Box>
-            <Stack
-              direction="column"
-              justifyContent="center"
-              alignItems="center"
+              Conformation <WarningTwoIcon color="red" ml="0.5em" />
+            </Tab>
+            <Tab
+              isDisabled
+              color="gray.500"
+              fontWeight="bold"
+              fontSize="12px"
+              fontFamily="Segoe UI"
+              style={{ textTransform: "uppercase" }}
             >
-              <Stack direction="row">
-                <Text fontWeight="bold">Agility -</Text>
-                <Button colorScheme="teal" variant="link" size="sm" ml="2px!">
-                  Upload
-                </Button>
-              </Stack>
-              <Image
-                src="http://i.imgur.com/rFNHVyy.png"
-                objectFit="none"
-                minH="200px"
-              />
-            </Stack>
-          </Box>
-          <Box>
-            <Stack
-              direction="column"
-              justifyContent="center"
-              alignItems="center"
+              Agility
+            </Tab>
+            <Tab
+              isDisabled
+              color="gray.500"
+              fontWeight="bold"
+              fontSize="12px"
+              fontFamily="Segoe UI"
+              style={{ textTransform: "uppercase" }}
             >
-              <Stack direction="row">
-                <Text fontWeight="bold">Obedience -</Text>
-                <Button colorScheme="teal" variant="link" size="sm" ml="2px!">
-                  Upload
-                </Button>
-              </Stack>
-              <Image
-                src="http://i.imgur.com/rFNHVyy.png"
-                objectFit="none"
-                minH="200px"
-              />
-            </Stack>
-          </Box>
-        </Slider>
+              Obedience
+            </Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <Box>
+                <Stack
+                  direction="column"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Button colorScheme="teal" variant="link" size="sm">
+                    Upload new picture
+                  </Button>
+                  <Image
+                    //  src="http://i.imgur.com/rFNHVyy.png"
+                    src="/images/catsilhouette.png"
+                    objectFit="none"
+                    minH="200px"
+                  />
+                </Stack>
+              </Box>
+            </TabPanel>
+            <TabPanel></TabPanel>
+            <TabPanel></TabPanel>
+          </TabPanels>
+        </Tabs>
       </CardBody>
     </Card>
   );

@@ -33,6 +33,7 @@ export const OwnerActionsCard = ({ ...rest }: Props & CardProps) => {
               colorScheme="teal"
               width="50%"
               minWidth="250px"
+              size="sm"
             >
               Age
             </Button>
@@ -42,6 +43,7 @@ export const OwnerActionsCard = ({ ...rest }: Props & CardProps) => {
               colorScheme="teal"
               width="50%"
               minWidth="250px"
+              size="sm"
             >
               Retire
             </Button>
@@ -51,6 +53,7 @@ export const OwnerActionsCard = ({ ...rest }: Props & CardProps) => {
               colorScheme="teal"
               width="50%"
               minWidth="250px"
+              size="sm"
             >
               Transfer ownership
             </Button>
@@ -60,6 +63,7 @@ export const OwnerActionsCard = ({ ...rest }: Props & CardProps) => {
               colorScheme="teal"
               width="50%"
               minWidth="250px"
+              size="sm"
             >
               Mark as available for breeding
             </Button>
@@ -68,14 +72,15 @@ export const OwnerActionsCard = ({ ...rest }: Props & CardProps) => {
             <Input placeholder="Call name"></Input>
             <Textarea
               placeholder="Bio, additional info, other achievements etc."
-              h="60%"
+              h="80%"
               resize="none"
             ></Textarea>
             <Button
               colorScheme="teal"
-              variant="outline"
+              variant="link"
               alignSelf="end"
               mt="auto"
+              size="sm"
             >
               Save
             </Button>
