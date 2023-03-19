@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System.Configuration;
+using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PetzBreedersClub.Database;
@@ -6,12 +7,12 @@ using PetzBreedersClub.Endpoints;
 using PetzBreedersClub.Services;
 using PetzBreedersClub.Services.Auth;
 using System.Text.Json.Serialization;
+using Hangfire;
+using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.Extensions.Caching.Memory;
 using PetzBreedersClub.Database.Models;
 using MvcJsonOptions = Microsoft.AspNetCore.Mvc.JsonOptions;
-using Microsoft.OpenApi.Models;
-using PetzBreedersClub.DTOs.Pets;
 
 namespace PetzBreedersClub;
 
@@ -91,6 +92,20 @@ public static class Program
 
 		builder.Services.AddSingleton<IMemoryCache, MemoryCache>();
 
+		builder.Services.AddHangfire(configuration => configuration
+			.UseSimpleAssemblyNameTypeSerializer()
+			.UseRecommendedSerializerSettings()
+			.UseSqlServerStorage(builder.Configuration.GetConnectionString("Hangfire"), new SqlServerStorageOptions
+			{
+				CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+				SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+				QueuePollInterval = TimeSpan.Zero,
+				UseRecommendedIsolationLevel = true,
+				DisableGlobalLocks = true
+			}));
+
+		builder.Services.AddHangfireServer();
+
 		var app = builder.Build();
 		if (app.Environment.IsDevelopment())
 		{
@@ -103,6 +118,11 @@ public static class Program
 		app.UseHttpsRedirection();
 
 		app.MapEndpoints();
+
+		app.UseHangfireDashboard();
+		app.MapHangfireDashboard();
+
+		Jobs.Jobs.RegisterJobs();
 
 		app.Run();
 	}
