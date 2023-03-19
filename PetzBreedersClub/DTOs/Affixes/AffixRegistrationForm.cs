@@ -20,8 +20,8 @@ namespace PetzBreedersClub.DTOs.Affixes
 				.NotEmpty()
 				.MinimumLength(3)
 				.MaximumLength(35)
-				.Matches("^[A-Za-zÀ-ȕ]([ ]?[A-Za-zÀ-ȕ])*[A-Za-zÀ-ȕ]*$")
-				.WithMessage("Affix name can contain only letters")
+				.Matches("^[A-Za-zÀ-ȕ]([ ]?[A-Za-zÀ-ȕ'])*[A-Za-zÀ-ȕ']*$")
+				.WithMessage("Affix name can contain only letters, spaces and apostrophes")
 				.MustAsync(async (name, ct) => await context.Affixes.AllAsync(u => u.Name != name, ct))
 				.WithMessage("An affix with this name is already registered or pending registration")
 				.CustomAsync(async (_, ctx, ct) =>

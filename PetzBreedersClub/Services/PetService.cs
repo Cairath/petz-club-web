@@ -1,10 +1,12 @@
-﻿using PetzBreedersClub.Database;
+﻿using FluentValidation;
+using PetzBreedersClub.Database;
 using PetzBreedersClub.Services.Auth;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using PetzBreedersClub.Database.Models;
 using PetzBreedersClub.Database.Models.Enums;
 using PetzBreedersClub.DTOs.Pets;
+using PetzBreedersClub.DTOs.Affixes;
 
 namespace PetzBreedersClub.Services;
 
@@ -16,6 +18,7 @@ public interface IPetService
 	Task<IResult> SetAdult(int petId);
 	Task<IResult> SetBreedingAvailability(BreedingAvailability breedingAvailability);
 	Task<IResult> SetStatus(SetPetActiveStatus petActiveStatus);
+	Task<IResult> SetBio(SetBioForm setBioForm);
 }
 
 public class PetService : IPetService
@@ -23,12 +26,14 @@ public class PetService : IPetService
 	private readonly Context _context;
 	private readonly IUserService _userService;
 	private readonly IMemoryCache _cache;
+	private readonly EditBioFormValidator _editEditBioFormValidator;
 
-	public PetService(Context context, IUserService userService, IMemoryCache cache)
+	public PetService(Context context, IUserService userService, IMemoryCache cache, EditBioFormValidator editEditBioFormValidator)
 	{
 		_context = context;
 		_userService = userService;
 		_cache = cache;
+		_editEditBioFormValidator = editEditBioFormValidator;
 	}
 
 	public async Task<IResult> GetPetProfile(int petId)
@@ -45,6 +50,8 @@ public class PetService : IPetService
 				{
 					Id = p.Id,
 					ShowName = p.ShowName,
+					CallName = p.CallName,
+					Bio = p.Bio,
 					AffixId = p.AffixId,
 					AffixName = p.Affix.Name,
 					PedigreeNumber = p.PedigreeNumber,
@@ -84,8 +91,10 @@ public class PetService : IPetService
 		{
 			Id = petData.Id,
 			ShowName = petData.ShowName,
+			CallName = petData.CallName,
 			AffixId = petData.AffixId,
 			AffixName = petData.AffixName,
+			Bio = petData.Bio,
 			PedigreeNumber = petData.PedigreeNumber,
 			RegistrationDate = petData.RegistrationDate!.Value,
 			Age = petData.Age,
@@ -236,12 +245,19 @@ public class PetService : IPetService
 
 	public async Task<IResult> SetAdult(int petId)
 	{
+		var memberId = await _userService.GetMemberId();
+
+		if (memberId == null)
+		{
+			return Results.Unauthorized();
+		}
+
 		var pet =
 			await _context.Pets
-				.Where(p => p.Id == petId && p.Status != PetStatus.PendingRegistration)
+				.Where(p => p.Id == petId && p.OwnerId == memberId && p.Status != PetStatus.PendingRegistration)
 				.FirstOrDefaultAsync();
 
-		if (pet == null) //todo: use validation
+		if (pet == null)
 		{
 			return Results.BadRequest();
 		}
@@ -255,12 +271,19 @@ public class PetService : IPetService
 
 	public async Task<IResult> SetBreedingAvailability(BreedingAvailability breedingAvailability)
 	{
+		var memberId = await _userService.GetMemberId();
+
+		if (memberId == null)
+		{
+			return Results.Unauthorized();
+		}
+
 		var pet =
 			await _context.Pets
-				.Where(p => p.Id == breedingAvailability.PetId && p.Status != PetStatus.PendingRegistration)
+				.Where(p => p.Id == breedingAvailability.PetId && p.OwnerId == memberId && p.Status != PetStatus.PendingRegistration)
 				.FirstOrDefaultAsync();
 
-		if (pet == null) //todo: use validation
+		if (pet == null)
 		{
 			return Results.BadRequest();
 		}
@@ -274,17 +297,58 @@ public class PetService : IPetService
 
 	public async Task<IResult> SetStatus(SetPetActiveStatus petActiveStatus)
 	{
+		var memberId = await _userService.GetMemberId();
+
+		if (memberId == null)
+		{
+			return Results.Unauthorized();
+		}
+
 		var pet =
 			await _context.Pets
-				.Where(p => p.Id == petActiveStatus.PetId && p.Status != PetStatus.PendingRegistration)
+				.Where(p => p.Id == petActiveStatus.PetId && p.OwnerId == memberId && p.Status != PetStatus.PendingRegistration)
 				.FirstOrDefaultAsync();
 
-		if (pet == null) //todo: use validation
+		if (pet == null)
 		{
 			return Results.BadRequest();
 		}
 
 		pet.Status = petActiveStatus.Active ? PetStatus.Active : PetStatus.Inactive;
+
+		await _context.SaveChangesAsync();
+
+		return Results.Ok();
+	}
+
+	public async Task<IResult> SetBio(SetBioForm setBioForm)
+	{
+		var memberId = await _userService.GetMemberId();
+
+		if (memberId == null)
+		{
+			return Results.Unauthorized();
+		}
+
+		var pet =
+			await _context.Pets
+				.Where(p => p.Id == setBioForm.PetId && p.OwnerId == memberId && p.Status != PetStatus.PendingRegistration)
+				.FirstOrDefaultAsync();
+
+		if (pet == null)
+		{
+			return Results.BadRequest();
+		}
+
+		var validationResult = await _editEditBioFormValidator.ValidateAsync(setBioForm);
+
+		if (!validationResult.IsValid)
+		{
+			return Results.ValidationProblem(validationResult.ToDictionary());
+		}
+
+		pet.CallName = setBioForm.CallName;
+		pet.Bio = setBioForm.Bio;
 
 		await _context.SaveChangesAsync();
 
@@ -402,6 +466,7 @@ public class PetService : IPetService
 				{prefix}{nameof(PetEntity.ShowName)}, 
 				{prefix}{nameof(PetEntity.PartialShowName)}, 
 				{prefix}{nameof(PetEntity.CallName)}, 
+				{prefix}{nameof(PetEntity.Bio)}, 
 				{prefix}{nameof(PetEntity.PedigreeNumber)}, 
 				{prefix}{nameof(PetEntity.RegistrationDate)}, 
 				{prefix}{nameof(PetEntity.RegistrationPicId)}, 

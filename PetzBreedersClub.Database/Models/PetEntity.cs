@@ -13,6 +13,7 @@ public class PetEntity : Entity
 	public required string ShowName { get; set; }
 	public required string PartialShowName { get; set; }
 	public required string CallName { get; set; }
+	public string? Bio { get; set; }
 	public required string PedigreeNumber { get; set; }
 	public Age Age { get; set; }
 	public Sex Sex { get; set; }

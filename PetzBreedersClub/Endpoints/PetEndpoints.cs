@@ -57,5 +57,13 @@ public static class PetEndpoints
 			.WithName("SetAdult")
 			.RequireAuthorization()
 			.WithOpenApi();
+
+		group.MapPost("/set-bio", async ([FromBody] SetBioForm setBioForm, IPetService petService) =>
+			{
+				return await petService.SetBio(setBioForm);
+			})
+			.WithName("SetBio")
+			.RequireAuthorization()
+			.WithOpenApi();
 	}
 }
