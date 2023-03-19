@@ -29,9 +29,21 @@ const errorHandler = (error: AxiosError) => {
       toast.error(<Toast400 errorData={error.response.data} />, {
         position: "top-right"
       });
+    } else {
+      toast.error("An unexpected error has occured.", {
+        position: "top-right"
+      });
     }
 
     return Promise.reject({ ...error });
+  }
+
+  if (error?.response?.status === 401) {
+    toast.error("You are not authorized to perform this action.", {
+      position: "top-right"
+    });
+
+    return Promise.resolve(error.response);
   }
 };
 

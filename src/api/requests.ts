@@ -1,6 +1,10 @@
 import api from "../api/api";
 import { Age, GameVersion, PetStatus, Sex, Species } from "./client";
 
+export const handleError = () => {
+  /* already handled in axios, don't span console */
+};
+
 export interface Pagination {
   pageSize: number;
   page: number;

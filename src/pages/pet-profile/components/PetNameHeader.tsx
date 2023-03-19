@@ -26,6 +26,9 @@ export const PetNameHeader = ({ petProfileData }: Props) => {
         />
         , PBC. B/{petProfileData.pedigreeNumber}
       </Text>
+      <Text fontSize="sm" color="gray.400" fontWeight="bold" fontStyle="italic">
+        {petProfileData.callName}
+      </Text>
     </Heading>
   );
 };

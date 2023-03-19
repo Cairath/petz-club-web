@@ -964,6 +964,56 @@ export class Client {
     /**
      * @return OK
      */
+    setBio(body: SetBioForm , cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/api/pets/set-bio";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processSetBio(_response);
+        });
+    }
+
+    protected processSetBio(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+    
+            return Promise.resolve<void>(null as any);
+
+        } else if (status !== 200 && status !== 204) {
+            return throwException("An unexpected server error occurred.", status, response.statusText, _headers);
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
     getStaffDashboard(  cancelToken?: CancelToken | undefined): Promise<StaffDashboardSummary> {
         let url_ = this.baseUrl + "/api/staff/dashboard";
         url_ = url_.replace(/[?&]$/, "");
@@ -1601,6 +1651,8 @@ export interface PetListItemPaged {
 export interface PetProfileData {
     id: number;
     showName: string;
+    callName: string;
+    bio?: string | undefined;
     pedigreeNumber: string;
     registrationDate: Date;
     age: Age;
@@ -1636,6 +1688,12 @@ export interface RegistrationForm {
 export interface SetAffixActiveStatus {
     id?: number;
     active?: boolean;
+}
+
+export interface SetBioForm {
+    petId: number;
+    callName: string;
+    bio?: string | undefined;
 }
 
 export interface SetPetActiveStatus {

@@ -14,13 +14,13 @@ export type Props = {
   onConfirm: () => void;
   onClose: () => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ref: React.RefObject<any>;
+  innerRef: React.RefObject<any>;
 };
 export const AgePetAlertDialog = ({
   isOpen,
   onConfirm,
   onClose,
-  ref
+  innerRef: ref
 }: Props) => {
   return (
     <AlertDialog isOpen={isOpen} leastDestructiveRef={ref} onClose={onClose}>

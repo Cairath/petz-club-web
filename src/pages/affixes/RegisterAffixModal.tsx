@@ -1,9 +1,7 @@
 import {
-  Box,
   Button,
   Flex,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   Modal,
   ModalBody,
@@ -26,7 +24,9 @@ import {
   AffixSyntax,
   SimilarName
 } from "../../api/client";
+import { handleError } from "../../api/requests";
 import { DebouncedInput } from "../../components/DebouncedInput";
+import { FormError } from "../../components/FormError";
 import { ShowNameText } from "../../components/ShowNameText";
 import { Space } from "../../components/Space";
 import { syntaxDisplayName } from "../../utils";
@@ -55,12 +55,15 @@ export const RegisterAffixModal = ({ isDisabled, onSubmitted }: Props) => {
   } = useForm<AffixRegistrationForm>();
 
   const onSubmit = (values: AffixRegistrationForm) => {
-    api.registerAffix(values).then(() => {
-      onSubmitted();
-      reset();
-      onClose();
-      toast.success("Affix registration has been submitted");
-    });
+    api
+      .registerAffix(values)
+      .then(() => {
+        onSubmitted();
+        reset();
+        onClose();
+        toast.success("Affix registration has been submitted");
+      })
+      .catch(handleError);
   };
 
   const watchName = watch("name");
@@ -69,7 +72,8 @@ export const RegisterAffixModal = ({ isDisabled, onSubmitted }: Props) => {
   const getSimilarNames = useCallback((affix: string) => {
     api
       .getSimilarNames(affix)
-      .then((similarNames: SimilarName[]) => setSimilarNames(similarNames));
+      .then((similarNames: SimilarName[]) => setSimilarNames(similarNames))
+      .catch(handleError);
   }, []);
 
   useEffect(() => {
@@ -166,9 +170,9 @@ export const RegisterAffixModal = ({ isDisabled, onSubmitted }: Props) => {
                         message: "Maximum 35 characters"
                       },
                       pattern: {
-                        value: /^[A-Za-zÀ-ȕ]([ ]?[A-Za-zÀ-ȕ])*[A-Za-zÀ-ȕ]*$/,
+                        value: /^[A-Za-zÀ-ȕ]([ ]?[A-Za-zÀ-ȕ'])*[A-Za-zÀ-ȕ']*$/,
                         message:
-                          "No special characters allowed. The name cannot start nor end wtih a space."
+                          "Only letters, spaces and apostrophes allowed. The name cannot start nor end wtih a space."
                       }
                     }}
                     render={({ field: { onChange, value, name } }) => (
@@ -187,10 +191,7 @@ export const RegisterAffixModal = ({ isDisabled, onSubmitted }: Props) => {
                       />
                     )}
                   />
-                  <FormErrorMessage mt="0.5em">
-                    {errors.name?.message?.toString()}
-                  </FormErrorMessage>
-                  {errors.name === undefined && <Box minHeight="1.7em" />}
+                  <FormError errors={errors} field="name" />
                 </FormControl>
 
                 <FormControl flex="1 1 auto" width="auto">
@@ -270,7 +271,7 @@ export const RegisterAffixModal = ({ isDisabled, onSubmitted }: Props) => {
                 _active={{
                   bg: "teal.400"
                 }}
-                // isDisabled={highestSimilarity === 100}
+                isDisabled={highestSimilarity === 100}
               >
                 Submit
               </Button>

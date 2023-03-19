@@ -5,6 +5,7 @@ import {
   CardProps,
   Link,
   Stack,
+  Tag,
   Text,
   useColorModeValue
 } from "@chakra-ui/react";
@@ -80,11 +81,15 @@ export const PetInfoCard = ({ profileData, ...rest }: Props & CardProps) => {
             <Space />
             {gameVersionDisplay[profileData.gameVersion]}
           </Text>
-          <Text>
-            Status:
-            <Space />
-            {petStatusDisplayData[profileData.status].name}
-          </Text>
+          <Stack direction="row" alignItems="baseline">
+            <Text>Status:</Text>
+            <Tag
+              variant="subtle"
+              color={petStatusDisplayData[profileData.status].color}
+            >
+              {petStatusDisplayData[profileData.status].name}
+            </Tag>
+          </Stack>
         </Stack>
       </CardBody>
     </Card>

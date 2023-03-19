@@ -1,10 +1,13 @@
 import {
+  Box,
   Button,
   Card,
   CardBody,
   CardHeader,
   CardProps,
   Flex,
+  FormControl,
+  FormLabel,
   Heading,
   Input,
   Stack,
@@ -15,7 +18,8 @@ import {
   useDisclosure
 } from "@chakra-ui/react";
 import { DateTime } from "luxon";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 import { BiTransfer } from "react-icons/bi";
 import { FaGraduationCap } from "react-icons/fa";
 import { FiArchive } from "react-icons/fi";
@@ -23,7 +27,14 @@ import { GiStorkDelivery } from "react-icons/gi";
 import { MdRefresh } from "react-icons/md";
 import { toast } from "react-toastify";
 import api from "../../../api/api";
-import { Age, PetProfileData, PetStatus } from "../../../api/client";
+import {
+  Age,
+  PetProfileData,
+  PetStatus,
+  SetBioForm
+} from "../../../api/client";
+import { handleError } from "../../../api/requests";
+import { FormError } from "../../../components/FormError";
 import { AgePetAlertDialog } from "./AgePetAlertDialog";
 
 export type Props = {
@@ -54,21 +65,25 @@ export const OwnerActionsCard = ({
       api
         .setPetActiveStatus({ petId: petProfileData.id, active: isActive })
         .then(() => {
-          setPetStatusSubmitting(false);
           toast.success("Status changed successfully");
           onChanges();
-        });
+        })
+        .catch(handleError)
+        .finally(() => setPetStatusSubmitting(false));
     },
     [petProfileData, onChanges]
   );
 
   const agePet = useCallback(() => {
     setPetAgingSubmitting(true);
-    api.setAdult(petProfileData.id).then(() => {
-      setPetAgingSubmitting(false);
-      toast.success("Age changed successfully");
-      onChanges();
-    });
+    api
+      .setAdult(petProfileData.id)
+      .then(() => {
+        toast.success("Age changed successfully");
+        onChanges();
+      })
+      .catch(handleError)
+      .finally(() => setPetAgingSubmitting(false));
   }, [petProfileData, onChanges]);
 
   const setBreedingAvailibility = useCallback(
@@ -81,10 +96,38 @@ export const OwnerActionsCard = ({
         .then(() => {
           toast.success("Breeding status changed successfully");
           onChanges();
-        });
+        })
+        .catch(handleError);
     },
     [petProfileData, onChanges]
   );
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isSubmitting },
+    watch
+  } = useForm<SetBioForm>({
+    defaultValues: useMemo(() => {
+      return {
+        callName: petProfileData.callName,
+        bio: petProfileData.bio,
+        petId: petProfileData.id
+      };
+    }, [petProfileData])
+  });
+
+  const onSubmit = (values: SetBioForm) => {
+    api
+      .setBio(values)
+      .then(() => {
+        onChanges();
+        toast.success("Bio has been set.");
+      })
+      .catch(handleError);
+  };
+
+  const watchBio = watch("bio");
 
   return (
     <>
@@ -109,7 +152,6 @@ export const OwnerActionsCard = ({
                     size="sm"
                     textAlign="start"
                     colorScheme="teal"
-                    // onClick={agePet}
                     onClick={onPetAgingDialogOpen}
                     leftIcon={<FaGraduationCap color={iconColor} />}
                     isLoading={isPetAgingSubmitting}
@@ -173,23 +215,73 @@ export const OwnerActionsCard = ({
                 </Stack>
               )}
             </Stack>
-            <Stack h="100%" flex="1 1 auto">
-              <Input placeholder="Call name"></Input>
-              <Textarea
-                placeholder="Bio, additional info, other achievements etc."
-                h="80%"
-                resize="none"
-              ></Textarea>
-              <Button
-                colorScheme="teal"
-                variant="link"
-                alignSelf="end"
-                mt="auto"
-                size="sm"
+            <Box h="100%" w="50%" maxW="50%">
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                style={{ height: "100%" }}
               >
-                Save
-              </Button>
-            </Stack>
+                <Stack gap={3} h="100%">
+                  <FormControl isInvalid={!!errors.callName}>
+                    <FormLabel
+                      pl="0.5em"
+                      fontSize="sm"
+                      color="gray.500"
+                      fontWeight="bold"
+                    >
+                      CALL NAME
+                    </FormLabel>
+                    <Input
+                      maxLength={25}
+                      {...register("callName", {
+                        required: "This is required",
+                        pattern: {
+                          value:
+                            /^[A-Za-zÀ-ȕ]([ ]?[A-Za-zÀ-ȕ'])*[A-Za-zÀ-ȕ']*$/,
+                          message:
+                            "Only letters, spaces and apostrophes are allowed."
+                        }
+                      })}
+                    />
+                    <FormError errors={errors} field="callName" />
+                  </FormControl>
+
+                  <FormControl height="50%">
+                    <FormLabel
+                      pl="0.5em"
+                      fontSize="sm"
+                      color="gray.500"
+                      fontWeight="bold"
+                    >
+                      BIO
+                    </FormLabel>
+                    <Textarea
+                      placeholder="Bio, additional info, other achievements etc."
+                      {...register("bio", { maxLength: 255 })}
+                      resize="none"
+                      maxLength={255}
+                      h="85%"
+                    ></Textarea>
+                  </FormControl>
+
+                  <Stack
+                    direction="row"
+                    width="100%"
+                    justifyContent="space-between"
+                  >
+                    <Text>{watchBio?.length}/255</Text>
+                    <Button
+                      colorScheme="teal"
+                      variant="link"
+                      size="sm"
+                      type="submit"
+                      isLoading={isSubmitting}
+                    >
+                      Save
+                    </Button>
+                  </Stack>
+                </Stack>
+              </form>
+            </Box>
           </Flex>
         </CardBody>
       </Card>
@@ -200,7 +292,7 @@ export const OwnerActionsCard = ({
           onPetAgingDialogClose();
         }}
         onClose={onPetAgingDialogClose}
-        ref={cancelRef}
+        innerRef={cancelRef}
       />
     </>
   );

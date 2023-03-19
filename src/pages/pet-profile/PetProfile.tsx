@@ -3,6 +3,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../../api/api";
 import { PetProfileData } from "../../api/client";
+import { handleError } from "../../api/requests";
 import { Header } from "../../components/Header";
 import { UserContext } from "../../context/UserContext";
 import { PageLoader } from "../layouts/main/components/PageLoader";
@@ -26,10 +27,13 @@ export const PetProfile = () => {
       return;
     }
 
-    api.getPetProfile(+petId).then((petProfileData: PetProfileData) => {
-      setPetProfileData(petProfileData);
-      setLoading(false);
-    });
+    api
+      .getPetProfile(+petId)
+      .then((petProfileData: PetProfileData) => {
+        setPetProfileData(petProfileData);
+      })
+      .catch(handleError)
+      .finally(() => setLoading(false));
   }, [petId]);
 
   useEffect(() => {
