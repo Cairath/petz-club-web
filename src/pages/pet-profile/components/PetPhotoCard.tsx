@@ -11,11 +11,13 @@ import { PetProfileData } from "../../../api/client";
 export type Props = {
   profileData: PetProfileData;
   header?: string;
+  isOwner: boolean;
 };
 
 export const PetPhotoCard = ({
   profileData,
   header,
+  isOwner,
   ...rest
 }: Props & CardProps) => {
   return (
@@ -26,25 +28,20 @@ export const PetPhotoCard = ({
         flexDirection="column"
         alignItems="center"
       >
-        {/* <div
-          style={{
-            background: "url(http://i.imgur.com/rFNHVyy.png) no-repeat 50% 0",
-            height: "250px",
-            width: "400px"
-          }}
-        ></div> */}
         <Image src="http://i.imgur.com/rFNHVyy.png" objectFit="none" />
-        <Flex direction="row" width="100%">
-          <Button variant="link" colorScheme="teal" size="sm">
-            Show registration pic
-          </Button>
-          <Button variant="link" colorScheme="teal" size="sm" ml="auto">
-            Upload new
-          </Button>
-          <Button variant="link" colorScheme="teal" size="sm" ml="10px">
-            Remove
-          </Button>
-        </Flex>
+        {isOwner && (
+          <Flex direction="row" width="100%">
+            <Button variant="link" colorScheme="teal" size="sm">
+              Show registration pic
+            </Button>
+            <Button variant="link" colorScheme="teal" size="sm" ml="auto">
+              Upload new
+            </Button>
+            <Button variant="link" colorScheme="teal" size="sm" ml="10px">
+              Remove
+            </Button>
+          </Flex>
+        )}
       </CardBody>
     </Card>
   );

@@ -17,6 +17,15 @@ const isErrorData = (error: AxiosError): error is AxiosError<ErrorData> => {
 };
 
 const errorHandler = (error: AxiosError) => {
+  if (!error.response) {
+    toast.error(
+      "There was a problem communicating with the server. Check your internet connection or try again later.",
+      {
+        position: "top-center"
+      }
+    );
+  }
+
   if (error.response?.status === 500) {
     toast.error("An unexpected error has occured.", {
       position: "top-right"
@@ -39,11 +48,21 @@ const errorHandler = (error: AxiosError) => {
   }
 
   if (error?.response?.status === 401) {
+    if (!(error.request.responseURL as string).endsWith("sign-in")) {
+      toast.error("Credentials expired or invalid. Please refresh the page.", {
+        position: "top-right"
+      });
+    }
+
+    return Promise.reject(error.response);
+  }
+
+  if (error?.response?.status === 403) {
     toast.error("You are not authorized to perform this action.", {
       position: "top-right"
     });
 
-    return Promise.resolve(error.response);
+    return Promise.reject(error.response);
   }
 };
 

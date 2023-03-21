@@ -21,6 +21,7 @@ export const PetProfile = () => {
 
   const [loading, setLoading] = useState<boolean>(true);
   const [petProfileData, setPetProfileData] = useState<PetProfileData>();
+  const [isOwner, setIsOwner] = useState(false);
 
   const getPetProfile = useCallback(() => {
     if (petId === undefined) {
@@ -41,13 +42,17 @@ export const PetProfile = () => {
     getPetProfile();
   }, [getPetProfile]);
 
+  useEffect(() => {
+    setIsOwner(user?.memberId === petProfileData?.ownerId);
+  }, [user, petProfileData]);
+
   return (
     <>
       <Header title={petProfileData?.showName} />
       <PageLoader loading={loading} />
       {!loading && petProfileData !== undefined && (
         <Flex direction="column">
-          {user?.memberId === petProfileData.ownerId && (
+          {isOwner && (
             <SimpleGrid
               columns={{ md: 1, lg: 2, xl: 2, "2xl": 2 }}
               spacing={6}
@@ -61,7 +66,7 @@ export const PetProfile = () => {
             </SimpleGrid>
           )}
           <SimpleGrid columns={{ md: 1, lg: 2, xl: 2, "2xl": 4 }} spacing={6}>
-            <PetPhotoCard profileData={petProfileData} />
+            <PetPhotoCard profileData={petProfileData} isOwner={isOwner} />
             <PetInfoCard profileData={petProfileData} />
             <OffspringCard offspring={petProfileData.offspring} />
             <SiblingsCard siblings={petProfileData.siblings} />

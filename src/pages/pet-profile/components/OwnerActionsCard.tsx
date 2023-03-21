@@ -36,6 +36,8 @@ import {
 import { handleError } from "../../../api/requests";
 import { FormError } from "../../../components/FormError";
 import { AgePetAlertDialog } from "./AgePetAlertDialog";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { setBioFormValidationSchema } from "../validation-schemas/SetBioFormValidationSchema";
 
 export type Props = {
   petProfileData: PetProfileData;
@@ -108,6 +110,7 @@ export const OwnerActionsCard = ({
     formState: { errors, isSubmitting },
     watch
   } = useForm<SetBioForm>({
+    resolver: yupResolver(setBioFormValidationSchema),
     defaultValues: useMemo(() => {
       return {
         callName: petProfileData.callName,
@@ -159,7 +162,7 @@ export const OwnerActionsCard = ({
                     Age up
                   </Button>
                   <Text>
-                    (will age up automatically in{" "}
+                    (will age up automatically{" "}
                     {DateTime.fromJSDate(petProfileData.registrationDate)
                       .plus({ months: 6 })
                       .toRelative()}
@@ -220,43 +223,27 @@ export const OwnerActionsCard = ({
                 onSubmit={handleSubmit(onSubmit)}
                 style={{ height: "100%" }}
               >
-                <Stack gap={3} h="100%">
+                <Stack gap={1} h="100%">
                   <FormControl isInvalid={!!errors.callName}>
-                    <FormLabel
-                      pl="0.5em"
-                      fontSize="sm"
-                      color="gray.500"
-                      fontWeight="bold"
-                    >
-                      CALL NAME
+                    <FormLabel fontSize="sm" color="gray.500" fontWeight="bold">
+                      Call Name
                     </FormLabel>
                     <Input
+                      fontSize="sm"
                       maxLength={25}
-                      {...register("callName", {
-                        required: "This is required",
-                        pattern: {
-                          value:
-                            /^[A-Za-zÀ-ȕ]([ ]?[A-Za-zÀ-ȕ'])*[A-Za-zÀ-ȕ']*$/,
-                          message:
-                            "Only letters, spaces and apostrophes are allowed."
-                        }
-                      })}
+                      {...register("callName")}
                     />
                     <FormError errors={errors} field="callName" />
                   </FormControl>
 
-                  <FormControl height="50%">
-                    <FormLabel
-                      pl="0.5em"
-                      fontSize="sm"
-                      color="gray.500"
-                      fontWeight="bold"
-                    >
-                      BIO
+                  <FormControl height="60%">
+                    <FormLabel fontSize="sm" color="gray.500" fontWeight="bold">
+                      Bio
                     </FormLabel>
                     <Textarea
+                      fontSize="sm"
                       placeholder="Bio, additional info, other achievements etc."
-                      {...register("bio", { maxLength: 255 })}
+                      {...register("bio")}
                       resize="none"
                       maxLength={255}
                       h="85%"

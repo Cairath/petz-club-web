@@ -12,13 +12,16 @@ import {
   Stack,
   Text,
   useColorMode,
-  useColorModeValue
+  useColorModeValue,
+  useDisclosure
 } from "@chakra-ui/react";
 import { useContext } from "react";
 import { FaSignOutAlt, FaUser } from "react-icons/fa";
 import { Link as ReactRouterLink } from "react-router-dom";
 import api from "../../../../../api/api";
 import { User, UserContext } from "../../../../../context/UserContext";
+import { RegisterModal } from "../../../../auth/RegisterModal";
+import { SignInModal } from "../../../../auth/SignInModal";
 import { Notifications } from "../notifications/Notifications";
 import { MobileSidebar } from "../sidebar/MobileSidebar";
 import { ColorModeSwitch } from "./ColorModeSwitch";
@@ -116,6 +119,18 @@ const UserControl = ({
   color: string;
   signOut: () => void;
 }) => {
+  const {
+    isOpen: isSignInOpen,
+    onOpen: onSignInOpen,
+    onClose: onSignInClose
+  } = useDisclosure();
+
+  const {
+    isOpen: isRegistrationOpen,
+    onOpen: onRegistrationOpen,
+    onClose: onRegistrationClose
+  } = useDisclosure();
+
   return (
     <Flex>
       {user != null ? ( //todo ===
@@ -138,11 +153,9 @@ const UserControl = ({
           </Portal>
         </Menu>
       ) : (
-        <ReactRouterLink to="/sign-in">
+        <>
           <Button
-            ms="0px"
-            ps="5px"
-            pe="10px"
+            onClick={onSignInOpen}
             color={color}
             variant="ghost"
             aria-label="sign-in"
@@ -150,7 +163,17 @@ const UserControl = ({
           >
             <Text display={{ sm: "none", md: "flex" }}>Sign In</Text>
           </Button>
-        </ReactRouterLink>
+          <SignInModal
+            iconColor={color}
+            isOpen={isSignInOpen}
+            onClose={onSignInClose}
+            onRegistrationClicked={onRegistrationOpen}
+          />
+          <RegisterModal
+            isOpen={isRegistrationOpen}
+            onClose={onRegistrationClose}
+          />
+        </>
       )}
     </Flex>
   );

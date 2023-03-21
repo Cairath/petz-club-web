@@ -1,27 +1,22 @@
 import { createBrowserRouter, redirect } from "react-router-dom";
 import "./App.css";
-import { LoggedOut } from "./pages/auth/LoggedOut";
-import { PasswordReset } from "./pages/auth/PasswordReset";
-import { SignIn } from "./pages/auth/SignIn";
-import { SignUp } from "./pages/auth/SignUp";
 import { MainLayout } from "./pages/layouts/main/MainLayout";
 
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import { SignOut } from "./pages/auth/SignOut";
-import { Dashboard } from "./pages/dashboard/Dashboard";
-import { Affixes } from "./pages/affixes/Affixes";
 import { Account } from "./pages/account/Account";
-import { StaffDashboard } from "./pages/Staff/dashboard/StaffDashboard";
 import { AffixProfile } from "./pages/affix-profile/AffixProfile";
-import { AffixRegistrations } from "./pages/Staff/affix-registration/AffixRegistrations";
+import { Affixes } from "./pages/affixes/Affixes";
 import { Breeds } from "./pages/breeds/Breeds";
 import { CatBreeds } from "./pages/breeds/CatBreeds";
 import { DogBreeds } from "./pages/breeds/DogBreeds";
+import { Dashboard } from "./pages/dashboard/Dashboard";
 import { Landing } from "./pages/landing/Landing";
 import { PetProfile } from "./pages/pet-profile/PetProfile";
 import { Petz } from "./pages/petz/Petz";
+import { AffixRegistrations } from "./pages/Staff/affix-registration/AffixRegistrations";
+import { StaffDashboard } from "./pages/Staff/dashboard/StaffDashboard";
 
 export const router = createBrowserRouter([
   {
@@ -125,11 +120,6 @@ export const router = createBrowserRouter([
       </MainLayout>
     )
   },
-  { path: "/sign-in", element: <SignIn /> },
-  { path: "/sign-up", element: <SignUp /> },
-  { path: "/sign-out", element: <SignOut /> },
-  { path: "/password-reset", element: <PasswordReset /> },
-  { path: "/logged-out", element: <LoggedOut /> },
   {
     path: "*",
     element: <div>wild</div>
