@@ -6,7 +6,7 @@ namespace PetzBreedersClub.Jobs;
 
 public class AgePetsJob : JobActivator
 {
-	public const string Id = "AgePets";
+	public const string JobName = "Age Pets";
 
 	private readonly IServiceProvider _serviceProvider;
 
@@ -15,6 +15,7 @@ public class AgePetsJob : JobActivator
 		_serviceProvider = serviceProvider;
 	}
 
+	[JobDisplayName(JobName)]
 	public async Task Execute()
 	{
 		using var scope = _serviceProvider.CreateScope();

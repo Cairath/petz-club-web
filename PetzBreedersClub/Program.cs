@@ -107,17 +107,21 @@ public static class Program
 		builder.Services.AddHangfireServer();
 
 		var app = builder.Build();
+		
+
 		if (app.Environment.IsDevelopment())
 		{
 			app.UseSwagger();
 			app.UseSwaggerUI();
 		}
 
-		app.UseCors(devCorsPolicy);
-
 		app.UseHttpsRedirection();
 
 		app.MapEndpoints();
+
+		app.UseCors(devCorsPolicy);
+		app.UseAuthentication();
+		app.UseAuthorization();
 
 		app.UseHangfireDashboard();
 		app.MapHangfireDashboard();

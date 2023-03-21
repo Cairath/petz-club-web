@@ -121,7 +121,7 @@ public class UserService : IUserService
 
 		await _context.Entry(user).Reference(u => u.Member).LoadAsync();
 
-		return TypedResults.Ok(new ClientUserInfo { Id = user.Id, Email = user.Email, DisplayName = user.Member.Name });
+		return TypedResults.Ok(new ClientUserInfo { Id = user.Id, Email = user.Email, DisplayName = user.Member.Name, MemberId = user.Member.Id });
 	}
 
 	public async Task<IResult> SignOut()
