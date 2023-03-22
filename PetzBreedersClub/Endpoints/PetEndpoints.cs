@@ -76,8 +76,7 @@ public static class PetEndpoints
 
 		group.MapPost("/delete-profile-pic/{petId}", async (int petId, IPetService petService) =>
 			{
-				Console.WriteLine("aa");
-				//return await petService.SetBio(setBioForm);
+				return await petService.DeleteProfilePic(petId);
 			})
 			.WithName("DeleteProfilePic")
 			.RequireAuthorization()

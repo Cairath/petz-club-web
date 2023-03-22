@@ -18,6 +18,7 @@ public interface IPetService
 	Task<IResult> SetStatus(SetPetActiveStatus petActiveStatus);
 	Task<IResult> SetBio(SetBioForm setBioForm);
 	Task<IResult> UploadProfilePic(int petId, IFormFile file);
+	Task<IResult> DeleteProfilePic(int petId);
 }
 
 public class PetService : IPetService
@@ -411,6 +412,41 @@ public class PetService : IPetService
 
 			await _context.SaveChangesAsync();
 		}
+
+		return Results.Ok();
+	}
+
+	public async Task<IResult> DeleteProfilePic(int petId)
+	{
+		var memberId = await _userService.GetMemberId();
+
+		if (memberId == null)
+		{
+			return Results.Unauthorized();
+		}
+
+		var pet =
+			await _context.Pets
+				.Include(p => p.ProfilePic)
+				.Where(p => p.Id == petId && p.OwnerId == memberId && p.Status != PetStatus.PendingRegistration)
+				.FirstOrDefaultAsync();
+
+		if (pet == null)
+		{
+			return Results.BadRequest();
+		}
+
+		var profilePicsPath = PetPicUtils.GetPicsPath(PetPicType.Profile);
+
+		if (pet.ProfilePic == null)
+		{
+			return Results.Ok();
+		}
+
+		var pathToDelete = Path.Combine(profilePicsPath, PetPicUtils.GetFilePathString(pet.ProfilePic.FileName));
+		File.Delete(pathToDelete);
+
+		await _context.SaveChangesAsync();
 
 		return Results.Ok();
 	}
