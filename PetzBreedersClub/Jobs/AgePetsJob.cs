@@ -6,8 +6,7 @@ namespace PetzBreedersClub.Jobs;
 
 public class AgePetsJob : JobActivator
 {
-	public const string JobName = "Age Pets";
-
+	private const string JobName = "Age Pets";
 	private readonly IServiceProvider _serviceProvider;
 
 	public AgePetsJob(IServiceProvider serviceProvider)
