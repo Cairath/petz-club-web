@@ -1,0 +1,11 @@
+.uppy-StatusBar-actions {
+  justify-content: right;
+}
+
+.uppy-StatusBar-actions button {
+    background-color: teal !important;
+}
+
+button.uppy-Dashboard-browse {
+  color: teal !important;
+}

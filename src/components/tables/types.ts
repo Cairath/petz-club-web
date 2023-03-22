@@ -5,9 +5,9 @@ export enum ColumnFilterType {
   Enum = "enum"
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type Table = ReactTable<any>;
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export type FilterProps = {
   column: Column<any, unknown>;
   table: Table;

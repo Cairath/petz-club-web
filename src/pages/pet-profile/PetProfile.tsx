@@ -1,5 +1,5 @@
 import { Flex, SimpleGrid } from "@chakra-ui/react";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../../api/api";
 import { PetProfileData } from "../../api/client";
@@ -21,7 +21,6 @@ export const PetProfile = () => {
 
   const [loading, setLoading] = useState<boolean>(true);
   const [petProfileData, setPetProfileData] = useState<PetProfileData>();
-  const [isOwner, setIsOwner] = useState(false);
 
   const getPetProfile = useCallback(() => {
     if (petId === undefined) {
@@ -42,9 +41,10 @@ export const PetProfile = () => {
     getPetProfile();
   }, [getPetProfile]);
 
-  useEffect(() => {
-    setIsOwner(user?.memberId === petProfileData?.ownerId);
-  }, [user, petProfileData]);
+  const isOwner = useMemo(
+    () => user?.memberId === petProfileData?.ownerId,
+    [user, petProfileData]
+  );
 
   return (
     <>
