@@ -29,6 +29,7 @@
     "@uppy/progress-bar": "^3.0.1",
     "@uppy/react": "^3.1.0",
     "@uppy/status-bar": "^3.0.1",
+    "@uppy/xhr-upload": "^3.1.0",
     "apexcharts": "^3.27.3",
     "axios": "^1.2.0",
     "chakra-react-select": "^4.6.0",

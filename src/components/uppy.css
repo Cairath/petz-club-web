@@ -9,3 +9,11 @@
 button.uppy-Dashboard-browse {
   color: teal !important;
 }
+
+.uppy-Dashboard-Item-previewInnerWrap {
+  background-color: transparent !important;
+}
+
+.uppy-Dashboard-Item-previewImg {
+  object-fit: contain !important;
+}

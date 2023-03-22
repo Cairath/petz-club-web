@@ -26,7 +26,11 @@ export const PetPhotoCard = ({
 
   return (
     <>
-      <PictureUploadModal isOpen={isOpen} onClose={onClose} />
+      <PictureUploadModal
+        isOpen={isOpen}
+        onClose={onClose}
+        petId={profileData.id}
+      />
       <Card variant="panel" minWidth="200px" {...rest}>
         <CardBody
           display="flex"

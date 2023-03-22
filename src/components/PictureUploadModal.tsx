@@ -1,11 +1,11 @@
 import { Portal } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect } from "react";
 
 import Uppy from "@uppy/core";
-import { DashboardModal } from "@uppy/react";
-
 import "@uppy/core/dist/style.min.css";
 import "@uppy/dashboard/dist/style.min.css";
+import { DashboardModal } from "@uppy/react";
+import XHRUpload from "@uppy/xhr-upload";
 import "./uppy.css";
 
 const uppy = new Uppy({
@@ -15,20 +15,30 @@ const uppy = new Uppy({
     minNumberOfFiles: 1,
     allowedFileTypes: ["image/bmp", "image/png"]
   }
+}).use(XHRUpload, {
+  endpoint: "https://localhost:7017/api/pets/upload-profile-pic",
+  withCredentials: true
 });
 
 export type Props = {
+  petId: number;
   isOpen: boolean;
   onClose: () => void;
 };
 
-export const PictureUploadModal = ({ isOpen, onClose }: Props) => {
-  const [submitting, setSubmitting] = useState(false);
-
+export const PictureUploadModal = ({ petId, isOpen, onClose }: Props) => {
   const closeModal = () => {
     uppy.cancelAll();
     onClose();
   };
+
+  useEffect(
+    () =>
+      uppy.getPlugin("XHRUpload")?.setOptions({
+        endpoint: `https://localhost:7017/api/pets/upload-profile-pic/${petId}`
+      }),
+    [petId]
+  );
 
   return (
     <Portal>
@@ -38,10 +48,8 @@ export const PictureUploadModal = ({ isOpen, onClose }: Props) => {
         uppy={uppy}
         note=".gif and .png files, maximum 1 MB"
         proudlyDisplayPoweredByUppy={false}
-        thumbnailType="image/jpeg"
+        thumbnailType="image/png"
         closeAfterFinish={true}
-        hideCancelButton={true}
-        plugins={[]}
       />
     </Portal>
   );
