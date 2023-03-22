@@ -172,6 +172,7 @@ const UserControl = ({
           <RegisterModal
             isOpen={isRegistrationOpen}
             onClose={onRegistrationClose}
+            onSignInClicked={onSignInOpen}
           />
         </>
       )}

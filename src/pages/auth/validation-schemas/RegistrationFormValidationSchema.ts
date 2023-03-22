@@ -3,7 +3,7 @@ import { ObjectSchema } from "yup";
 import { RegistrationForm } from "../../../api/client";
 
 export const registrationFormValidationSchema: ObjectSchema<
-  RegistrationForm & { confirmPassword: string }
+  RegistrationForm & { confirmPassword: string; rulesAccepted: boolean }
 > = yup.object().shape({
   email: yup.string().required("Email is required").email("Email is invalid"),
   password: yup
@@ -28,5 +28,9 @@ export const registrationFormValidationSchema: ObjectSchema<
     .matches(
       /^[A-Za-zÀ-ȕ]([ ]?[A-Za-zÀ-ȕ'])*[A-Za-zÀ-ȕ']*$/,
       "Name shouldn't contain consecutive spaces"
-    )
+    ),
+  rulesAccepted: yup
+    .bool()
+    .required()
+    .isTrue("You must accept the rules in order to register")
 });

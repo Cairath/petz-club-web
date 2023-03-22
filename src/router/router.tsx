@@ -1,22 +1,22 @@
 import { createBrowserRouter, redirect } from "react-router-dom";
-import "./App.css";
-import { MainLayout } from "./pages/layouts/main/MainLayout";
+import { MainLayout } from "../pages/layouts/main/MainLayout";
 
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import { Account } from "./pages/account/Account";
-import { AffixProfile } from "./pages/affix-profile/AffixProfile";
-import { Affixes } from "./pages/affixes/Affixes";
-import { Breeds } from "./pages/breeds/Breeds";
-import { CatBreeds } from "./pages/breeds/CatBreeds";
-import { DogBreeds } from "./pages/breeds/DogBreeds";
-import { Dashboard } from "./pages/dashboard/Dashboard";
-import { Landing } from "./pages/landing/Landing";
-import { PetProfile } from "./pages/pet-profile/PetProfile";
-import { Petz } from "./pages/petz/Petz";
-import { AffixRegistrations } from "./pages/Staff/affix-registration/AffixRegistrations";
-import { StaffDashboard } from "./pages/Staff/dashboard/StaffDashboard";
+import { Account } from "../pages/account/Account";
+import { AffixProfile } from "../pages/affix-profile/AffixProfile";
+import { Affixes } from "../pages/affixes/Affixes";
+import { Breeds } from "../pages/breeds/Breeds";
+import { CatBreeds } from "../pages/breeds/CatBreeds";
+import { DogBreeds } from "../pages/breeds/DogBreeds";
+import { Dashboard } from "../pages/dashboard/Dashboard";
+import { Landing } from "../pages/landing/Landing";
+import { PetProfile } from "../pages/pet-profile/PetProfile";
+import { Petz } from "../pages/petz/Petz";
+import { AffixRegistrations } from "../pages/Staff/affix-registration/AffixRegistrations";
+import { StaffDashboard } from "../pages/Staff/dashboard/StaffDashboard";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 export const router = createBrowserRouter([
   {
@@ -35,41 +35,51 @@ export const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: (
-      <MainLayout>
-        <Dashboard />
-      </MainLayout>
+      <ProtectedRoute>
+        <MainLayout>
+          <Dashboard />
+        </MainLayout>
+      </ProtectedRoute>
     )
   },
   {
     path: "/staff/dashboard",
     element: (
-      <MainLayout>
-        <StaffDashboard />
-      </MainLayout>
+      <ProtectedRoute>
+        <MainLayout>
+          <StaffDashboard />
+        </MainLayout>
+      </ProtectedRoute>
     )
   },
   {
     path: "/staff/affix-registrations",
     element: (
-      <MainLayout>
-        <AffixRegistrations />
-      </MainLayout>
+      <ProtectedRoute>
+        <MainLayout>
+          <AffixRegistrations />
+        </MainLayout>
+      </ProtectedRoute>
     )
   },
   {
     path: "/member/petz",
     element: (
-      <MainLayout>
-        <Petz />
-      </MainLayout>
+      <ProtectedRoute>
+        <MainLayout>
+          <Petz />
+        </MainLayout>
+      </ProtectedRoute>
     )
   },
   {
     path: "/member/affixes",
     element: (
-      <MainLayout>
-        <Affixes />
-      </MainLayout>
+      <ProtectedRoute>
+        <MainLayout>
+          <Affixes />
+        </MainLayout>
+      </ProtectedRoute>
     )
   },
   {

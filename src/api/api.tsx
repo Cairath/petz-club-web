@@ -79,4 +79,5 @@ const client = new Client(
   instance
 );
 
+export const api = client;
 export default client;

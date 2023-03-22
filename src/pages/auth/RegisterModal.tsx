@@ -2,33 +2,39 @@ import {
   Alert,
   AlertIcon,
   Button,
+  Checkbox,
   Flex,
   FormControl,
   FormLabel,
   Input,
+  Link,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
-  ModalOverlay
+  ModalOverlay,
+  Stack,
+  Text
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { api } from "api/api";
+import { RegistrationForm } from "api/client";
+import { handleError } from "api/requests";
+import { FormError } from "components/FormError";
+import { Space } from "components/Space";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import api from "../../api/api";
-import { RegistrationForm } from "../../api/client";
-import { handleError } from "../../api/requests";
-import { FormError } from "../../components/FormError";
 import { registrationFormValidationSchema } from "./validation-schemas/RegistrationFormValidationSchema";
 
 export type Props = {
   isOpen: boolean;
   onClose: () => void;
+  onSignInClicked: () => void;
 };
 
-export const RegisterModal = ({ isOpen, onClose }: Props) => {
+export const RegisterModal = ({ isOpen, onClose, onSignInClicked }: Props) => {
   const [submitting, setSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [successEmail, setSuccessEmail] = useState<string>();
@@ -38,7 +44,9 @@ export const RegisterModal = ({ isOpen, onClose }: Props) => {
     register,
     reset,
     formState: { errors }
-  } = useForm<RegistrationForm & { confirmPassword: string }>({
+  } = useForm<
+    RegistrationForm & { confirmPassword: string; rulesAccepted: boolean }
+  >({
     resolver: yupResolver(registrationFormValidationSchema)
   });
 
@@ -64,6 +72,11 @@ export const RegisterModal = ({ isOpen, onClose }: Props) => {
     onClose();
   };
 
+  const signInClicked = () => {
+    closeModal();
+    onSignInClicked();
+  };
+
   return (
     <>
       <Modal
@@ -87,6 +100,25 @@ export const RegisterModal = ({ isOpen, onClose }: Props) => {
                 </Alert>
               )}
               <Flex direction="column" alignItems="center" mt="1em">
+                <Text
+                  color="gray.500"
+                  fontWeight="medium"
+                  mb="2em"
+                  textAlign="center"
+                >
+                  If you'd like to join our club, please register an account.
+                  Your email will be used as your login, but will not be visible
+                  to other members.
+                </Text>
+
+                <Text
+                  color="gray.500"
+                  fontWeight="medium"
+                  mb="2em"
+                  textAlign="center"
+                >
+                  Registering multiple accounts is bannable.
+                </Text>
                 <FormControl width="70%" isInvalid={!!errors.email}>
                   <FormLabel fontSize="sm" fontWeight="normal">
                     Email
@@ -144,6 +176,48 @@ export const RegisterModal = ({ isOpen, onClose }: Props) => {
                   />
                   <FormError errors={errors} field="memberName" />
                 </FormControl>
+
+                <FormControl
+                  width="70%"
+                  my="1.2em"
+                  flexDirection="column"
+                  display="flex"
+                  alignItems="center"
+                  isInvalid={!!errors.rulesAccepted}
+                >
+                  <Stack direction="row">
+                    <Checkbox
+                      colorScheme="teal"
+                      {...register("rulesAccepted")}
+                    ></Checkbox>
+                    <Text fontSize="sm" ml="1em">
+                      I read and agree to the
+                      <Space />
+                      <Link color="teal">Club Rules</Link> &{" "}
+                      <Link color="teal">Privacy Policy</Link>
+                    </Text>
+                  </Stack>
+
+                  <FormError errors={errors} field="rulesAccepted" />
+                </FormControl>
+
+                <Stack direction="row">
+                  <Text color="gray.500" fontWeight="medium">
+                    Already have an account?
+                  </Text>
+                  <Button
+                    onClick={signInClicked}
+                    size="sm"
+                    ms="0px"
+                    ps="5px"
+                    pe="10px"
+                    color="teal"
+                    variant="link"
+                    aria-label="register"
+                  >
+                    <Text display={{ sm: "none", md: "flex" }}>Sign In</Text>
+                  </Button>
+                </Stack>
               </Flex>
             </ModalBody>
 

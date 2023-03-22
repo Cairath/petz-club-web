@@ -6,7 +6,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { UserProvider } from "./context/UserProvider";
-import { router } from "./router";
+import { router } from "./router/router";
 import theme from "./theme/theme.js";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
