@@ -1,12 +1,10 @@
-﻿using FluentValidation;
-using PetzBreedersClub.Database;
+﻿using PetzBreedersClub.Database;
 using PetzBreedersClub.Services.Auth;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using PetzBreedersClub.Database.Models;
 using PetzBreedersClub.Database.Models.Enums;
 using PetzBreedersClub.DTOs.Pets;
-using PetzBreedersClub.DTOs.Affixes;
 
 namespace PetzBreedersClub.Services;
 
@@ -19,6 +17,7 @@ public interface IPetService
 	Task<IResult> SetBreedingAvailability(BreedingAvailability breedingAvailability);
 	Task<IResult> SetStatus(SetPetActiveStatus petActiveStatus);
 	Task<IResult> SetBio(SetBioForm setBioForm);
+	Task<IResult> UploadProfilePic(int petId, IFormFile file);
 }
 
 public class PetService : IPetService
@@ -101,7 +100,7 @@ public class PetService : IPetService
 			Sex = petData.Sex,
 			GameVersion = petData.GameVersion,
 			IsAvailableForBreeding = petData.IsAvailableForBreeding,
-			Status = petData.Status, 
+			Status = petData.Status,
 			BreedId = petData.BreedId,
 			BreedName = petData.BreedName,
 			OwnerId = petData.OwnerId,
@@ -355,6 +354,67 @@ public class PetService : IPetService
 		return Results.Ok();
 	}
 
+	public async Task<IResult> UploadProfilePic(int petId, IFormFile file)
+	{
+		var memberId = await _userService.GetMemberId();
+
+		if (memberId == null)
+		{
+			return Results.Unauthorized();
+		}
+
+		var pet =
+			await _context.Pets
+				.Include(p => p.ProfilePic)
+				.Where(p => p.Id == petId && p.OwnerId == memberId && p.Status != PetStatus.PendingRegistration)
+				.FirstOrDefaultAsync();
+
+		if (pet == null)
+		{
+			return Results.BadRequest();
+		}
+
+		// validate file size and type
+		//if (!validationResult.IsValid)
+		//{
+		//	return Results.ValidationProblem(validationResult.ToDictionary());
+		//}
+
+		var guid = Guid.NewGuid().ToString();
+		var extension = Path.GetExtension(file.FileName);
+		var fileName = $"{guid}{extension}";
+
+		var profilePicsPath = PetPicUtils.GetPicsPath(PetPicType.Profile);
+		var subDirectoryPath = PetPicUtils.GetFilePathString(fileName);
+
+		var fullPath = Path.Combine(profilePicsPath, subDirectoryPath);
+
+		var dir = Path.GetDirectoryName(fullPath);
+		Directory.CreateDirectory(dir!);
+
+		await using (Stream fileStream = new FileStream(fullPath, FileMode.Create))
+		{
+			await file.CopyToAsync(fileStream);
+
+			if (pet.ProfilePic != null)
+			{
+				var pathToDelete = Path.Combine(profilePicsPath,
+					PetPicUtils.GetFilePathString(pet.ProfilePic.FileName));
+				File.Delete(pathToDelete);
+
+				pet.ProfilePic.FileName = fileName;
+			}
+			else
+			{
+				pet.ProfilePic = new ProfilePicEntity { FileName = fileName };
+			}
+
+			await _context.SaveChangesAsync();
+		}
+
+		return Results.Ok();
+	}
+
 	private async Task<Pedigree?> GetPedigreeData(int petId, int generations)
 	{
 		var pedigreeEntries = new List<List<PedigreeEntry?>>();
@@ -470,6 +530,7 @@ public class PetService : IPetService
 				{prefix}{nameof(PetEntity.PedigreeNumber)}, 
 				{prefix}{nameof(PetEntity.RegistrationDate)}, 
 				{prefix}{nameof(PetEntity.RegistrationPicId)}, 
+				{prefix}{nameof(PetEntity.ProfilePicId)}, 
 				{prefix}{nameof(PetEntity.RegistrarId)}, 
 				{prefix}{nameof(PetEntity.Age)}, 
 				{prefix}{nameof(PetEntity.Sex)}, 

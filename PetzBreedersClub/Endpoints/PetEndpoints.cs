@@ -65,5 +65,22 @@ public static class PetEndpoints
 			.WithName("SetBio")
 			.RequireAuthorization()
 			.WithOpenApi();
+
+		group.MapPost("/upload-profile-pic/{petId}", async (int petId, [FromForm] IFormFile file, IPetService petService) =>
+			{
+				return await petService.UploadProfilePic(petId, file);
+			})
+			.WithName("UploadProfilePic")
+			.RequireAuthorization()
+			.WithOpenApi();
+
+		group.MapPost("/delete-profile-pic/{petId}", async (int petId, IPetService petService) =>
+			{
+				Console.WriteLine("aa");
+				//return await petService.SetBio(setBioForm);
+			})
+			.WithName("DeleteProfilePic")
+			.RequireAuthorization()
+			.WithOpenApi();
 	}
 }

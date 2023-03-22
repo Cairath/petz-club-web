@@ -4802,6 +4802,9 @@ namespace PetzBreedersClub.Database.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int?>("ProfilePicId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("RegistrarId")
                         .HasColumnType("int");
 
@@ -4848,6 +4851,42 @@ namespace PetzBreedersClub.Database.Migrations
                     b.HasIndex("SireId");
 
                     b.ToTable("Pets");
+                });
+
+            modelBuilder.Entity("PetzBreedersClub.Database.Models.ProfilePicEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AddedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PetId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PetId")
+                        .IsUnique();
+
+                    b.ToTable("ProfilePics");
                 });
 
             modelBuilder.Entity("PetzBreedersClub.Database.Models.RegistrationPicEntity", b =>
@@ -5278,6 +5317,17 @@ namespace PetzBreedersClub.Database.Migrations
                     b.Navigation("Sire");
                 });
 
+            modelBuilder.Entity("PetzBreedersClub.Database.Models.ProfilePicEntity", b =>
+                {
+                    b.HasOne("PetzBreedersClub.Database.Models.PetEntity", "Pet")
+                        .WithOne("ProfilePic")
+                        .HasForeignKey("PetzBreedersClub.Database.Models.ProfilePicEntity", "PetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pet");
+                });
+
             modelBuilder.Entity("PetzBreedersClub.Database.Models.RegistrationPicEntity", b =>
                 {
                     b.HasOne("PetzBreedersClub.Database.Models.PetEntity", "Pet")
@@ -5354,6 +5404,9 @@ namespace PetzBreedersClub.Database.Migrations
             modelBuilder.Entity("PetzBreedersClub.Database.Models.PetEntity", b =>
                 {
                     b.Navigation("MonthlyShowPics");
+
+                    b.Navigation("ProfilePic")
+                        .IsRequired();
 
                     b.Navigation("RegistrationPic")
                         .IsRequired();

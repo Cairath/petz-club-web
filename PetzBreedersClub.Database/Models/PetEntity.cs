@@ -38,20 +38,23 @@ public class PetEntity : Entity
 	public virtual MemberEntity Breeder { get; set; } = null!;
 
 	public int? DamId { get; set; }
-	public virtual PetEntity Dam { get; set; } = null!;
+	public virtual PetEntity? Dam { get; set; }
 
 	public int? SireId { get; set; }
-	public virtual PetEntity Sire { get; set; } = null!;
+	public virtual PetEntity? Sire { get; set; }
 
 	public virtual ICollection<PetEntity> Offspring { get; set; } = new List<PetEntity>();
 	public virtual ICollection<MonthlyShowPicEntity> MonthlyShowPics { get; set; } = new List<MonthlyShowPicEntity>();
-	public virtual ICollection<ShowEntryEntity> ShowEntries { get; set; } = null!;
+	public virtual ICollection<ShowEntryEntity> ShowEntries { get; set; } = new List<ShowEntryEntity>();
 
 	public int RegistrationPicId { get; set; }
 	public virtual RegistrationPicEntity RegistrationPic { get; set; } = null!;
 
+	public int? ProfilePicId { get; set; }
+	public virtual ProfilePicEntity? ProfilePic { get; set; }
+
 	public int? RegistrarId { get; set; }
-	public virtual MemberEntity Registrar { get; set; } = null!;
+	public virtual MemberEntity? Registrar { get; set; }
 }
 
 public class PetEntityConfiguration : IEntityTypeConfiguration<PetEntity>
