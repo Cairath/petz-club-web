@@ -11,6 +11,8 @@ public class PetProfileData
 	public string? Bio { get; set; }
 	[Required] public required string PedigreeNumber { get; set; }
 	[Required] public required DateTime RegistrationDate { get; set; }
+	[Required] public required string  RegistrationPicture { get; set; }
+	public string? ProfilePicture { get; set; }
 	[Required] public Age Age { get; set; }
 	[Required] public Sex Sex { get; set; }
 	[Required] public GameVersion GameVersion { get; set; }

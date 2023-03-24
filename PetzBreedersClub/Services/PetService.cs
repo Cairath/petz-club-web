@@ -45,6 +45,8 @@ public class PetService : IPetService
 				.Include(p => p.Breed)
 				.Include(p => p.Owner)
 				.Include(p => p.Breeder)
+				.Include(p => p.RegistrationPic)
+				.Include(p => p.ProfilePic).DefaultIfEmpty()
 				.Where(p => p.Id == petId && p.Status != PetStatus.PendingRegistration)
 				.Select(p => new
 				{
@@ -52,6 +54,8 @@ public class PetService : IPetService
 					ShowName = p.ShowName,
 					CallName = p.CallName,
 					Bio = p.Bio,
+					RegistrationPic = p.RegistrationPic.FileName,
+					ProfilePic = p.ProfilePic != null ? p.ProfilePic.FileName : null,
 					AffixId = p.AffixId,
 					AffixName = p.Affix.Name,
 					PedigreeNumber = p.PedigreeNumber,
@@ -95,6 +99,8 @@ public class PetService : IPetService
 			AffixId = petData.AffixId,
 			AffixName = petData.AffixName,
 			Bio = petData.Bio,
+			RegistrationPicture = petData.RegistrationPic,
+			ProfilePicture = petData.ProfilePic,
 			PedigreeNumber = petData.PedigreeNumber,
 			RegistrationDate = petData.RegistrationDate!.Value,
 			Age = petData.Age,
@@ -445,6 +451,8 @@ public class PetService : IPetService
 
 		var pathToDelete = Path.Combine(profilePicsPath, PetPicUtils.GetFilePathString(pet.ProfilePic.FileName));
 		File.Delete(pathToDelete);
+
+		_context.Remove(pet.ProfilePic);
 
 		await _context.SaveChangesAsync();
 
