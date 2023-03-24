@@ -6,6 +6,7 @@ import "@uppy/core/dist/style.min.css";
 import "@uppy/dashboard/dist/style.min.css";
 import { DashboardModal } from "@uppy/react";
 import XHRUpload from "@uppy/xhr-upload";
+import { toast } from "react-toastify";
 import "./uppy.css";
 
 const uppy = new Uppy({
@@ -24,9 +25,15 @@ export type Props = {
   petId: number;
   isOpen: boolean;
   onClose: () => void;
+  onUploadSuccess: () => void;
 };
 
-export const PictureUploadModal = ({ petId, isOpen, onClose }: Props) => {
+export const PictureUploadModal = ({
+  petId,
+  isOpen,
+  onClose,
+  onUploadSuccess
+}: Props) => {
   const closeModal = () => {
     uppy.cancelAll();
     onClose();
@@ -35,9 +42,17 @@ export const PictureUploadModal = ({ petId, isOpen, onClose }: Props) => {
   useEffect(
     () =>
       uppy.getPlugin("XHRUpload")?.setOptions({
-        endpoint: `https://localhost:7017/api/pets/upload-profile-pic/${petId}`
+        endpoint: `https://localhost:7017/api/pets/upload-profile-pic/${petId}`,
+        validateStatus: (statusCode: number) => {
+          if (statusCode === 200) {
+            onUploadSuccess();
+            toast.success("Picture uploaded successfully");
+            return true;
+          }
+          return false;
+        }
       }),
-    [petId]
+    [petId, onUploadSuccess]
   );
 
   return (

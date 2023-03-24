@@ -66,7 +66,11 @@ export const PetProfile = () => {
             </SimpleGrid>
           )}
           <SimpleGrid columns={{ md: 1, lg: 2, xl: 2, "2xl": 4 }} spacing={6}>
-            <PetPhotoCard profileData={petProfileData} isOwner={isOwner} />
+            <PetPhotoCard
+              profileData={petProfileData}
+              isOwner={isOwner}
+              onChanges={getPetProfile}
+            />
             <PetInfoCard profileData={petProfileData} />
             <OffspringCard offspring={petProfileData.offspring} />
             <SiblingsCard siblings={petProfileData.siblings} />
