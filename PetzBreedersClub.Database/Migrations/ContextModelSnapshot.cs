@@ -236,6 +236,9 @@ namespace PetzBreedersClub.Database.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("BreedStandardId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -250,7 +253,7 @@ namespace PetzBreedersClub.Database.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Section")
                         .HasColumnType("int");
@@ -260,9 +263,6 @@ namespace PetzBreedersClub.Database.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("Breeds");
 
@@ -283,7 +283,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Belgian Shepherd Dog (Groenendael)",
+                            Name = "Belgian Shepherd Dog Groenendael",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -293,7 +293,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Belgian Shepherd Dog (Laekenois)",
+                            Name = "Belgian Shepherd Dog Laekenois",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -303,7 +303,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Belgian Shepherd Dog (Malinois)",
+                            Name = "Belgian Shepherd Dog Malinois",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -313,7 +313,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Belgian Shepherd Dog (Tervueren)",
+                            Name = "Belgian Shepherd Dog Tervueren",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -353,7 +353,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Pyrenean Sheepdog Longhaired",
+                            Name = "Picardy Sheepdog",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -363,7 +363,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Picardy Sheepdog",
+                            Name = "Pyrenean Sheepdog - Long haired",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -373,7 +373,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Pyrenean Sheepdog Smooth Faced",
+                            Name = "Pyrenean Sheepdog - Smooth faced",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -383,7 +383,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "German Shepherd Dog (Double Coat)",
+                            Name = "German Shepherd Dog - Short haired",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -393,7 +393,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "German Shepherd Dog (Long and Harsh Outer Coat)",
+                            Name = "German Shepherd Dog - Longhair",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -423,7 +423,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Collie (Rough)",
+                            Name = "Rough Collie",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -433,7 +433,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Collie (Smooth)",
+                            Name = "Smooth Collie",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -493,7 +493,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Puli (pearl-white)",
+                            Name = "Puli",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -503,7 +503,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Puli (other colors)",
+                            Name = "Pumi",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -513,7 +513,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Pumi",
+                            Name = "Bergamasco Shepherd Dog",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -523,7 +523,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Bergamasco Shepherd Dog",
+                            Name = "Maremma Sheepdog",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -533,7 +533,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Maremma and the Abruzzes Sheepdog",
+                            Name = "Polish Lowland Sheepdog",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -543,7 +543,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Polish Lowland Sheepdog",
+                            Name = "Tatra Shepherd Dog",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -553,7 +553,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Tatra Shepherd Dog",
+                            Name = "Portuguese Sheepdog",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -563,7 +563,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Portuguese Sheepdog",
+                            Name = "Romanian Carpathian Shepherd Dog",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -573,7 +573,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Romanian Carpathian Shepherd Dog",
+                            Name = "Romanian Mioritic Shepherd Dog",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -583,7 +583,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Romanian Mioritic Shepherd Dog",
+                            Name = "South Russian Shepherd Dog",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -593,7 +593,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "South Russian Shepherd Dog",
+                            Name = "Czechoslovakian Wolfdog",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -603,7 +603,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Czechoslovakian Wolfdog",
+                            Name = "Slovakian Chuvach",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -613,7 +613,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Slovakian Chuvach",
+                            Name = "Catalan Sheepdog",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -623,7 +623,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Catalan Sheepdog",
+                            Name = "Majorca Shepherd Dog",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -633,7 +633,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Majorca Shepherd Dog",
+                            Name = "White Swiss Shepherd Dog",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -643,7 +643,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "White Swiss Shepherd Dog",
+                            Name = "Dutch Schapendoes",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -653,7 +653,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Dutch Schapendoes",
+                            Name = "Dutch Shepherd Dog (Short-haired)",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -663,7 +663,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Dutch Shepherd Dog (Short-haired)",
+                            Name = "Dutch Shepherd Dog (Long Haired)",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -673,7 +673,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Dutch Shepherd Dog (Long Haired)",
+                            Name = "Dutch Shepherd Dog (Rough haired)",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -683,7 +683,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Dutch Shepherd Dog (Rough haired)",
+                            Name = "Saarloos Wolfhond",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -693,7 +693,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Saarloos Wolfhond",
+                            Name = "Australian Shepherd",
                             Section = 1,
                             Species = "Dogz"
                         },
@@ -703,23 +703,13 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Australian Shepherd",
-                            Section = 1,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 45,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 1,
                             Name = "Australian Cattle Dog",
                             Section = 2,
                             Species = "Dogz"
                         },
                         new
                         {
-                            Id = 46,
+                            Id = 45,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
@@ -729,7 +719,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 47,
+                            Id = 46,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
@@ -739,11 +729,21 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
+                            Id = 47,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 1,
+                            Name = "Welsh Corgi Cardigan",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
                             Id = 48,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Welsh Corgi (Cardigan)",
+                            Name = "Welsh Corgi Pembroke",
                             Section = 2,
                             Species = "Dogz"
                         },
@@ -753,7 +753,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Welsh Corgi (Pembroke)",
+                            Name = "Australian Stumpy Tailed Cattle Dog",
                             Section = 2,
                             Species = "Dogz"
                         },
@@ -763,7 +763,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Australian Stumpy Tailed Cattle Dog",
+                            Name = "Lancashire Heeler",
                             Section = 2,
                             Species = "Dogz"
                         },
@@ -773,7 +773,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Lancashire Heeler",
+                            Name = "Miniature American Shepherd",
                             Section = 2,
                             Species = "Dogz"
                         },
@@ -783,7 +783,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Miniature American Shepherd",
+                            Name = "Catahoula Leopard Dog",
                             Section = 2,
                             Species = "Dogz"
                         },
@@ -793,7 +793,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Catahoula Leopard Dog",
+                            Name = "Bohemian Shepherd Dog",
                             Section = 2,
                             Species = "Dogz"
                         },
@@ -803,457 +803,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 1,
-                            Name = "Bohemian Shepherd Dog",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 55,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 1,
                             Name = "English Shepherd Dog",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 56,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Austrian Pinscher",
-                            Section = 1,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 57,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Danish-Swedish Farmdog",
-                            Section = 1,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 58,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Affenpinscher",
-                            Section = 1,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 59,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Dobermann",
-                            Section = 1,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 60,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "German Pinscher",
-                            Section = 1,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 61,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Miniature Pinscher",
-                            Section = 1,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 62,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Giant Schnauzer (Pepper and Salt)",
-                            Section = 1,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 63,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Giant Schnauzer (Black and white)",
-                            Section = 1,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 64,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Giant Schnauzer (Black and silver)",
-                            Section = 1,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 65,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Miniature Schnauzer (Pepper and salt)",
-                            Section = 1,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 66,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Miniature Schnauzer (Black)",
-                            Section = 1,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 67,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Miniature Schnauzer (Black and silver)",
-                            Section = 1,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 68,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Miniature Schnauzer (White)",
-                            Section = 1,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 69,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Schnauzer (Pepper and salt)",
-                            Section = 1,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 70,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Schnauzer (Black)",
-                            Section = 1,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 71,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Dutch Smoushond",
-                            Section = 1,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 72,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Russian Black Terrier",
-                            Section = 1,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 73,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Dogo Argentino",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 74,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Fila Brasileiro",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 75,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Shar Pei",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 76,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Broholmer",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 77,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Dogue de Bordeaux",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 78,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Boxer",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 79,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Great Dane (Fawn and Brindle)",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 80,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Great Dane (Black and Harlequin)",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 81,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Great Dane (Blue)",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 82,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Rottweiler",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 83,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Bulldog (English)",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 84,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Bulldog (American)",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 85,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Bullmastiff",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 86,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Mastiff",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 87,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Italian Cane Corso",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 88,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Neapolitan Mastiff",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 89,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Tosa",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 90,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Saint Miguel Cattle Dog (Azores)",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 91,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Majorca Mastiff",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 92,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Presa Canario",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 93,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Cimarrón Uruguayo",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 94,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Bosnian and Herzegovinian - Croatian Shepherd Dog",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 95,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Newfoundland",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 96,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Pyrenean Mountain Dog",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 97,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Hovawart",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 98,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Leonberger",
-                            Section = 2,
-                            Species = "Dogz"
-                        },
-                        new
-                        {
-                            Id = 99,
-                            AddedBy = "system",
-                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
-                            Group = 2,
-                            Name = "Landseer (European Continental Type)",
                             Section = 2,
                             Species = "Dogz"
                         },
@@ -1263,8 +813,8 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 2,
-                            Name = "Atlas Mountain Dog (Aidi)",
-                            Section = 2,
+                            Name = "Austrian Pinscher",
+                            Section = 1,
                             Species = "Dogz"
                         },
                         new
@@ -1273,8 +823,8 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 2,
-                            Name = "Yugoslavian Shepherd Dog - Sharplanina",
-                            Section = 2,
+                            Name = "Danish-Swedish Farmdog",
+                            Section = 1,
                             Species = "Dogz"
                         },
                         new
@@ -1283,8 +833,8 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 2,
-                            Name = "Castro Laboreiro Dog",
-                            Section = 2,
+                            Name = "Affenpinscher",
+                            Section = 1,
                             Species = "Dogz"
                         },
                         new
@@ -1293,8 +843,8 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 2,
-                            Name = "Estrela Mountain Dog (Short haired)",
-                            Section = 2,
+                            Name = "Dobermann",
+                            Section = 1,
                             Species = "Dogz"
                         },
                         new
@@ -1303,8 +853,8 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 2,
-                            Name = "Estrela Mountain Dog (Long haired)",
-                            Section = 2,
+                            Name = "German Pinscher",
+                            Section = 1,
                             Species = "Dogz"
                         },
                         new
@@ -1313,8 +863,8 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 2,
-                            Name = "Rafeiro of Alentejo",
-                            Section = 2,
+                            Name = "Miniature Pinscher",
+                            Section = 1,
                             Species = "Dogz"
                         },
                         new
@@ -1323,8 +873,8 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 2,
-                            Name = "Romanian Bucovina Shepherd",
-                            Section = 2,
+                            Name = "Giant Schnauzer",
+                            Section = 1,
                             Species = "Dogz"
                         },
                         new
@@ -1333,8 +883,8 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 2,
-                            Name = "Caucasian Shepherd Dog",
-                            Section = 2,
+                            Name = "Miniature Schnauzer (Pepper and salt)",
+                            Section = 1,
                             Species = "Dogz"
                         },
                         new
@@ -1343,8 +893,8 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 2,
-                            Name = "Central Asia Shepherd Dog",
-                            Section = 2,
+                            Name = "Schnauzer",
+                            Section = 1,
                             Species = "Dogz"
                         },
                         new
@@ -1353,8 +903,8 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 2,
-                            Name = "Karst Shepherd Dog",
-                            Section = 2,
+                            Name = "Dutch Smoushond",
+                            Section = 1,
                             Species = "Dogz"
                         },
                         new
@@ -1363,8 +913,8 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 2,
-                            Name = "Pyrenean Mastiff",
-                            Section = 2,
+                            Name = "Russian Black Terrier",
+                            Section = 1,
                             Species = "Dogz"
                         },
                         new
@@ -1373,7 +923,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 2,
-                            Name = "Spanish Mastiff",
+                            Name = "Dogo Argentino",
                             Section = 2,
                             Species = "Dogz"
                         },
@@ -1383,7 +933,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 2,
-                            Name = "St. Bernard (Short haired)",
+                            Name = "Fila Brasileiro",
                             Section = 2,
                             Species = "Dogz"
                         },
@@ -1393,7 +943,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 2,
-                            Name = "St. Bernard (Long haired)",
+                            Name = "Shar Pei",
                             Section = 2,
                             Species = "Dogz"
                         },
@@ -1403,7 +953,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 2,
-                            Name = "Tibetan Mastiff",
+                            Name = "Broholmer",
                             Section = 2,
                             Species = "Dogz"
                         },
@@ -1413,7 +963,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 2,
-                            Name = "Kangal Shepherd Dog",
+                            Name = "Dogue de Bordeaux",
                             Section = 2,
                             Species = "Dogz"
                         },
@@ -1423,7 +973,7 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 2,
-                            Name = "Anatolian Shepherd Dog",
+                            Name = "Boxer",
                             Section = 2,
                             Species = "Dogz"
                         },
@@ -1433,13 +983,393 @@ namespace PetzBreedersClub.Database.Migrations
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 2,
+                            Name = "Great Dane (Fawn and Brindle)",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 118,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Great Dane (Black and Harlequin)",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 119,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Great Dane (Blue)",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 120,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Rottweiler",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 121,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Bulldog (English)",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 122,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Bulldog (American)",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 123,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Bullmastiff",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 124,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Mastiff",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 125,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Italian Cane Corso",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 126,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Neapolitan Mastiff",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 127,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Tosa",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 128,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Saint Miguel Cattle Dog (Azores)",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 129,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Majorca Mastiff",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 130,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Presa Canario",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 131,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Cimarrón Uruguayo",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 132,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Bosnian and Herzegovinian - Croatian Shepherd Dog",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 133,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Newfoundland",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 134,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Pyrenean Mountain Dog",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 135,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Hovawart",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 136,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Leonberger",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 137,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Landseer (European Continental Type)",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 138,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Atlas Mountain Dog (Aidi)",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 139,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Yugoslavian Shepherd Dog - Sharplanina",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 140,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Castro Laboreiro Dog",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 141,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Estrela Mountain Dog (Short haired)",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 142,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Estrela Mountain Dog (Long haired)",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 143,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Rafeiro of Alentejo",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 144,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Romanian Bucovina Shepherd",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 145,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Caucasian Shepherd Dog",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 146,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Central Asia Shepherd Dog",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 147,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Karst Shepherd Dog",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 148,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Pyrenean Mastiff",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 149,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Spanish Mastiff",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 150,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "St. Bernard (Short haired)",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 151,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "St. Bernard (Long haired)",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 152,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Tibetan Mastiff",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 153,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Kangal Shepherd Dog",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 154,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
+                            Name = "Anatolian Shepherd Dog",
+                            Section = 2,
+                            Species = "Dogz"
+                        },
+                        new
+                        {
+                            Id = 155,
+                            AddedBy = "system",
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Group = 2,
                             Name = "Appenzell Cattle Dog",
                             Section = 3,
                             Species = "Dogz"
                         },
                         new
                         {
-                            Id = 118,
+                            Id = 156,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 2,
@@ -1449,7 +1379,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 119,
+                            Id = 157,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 2,
@@ -1459,7 +1389,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 120,
+                            Id = 158,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 2,
@@ -1469,7 +1399,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 121,
+                            Id = 159,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 2,
@@ -1479,7 +1409,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 122,
+                            Id = 160,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 2,
@@ -1489,7 +1419,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 123,
+                            Id = 161,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1499,7 +1429,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 124,
+                            Id = 162,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1509,7 +1439,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 125,
+                            Id = 163,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1519,7 +1449,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 126,
+                            Id = 164,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1529,7 +1459,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 127,
+                            Id = 165,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1539,7 +1469,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 128,
+                            Id = 166,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1549,7 +1479,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 129,
+                            Id = 167,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1559,7 +1489,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 130,
+                            Id = 168,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1569,7 +1499,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 131,
+                            Id = 169,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1579,7 +1509,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 132,
+                            Id = 170,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1589,7 +1519,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 133,
+                            Id = 171,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1599,7 +1529,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 134,
+                            Id = 172,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1609,7 +1539,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 135,
+                            Id = 173,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1619,7 +1549,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 136,
+                            Id = 174,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1629,7 +1559,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 137,
+                            Id = 175,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1639,7 +1569,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 138,
+                            Id = 176,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1649,7 +1579,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 139,
+                            Id = 177,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1659,7 +1589,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 140,
+                            Id = 178,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1669,7 +1599,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 141,
+                            Id = 179,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1679,7 +1609,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 142,
+                            Id = 180,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1689,7 +1619,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 143,
+                            Id = 181,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1699,7 +1629,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 144,
+                            Id = 182,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1709,7 +1639,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 145,
+                            Id = 183,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1719,7 +1649,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 146,
+                            Id = 184,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1729,7 +1659,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 147,
+                            Id = 185,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1739,7 +1669,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 148,
+                            Id = 186,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1749,7 +1679,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 149,
+                            Id = 187,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1759,7 +1689,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 150,
+                            Id = 188,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1769,7 +1699,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 151,
+                            Id = 189,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1779,7 +1709,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 152,
+                            Id = 190,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1789,7 +1719,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 153,
+                            Id = 191,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1799,7 +1729,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 154,
+                            Id = 192,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1809,7 +1739,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 155,
+                            Id = 193,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1819,7 +1749,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 156,
+                            Id = 194,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1829,7 +1759,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 157,
+                            Id = 195,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1839,7 +1769,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 158,
+                            Id = 196,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1849,7 +1779,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 159,
+                            Id = 197,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1859,7 +1789,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 160,
+                            Id = 198,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 3,
@@ -1869,7 +1799,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 161,
+                            Id = 199,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 4,
@@ -1879,7 +1809,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 162,
+                            Id = 200,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 4,
@@ -1889,7 +1819,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 163,
+                            Id = 201,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 4,
@@ -1899,7 +1829,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 164,
+                            Id = 202,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 4,
@@ -1909,7 +1839,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 165,
+                            Id = 203,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 4,
@@ -1919,7 +1849,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 166,
+                            Id = 204,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 4,
@@ -1929,7 +1859,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 167,
+                            Id = 205,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 4,
@@ -1939,7 +1869,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 168,
+                            Id = 206,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 4,
@@ -1949,7 +1879,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 169,
+                            Id = 207,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 4,
@@ -1959,7 +1889,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 170,
+                            Id = 208,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -1969,7 +1899,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 171,
+                            Id = 209,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -1979,7 +1909,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 172,
+                            Id = 210,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -1989,7 +1919,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 173,
+                            Id = 211,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -1999,7 +1929,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 174,
+                            Id = 212,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2009,7 +1939,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 175,
+                            Id = 213,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2019,7 +1949,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 176,
+                            Id = 214,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2029,7 +1959,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 177,
+                            Id = 215,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2039,7 +1969,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 178,
+                            Id = 216,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2049,7 +1979,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 179,
+                            Id = 217,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2059,7 +1989,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 180,
+                            Id = 218,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2069,7 +1999,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 181,
+                            Id = 219,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2079,7 +2009,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 182,
+                            Id = 220,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2089,7 +2019,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 183,
+                            Id = 221,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2099,7 +2029,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 184,
+                            Id = 222,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2109,7 +2039,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 185,
+                            Id = 223,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2119,7 +2049,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 186,
+                            Id = 224,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2129,7 +2059,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 187,
+                            Id = 225,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2139,7 +2069,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 188,
+                            Id = 226,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2149,7 +2079,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 189,
+                            Id = 227,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2159,7 +2089,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 190,
+                            Id = 228,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2169,7 +2099,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 191,
+                            Id = 229,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2179,7 +2109,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 192,
+                            Id = 230,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2189,7 +2119,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 193,
+                            Id = 231,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2199,7 +2129,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 194,
+                            Id = 232,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2209,7 +2139,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 195,
+                            Id = 233,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2219,7 +2149,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 196,
+                            Id = 234,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2229,7 +2159,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 197,
+                            Id = 235,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2239,7 +2169,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 198,
+                            Id = 236,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2249,7 +2179,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 199,
+                            Id = 237,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2259,7 +2189,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 200,
+                            Id = 238,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2269,7 +2199,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 201,
+                            Id = 239,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2279,7 +2209,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 202,
+                            Id = 240,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2289,7 +2219,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 203,
+                            Id = 241,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2299,7 +2229,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 204,
+                            Id = 242,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2309,7 +2239,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 205,
+                            Id = 243,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2319,7 +2249,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 206,
+                            Id = 244,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2329,7 +2259,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 207,
+                            Id = 245,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2339,7 +2269,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 208,
+                            Id = 246,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2349,7 +2279,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 209,
+                            Id = 247,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2359,7 +2289,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 210,
+                            Id = 248,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2369,7 +2299,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 211,
+                            Id = 249,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2379,7 +2309,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 212,
+                            Id = 250,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2389,7 +2319,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 213,
+                            Id = 251,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2399,7 +2329,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 214,
+                            Id = 252,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2409,7 +2339,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 215,
+                            Id = 253,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2419,7 +2349,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 216,
+                            Id = 254,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2429,7 +2359,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 217,
+                            Id = 255,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2439,7 +2369,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 218,
+                            Id = 256,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2449,7 +2379,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 219,
+                            Id = 257,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2459,7 +2389,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 220,
+                            Id = 258,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2469,7 +2399,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 221,
+                            Id = 259,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2479,7 +2409,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 222,
+                            Id = 260,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2489,7 +2419,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 223,
+                            Id = 261,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2499,7 +2429,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 224,
+                            Id = 262,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2509,7 +2439,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 225,
+                            Id = 263,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2519,7 +2449,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 226,
+                            Id = 264,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2529,7 +2459,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 227,
+                            Id = 265,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2539,7 +2469,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 228,
+                            Id = 266,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2549,7 +2479,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 229,
+                            Id = 267,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2559,7 +2489,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 230,
+                            Id = 268,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2569,7 +2499,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 231,
+                            Id = 269,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2579,7 +2509,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 232,
+                            Id = 270,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2589,7 +2519,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 233,
+                            Id = 271,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2599,7 +2529,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 234,
+                            Id = 272,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2609,7 +2539,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 235,
+                            Id = 273,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2619,7 +2549,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 236,
+                            Id = 274,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2629,7 +2559,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 237,
+                            Id = 275,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2639,7 +2569,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 238,
+                            Id = 276,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2649,7 +2579,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 239,
+                            Id = 277,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2659,7 +2589,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 240,
+                            Id = 278,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 5,
@@ -2669,7 +2599,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 241,
+                            Id = 279,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2679,7 +2609,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 242,
+                            Id = 280,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2689,7 +2619,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 243,
+                            Id = 281,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2699,7 +2629,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 244,
+                            Id = 282,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2709,7 +2639,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 245,
+                            Id = 283,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2719,7 +2649,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 246,
+                            Id = 284,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2729,7 +2659,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 247,
+                            Id = 285,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2739,7 +2669,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 248,
+                            Id = 286,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2749,7 +2679,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 249,
+                            Id = 287,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2759,7 +2689,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 250,
+                            Id = 288,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2769,7 +2699,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 251,
+                            Id = 289,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2779,7 +2709,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 252,
+                            Id = 290,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2789,7 +2719,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 253,
+                            Id = 291,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2799,7 +2729,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 254,
+                            Id = 292,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2809,7 +2739,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 255,
+                            Id = 293,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2819,7 +2749,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 256,
+                            Id = 294,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2829,7 +2759,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 257,
+                            Id = 295,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2839,7 +2769,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 258,
+                            Id = 296,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2849,7 +2779,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 259,
+                            Id = 297,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2859,7 +2789,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 260,
+                            Id = 298,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2869,7 +2799,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 261,
+                            Id = 299,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2879,7 +2809,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 262,
+                            Id = 300,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2889,7 +2819,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 263,
+                            Id = 301,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2899,7 +2829,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 264,
+                            Id = 302,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2909,7 +2839,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 265,
+                            Id = 303,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2919,7 +2849,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 266,
+                            Id = 304,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2929,7 +2859,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 267,
+                            Id = 305,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2939,7 +2869,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 268,
+                            Id = 306,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2949,7 +2879,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 269,
+                            Id = 307,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2959,7 +2889,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 270,
+                            Id = 308,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2969,7 +2899,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 271,
+                            Id = 309,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2979,7 +2909,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 272,
+                            Id = 310,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2989,7 +2919,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 273,
+                            Id = 311,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -2999,7 +2929,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 274,
+                            Id = 312,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3009,7 +2939,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 275,
+                            Id = 313,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3019,7 +2949,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 276,
+                            Id = 314,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3029,7 +2959,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 277,
+                            Id = 315,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3039,7 +2969,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 278,
+                            Id = 316,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3049,7 +2979,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 279,
+                            Id = 317,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3059,7 +2989,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 280,
+                            Id = 318,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3069,7 +2999,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 281,
+                            Id = 319,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3079,7 +3009,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 282,
+                            Id = 320,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3089,7 +3019,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 283,
+                            Id = 321,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3099,7 +3029,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 284,
+                            Id = 322,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3109,7 +3039,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 285,
+                            Id = 323,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3119,7 +3049,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 286,
+                            Id = 324,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3129,7 +3059,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 287,
+                            Id = 325,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3139,7 +3069,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 288,
+                            Id = 326,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3149,7 +3079,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 289,
+                            Id = 327,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3159,7 +3089,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 290,
+                            Id = 328,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3169,7 +3099,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 291,
+                            Id = 329,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3179,7 +3109,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 292,
+                            Id = 330,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3189,7 +3119,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 293,
+                            Id = 331,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3199,7 +3129,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 294,
+                            Id = 332,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3209,7 +3139,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 295,
+                            Id = 333,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3219,7 +3149,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 296,
+                            Id = 334,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3229,7 +3159,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 297,
+                            Id = 335,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3239,7 +3169,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 298,
+                            Id = 336,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3249,7 +3179,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 299,
+                            Id = 337,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3259,7 +3189,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 300,
+                            Id = 338,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3269,7 +3199,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 301,
+                            Id = 339,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3279,7 +3209,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 302,
+                            Id = 340,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3289,7 +3219,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 303,
+                            Id = 341,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3299,7 +3229,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 304,
+                            Id = 342,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3309,7 +3239,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 305,
+                            Id = 343,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3319,7 +3249,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 306,
+                            Id = 344,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3329,7 +3259,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 307,
+                            Id = 345,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3339,7 +3269,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 308,
+                            Id = 346,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3349,7 +3279,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 309,
+                            Id = 347,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3359,7 +3289,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 310,
+                            Id = 348,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3369,7 +3299,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 311,
+                            Id = 349,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3379,7 +3309,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 312,
+                            Id = 350,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3389,7 +3319,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 313,
+                            Id = 351,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3399,7 +3329,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 314,
+                            Id = 352,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3409,7 +3339,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 315,
+                            Id = 353,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3419,7 +3349,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 316,
+                            Id = 354,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3429,7 +3359,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 317,
+                            Id = 355,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3439,7 +3369,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 318,
+                            Id = 356,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3449,7 +3379,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 319,
+                            Id = 357,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3459,7 +3389,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 320,
+                            Id = 358,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3469,7 +3399,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 321,
+                            Id = 359,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 6,
@@ -3479,7 +3409,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 322,
+                            Id = 360,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3489,7 +3419,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 323,
+                            Id = 361,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3499,7 +3429,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 324,
+                            Id = 362,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3509,7 +3439,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 325,
+                            Id = 363,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3519,7 +3449,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 326,
+                            Id = 364,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3529,7 +3459,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 327,
+                            Id = 365,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3539,7 +3469,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 328,
+                            Id = 366,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3549,7 +3479,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 329,
+                            Id = 367,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3559,7 +3489,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 330,
+                            Id = 368,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3569,7 +3499,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 331,
+                            Id = 369,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3579,7 +3509,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 332,
+                            Id = 370,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3589,7 +3519,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 333,
+                            Id = 371,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3599,7 +3529,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 334,
+                            Id = 372,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3609,7 +3539,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 335,
+                            Id = 373,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3619,7 +3549,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 336,
+                            Id = 374,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3629,7 +3559,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 337,
+                            Id = 375,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3639,7 +3569,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 338,
+                            Id = 376,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3649,7 +3579,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 339,
+                            Id = 377,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3659,7 +3589,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 340,
+                            Id = 378,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3669,7 +3599,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 341,
+                            Id = 379,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3679,7 +3609,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 342,
+                            Id = 380,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3689,7 +3619,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 343,
+                            Id = 381,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3699,7 +3629,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 344,
+                            Id = 382,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3709,7 +3639,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 345,
+                            Id = 383,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3719,7 +3649,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 346,
+                            Id = 384,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3729,7 +3659,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 347,
+                            Id = 385,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3739,7 +3669,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 348,
+                            Id = 386,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3749,7 +3679,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 349,
+                            Id = 387,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3759,7 +3689,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 350,
+                            Id = 388,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3769,7 +3699,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 351,
+                            Id = 389,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3779,7 +3709,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 352,
+                            Id = 390,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3789,7 +3719,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 353,
+                            Id = 391,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3799,7 +3729,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 354,
+                            Id = 392,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3809,7 +3739,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 355,
+                            Id = 393,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3819,7 +3749,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 356,
+                            Id = 394,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3829,7 +3759,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 357,
+                            Id = 395,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3839,7 +3769,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 358,
+                            Id = 396,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3849,7 +3779,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 359,
+                            Id = 397,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 7,
@@ -3859,7 +3789,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 360,
+                            Id = 398,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 8,
@@ -3869,7 +3799,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 361,
+                            Id = 399,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 8,
@@ -3879,7 +3809,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 362,
+                            Id = 400,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 8,
@@ -3889,7 +3819,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 363,
+                            Id = 401,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 8,
@@ -3899,7 +3829,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 364,
+                            Id = 402,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 8,
@@ -3909,7 +3839,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 365,
+                            Id = 403,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 8,
@@ -3919,7 +3849,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 366,
+                            Id = 404,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 8,
@@ -3929,7 +3859,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 367,
+                            Id = 405,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 8,
@@ -3939,7 +3869,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 368,
+                            Id = 406,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 8,
@@ -3949,7 +3879,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 369,
+                            Id = 407,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 8,
@@ -3959,7 +3889,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 370,
+                            Id = 408,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 8,
@@ -3969,7 +3899,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 371,
+                            Id = 409,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 8,
@@ -3979,7 +3909,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 372,
+                            Id = 410,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 8,
@@ -3989,7 +3919,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 373,
+                            Id = 411,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 8,
@@ -3999,7 +3929,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 374,
+                            Id = 412,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 8,
@@ -4009,7 +3939,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 375,
+                            Id = 413,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 8,
@@ -4019,7 +3949,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 376,
+                            Id = 414,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 8,
@@ -4029,7 +3959,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 377,
+                            Id = 415,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 8,
@@ -4039,7 +3969,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 378,
+                            Id = 416,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 8,
@@ -4049,7 +3979,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 379,
+                            Id = 417,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 8,
@@ -4059,7 +3989,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 380,
+                            Id = 418,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 8,
@@ -4069,7 +3999,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 381,
+                            Id = 419,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 8,
@@ -4079,7 +4009,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 382,
+                            Id = 420,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4089,7 +4019,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 383,
+                            Id = 421,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4099,7 +4029,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 384,
+                            Id = 422,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4109,7 +4039,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 385,
+                            Id = 423,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4119,7 +4049,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 386,
+                            Id = 424,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4129,7 +4059,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 387,
+                            Id = 425,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4139,7 +4069,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 388,
+                            Id = 426,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4149,7 +4079,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 389,
+                            Id = 427,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4159,7 +4089,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 390,
+                            Id = 428,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4169,7 +4099,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 391,
+                            Id = 429,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4179,7 +4109,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 392,
+                            Id = 430,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4189,7 +4119,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 393,
+                            Id = 431,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4199,7 +4129,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 394,
+                            Id = 432,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4209,7 +4139,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 395,
+                            Id = 433,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4219,7 +4149,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 396,
+                            Id = 434,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4229,7 +4159,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 397,
+                            Id = 435,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4239,7 +4169,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 398,
+                            Id = 436,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4249,7 +4179,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 399,
+                            Id = 437,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4259,7 +4189,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 400,
+                            Id = 438,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4269,7 +4199,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 401,
+                            Id = 439,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4279,7 +4209,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 402,
+                            Id = 440,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4289,7 +4219,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 403,
+                            Id = 441,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4299,7 +4229,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 404,
+                            Id = 442,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4309,7 +4239,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 405,
+                            Id = 443,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4319,7 +4249,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 406,
+                            Id = 444,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4329,7 +4259,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 407,
+                            Id = 445,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4339,7 +4269,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 408,
+                            Id = 446,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4349,7 +4279,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 409,
+                            Id = 447,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4359,7 +4289,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 410,
+                            Id = 448,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4369,7 +4299,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 411,
+                            Id = 449,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4379,7 +4309,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 412,
+                            Id = 450,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4389,7 +4319,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 413,
+                            Id = 451,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4399,7 +4329,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 414,
+                            Id = 452,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4409,7 +4339,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 415,
+                            Id = 453,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4419,7 +4349,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 416,
+                            Id = 454,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4429,7 +4359,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 417,
+                            Id = 455,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4439,7 +4369,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 418,
+                            Id = 456,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 9,
@@ -4449,7 +4379,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 419,
+                            Id = 457,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 10,
@@ -4459,7 +4389,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 420,
+                            Id = 458,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 10,
@@ -4469,7 +4399,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 421,
+                            Id = 459,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 10,
@@ -4479,7 +4409,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 422,
+                            Id = 460,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 10,
@@ -4489,7 +4419,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 423,
+                            Id = 461,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 10,
@@ -4499,7 +4429,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 424,
+                            Id = 462,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 10,
@@ -4509,7 +4439,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 425,
+                            Id = 463,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 10,
@@ -4519,7 +4449,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 426,
+                            Id = 464,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 10,
@@ -4529,7 +4459,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 427,
+                            Id = 465,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 10,
@@ -4539,7 +4469,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 428,
+                            Id = 466,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 10,
@@ -4549,7 +4479,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 429,
+                            Id = 467,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 10,
@@ -4559,7 +4489,7 @@ namespace PetzBreedersClub.Database.Migrations
                         },
                         new
                         {
-                            Id = 430,
+                            Id = 468,
                             AddedBy = "system",
                             CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
                             Group = 10,
@@ -4655,6 +4585,131 @@ namespace PetzBreedersClub.Database.Migrations
                         .IsUnique();
 
                     b.ToTable("BreedStandards");
+                });
+
+            modelBuilder.Entity("PetzBreedersClub.Database.Models.BreedVarietyEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AddedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("BreedId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BreedId");
+
+                    b.ToTable("BreedVarieties");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AddedBy = "system",
+                            BreedId = 22,
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "fawn"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AddedBy = "system",
+                            BreedId = 22,
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "black"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AddedBy = "system",
+                            BreedId = 22,
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "blue merle"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AddedBy = "system",
+                            BreedId = 22,
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "ash colored"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AddedBy = "system",
+                            BreedId = 22,
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "brown"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            AddedBy = "system",
+                            BreedId = 22,
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "white"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            AddedBy = "system",
+                            BreedId = 23,
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "pearl-white"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            AddedBy = "system",
+                            BreedId = 23,
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "black"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            AddedBy = "system",
+                            BreedId = 23,
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "black shaded with rust-red or gray"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            AddedBy = "system",
+                            BreedId = 23,
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "fawn"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            AddedBy = "system",
+                            BreedId = 23,
+                            CreatedDate = new DateTime(2023, 3, 10, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "gray in any shade"
+                        });
                 });
 
             modelBuilder.Entity("PetzBreedersClub.Database.Models.MemberEntity", b =>
@@ -5231,6 +5286,17 @@ namespace PetzBreedersClub.Database.Migrations
                     b.Navigation("Breed");
                 });
 
+            modelBuilder.Entity("PetzBreedersClub.Database.Models.BreedVarietyEntity", b =>
+                {
+                    b.HasOne("PetzBreedersClub.Database.Models.BreedEntity", "Breed")
+                        .WithMany("Varieties")
+                        .HasForeignKey("BreedId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Breed");
+                });
+
             modelBuilder.Entity("PetzBreedersClub.Database.Models.MemberEntity", b =>
                 {
                     b.HasOne("PetzBreedersClub.Database.Models.UserEntity", "User")
@@ -5390,6 +5456,8 @@ namespace PetzBreedersClub.Database.Migrations
                     b.Navigation("BreedFiles");
 
                     b.Navigation("BreedStandard");
+
+                    b.Navigation("Varieties");
                 });
 
             modelBuilder.Entity("PetzBreedersClub.Database.Models.MemberEntity", b =>
@@ -5405,8 +5473,7 @@ namespace PetzBreedersClub.Database.Migrations
                 {
                     b.Navigation("MonthlyShowPics");
 
-                    b.Navigation("ProfilePic")
-                        .IsRequired();
+                    b.Navigation("ProfilePic");
 
                     b.Navigation("RegistrationPic")
                         .IsRequired();

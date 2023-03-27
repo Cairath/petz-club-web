@@ -5,6 +5,7 @@ using Microsoft.Extensions.Caching.Memory;
 using PetzBreedersClub.Database.Models;
 using PetzBreedersClub.Database.Models.Enums;
 using PetzBreedersClub.DTOs.Pets;
+using MimeDetective;
 
 namespace PetzBreedersClub.Services;
 
@@ -27,13 +28,15 @@ public class PetService : IPetService
 	private readonly IUserService _userService;
 	private readonly IMemoryCache _cache;
 	private readonly EditBioFormValidator _editEditBioFormValidator;
+	private readonly PetPicFileValidator _petPicFileValidator;
 
-	public PetService(Context context, IUserService userService, IMemoryCache cache, EditBioFormValidator editEditBioFormValidator)
+	public PetService(Context context, IUserService userService, IMemoryCache cache, EditBioFormValidator editEditBioFormValidator, PetPicFileValidator petPicFileValidator)
 	{
 		_context = context;
 		_userService = userService;
 		_cache = cache;
 		_editEditBioFormValidator = editEditBioFormValidator;
+		_petPicFileValidator = petPicFileValidator;
 	}
 
 	public async Task<IResult> GetPetProfile(int petId)
@@ -381,11 +384,12 @@ public class PetService : IPetService
 			return Results.BadRequest();
 		}
 
-		// validate file size and type
-		//if (!validationResult.IsValid)
-		//{
-		//	return Results.ValidationProblem(validationResult.ToDictionary());
-		//}
+		var validationResult = await _petPicFileValidator.ValidateAsync(file);
+
+		if (!validationResult.IsValid)
+		{
+			return Results.ValidationProblem(validationResult.ToDictionary());
+		}
 
 		var guid = Guid.NewGuid().ToString();
 		var extension = Path.GetExtension(file.FileName);
@@ -407,7 +411,17 @@ public class PetService : IPetService
 			{
 				var pathToDelete = Path.Combine(profilePicsPath,
 					PetPicUtils.GetFilePathString(pet.ProfilePic.FileName));
-				File.Delete(pathToDelete);
+
+				try
+				{
+					File.Delete(pathToDelete);
+				}
+				catch (IOException e)
+				{
+					//todo log
+					return Results.StatusCode(500);
+				}
+
 
 				pet.ProfilePic.FileName = fileName;
 			}
@@ -450,16 +464,26 @@ public class PetService : IPetService
 		}
 
 		var pathToDelete = Path.Combine(profilePicsPath, PetPicUtils.GetFilePathString(pet.ProfilePic.FileName));
-		File.Delete(pathToDelete);
 
-		_context.Remove(pet.ProfilePic);
+		try
+		{
+			File.Delete(pathToDelete);
 
-		await _context.SaveChangesAsync();
+			_context.Remove(pet.ProfilePic);
 
-		return Results.Ok();
+			await _context.SaveChangesAsync();
+
+			return Results.Ok();
+		}
+		catch (IOException e)
+		{
+			//todo log
+
+			return Results.StatusCode(500);
+		}
 	}
 
-	private async Task<Pedigree?> GetPedigreeData(int petId, int generations)
+	private async Task<Pedigree> GetPedigreeData(int petId, int generations)
 	{
 		var pedigreeEntries = new List<List<PedigreeEntry?>>();
 		var familyTree = new List<List<PetEntity?>>();
@@ -468,7 +492,7 @@ public class PetService : IPetService
 
 		if (ancestors.Count == 0)
 		{
-			return null;
+			return new Pedigree { Entries = pedigreeEntries };
 		}
 
 		for (var i = 0; i < generations; i++)

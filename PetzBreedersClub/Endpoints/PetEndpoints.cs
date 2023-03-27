@@ -34,6 +34,14 @@ public static class PetEndpoints
 			.Produces<Paged<PetListItem>>()
 			.WithOpenApi();
 
+		group.MapPost("/register", async ([FromBody] PetRegistrationForm petActiveStatus, IPetService petService) =>
+			{
+				return Results.Ok(); //await petService.SetStatus(petActiveStatus);
+			})
+			.WithName("RegisterPet")
+			.RequireAuthorization()
+			.WithOpenApi();
+
 		group.MapPost("/set-breeding-availability", async ([FromBody] BreedingAvailability breedingAvailability, IPetService petService) =>
 			{
 				return await petService.SetBreedingAvailability(breedingAvailability);
