@@ -108,7 +108,7 @@ export const PetPhotoCard = ({
           placeContent="center"
           flexDirection="column"
           alignItems="center"
-          pb="0px"
+          py="0px"
         >
           <Image
             src={isShowingRegistrationPic ? registrationPicUrl : profilePicUrl}

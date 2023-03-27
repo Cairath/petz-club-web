@@ -814,6 +814,56 @@ export class Client {
     /**
      * @return OK
      */
+    registerPet(body: PetRegistrationForm , cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/api/pets/register";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processRegisterPet(_response);
+        });
+    }
+
+    protected processRegisterPet(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+    
+            return Promise.resolve<void>(null as any);
+
+        } else if (status !== 200 && status !== 204) {
+            return throwException("An unexpected server error occurred.", status, response.statusText, _headers);
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
     setBreedingAvailability(body: BreedingAvailability , cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/api/pets/set-breeding-availability";
         url_ = url_.replace(/[?&]$/, "");
@@ -1777,6 +1827,16 @@ export interface PetProfileData {
     siblings: SiblingLink[];
 }
 
+export interface PetRegistrationForm {
+    species: Species;
+    registrationType: RegistrationType;
+    breedId: number;
+    varietyId: number;
+    affixId: number;
+    name: string;
+    callName: string;
+}
+
 export enum PetStatus {
     Active = "Active",
     Inactive = "Inactive",
@@ -1787,6 +1847,12 @@ export interface RegistrationForm {
     email?: string | undefined;
     password?: string | undefined;
     memberName?: string | undefined;
+}
+
+export enum RegistrationType {
+    PurebredShow = "PurebredShow",
+    PurebredPet = "PurebredPet",
+    Mixed = "Mixed",
 }
 
 export interface SetAffixActiveStatus {

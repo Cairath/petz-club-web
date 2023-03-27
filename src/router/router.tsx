@@ -17,6 +17,7 @@ import { Petz } from "../pages/petz/Petz";
 import { AffixRegistrations } from "../pages/Staff/affix-registration/AffixRegistrations";
 import { StaffDashboard } from "../pages/Staff/dashboard/StaffDashboard";
 import { ProtectedRoute } from "./ProtectedRoute";
+import { PetRegistration } from "pages/pet-registration/PetRegistration";
 
 export const router = createBrowserRouter([
   {
@@ -68,6 +69,16 @@ export const router = createBrowserRouter([
       <ProtectedRoute>
         <MainLayout>
           <Petz />
+        </MainLayout>
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: "/member/petz/register",
+    element: (
+      <ProtectedRoute>
+        <MainLayout>
+          <PetRegistration />
         </MainLayout>
       </ProtectedRoute>
     )

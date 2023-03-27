@@ -9,6 +9,9 @@ import XHRUpload from "@uppy/xhr-upload";
 import { toast } from "react-toastify";
 import "./uppy.css";
 
+//todo env var
+const endpoint = "https://localhost:7017/api/pets/upload-profile-pic";
+
 const uppy = new Uppy({
   restrictions: {
     maxFileSize: 1024 * 1024,
@@ -17,7 +20,7 @@ const uppy = new Uppy({
     allowedFileTypes: ["image/bmp", "image/png"]
   }
 }).use(XHRUpload, {
-  endpoint: "https://localhost:7017/api/pets/upload-profile-pic",
+  endpoint: endpoint,
   withCredentials: true
 });
 
@@ -42,7 +45,7 @@ export const PictureUploadModal = ({
   useEffect(
     () =>
       uppy.getPlugin("XHRUpload")?.setOptions({
-        endpoint: `https://localhost:7017/api/pets/upload-profile-pic/${petId}`,
+        endpoint: `${endpoint}/${petId}`,
         validateStatus: (statusCode: number) => {
           if (statusCode === 200) {
             onUploadSuccess();
@@ -61,7 +64,7 @@ export const PictureUploadModal = ({
         open={isOpen}
         onRequestClose={closeModal}
         uppy={uppy}
-        note=".gif and .png files, maximum 1 MB"
+        note=".bmp and .png files, maximum 1 MB"
         proudlyDisplayPoweredByUppy={false}
         thumbnailType="image/png"
         closeAfterFinish={true}
