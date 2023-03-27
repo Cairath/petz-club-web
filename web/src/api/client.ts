@@ -578,6 +578,58 @@ export class Client {
     /**
      * @return OK
      */
+    getBreedVarieties(breedId: number , cancelToken?: CancelToken | undefined): Promise<BreedVarietyListItem[]> {
+        let url_ = this.baseUrl + "/api/breeds/varieties?";
+        if (breedId === undefined || breedId === null)
+            throw new Error("The parameter 'breedId' must be defined and cannot be null.");
+        else
+            url_ += "breedId=" + encodeURIComponent("" + breedId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: AxiosRequestConfig = {
+            method: "GET",
+            url: url_,
+            headers: {
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processGetBreedVarieties(_response);
+        });
+    }
+
+    protected processGetBreedVarieties(response: AxiosResponse): Promise<BreedVarietyListItem[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+    
+            let result200: any = response.data;
+            return Promise.resolve<BreedVarietyListItem[]>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            return throwException("An unexpected server error occurred.", status, response.statusText, _headers);
+        }
+        return Promise.resolve<BreedVarietyListItem[]>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
     getPetProfile(id: number , cancelToken?: CancelToken | undefined): Promise<PetProfileData> {
         let url_ = this.baseUrl + "/api/pets/profile/{id}";
         if (id === undefined || id === null)
@@ -1712,6 +1764,11 @@ export interface BreedNameListItem {
     section: number;
 }
 
+export interface BreedVarietyListItem {
+    id: number;
+    name: string;
+}
+
 export interface BreedingAvailability {
     petId: number;
     isAvailable: boolean;
@@ -1831,7 +1888,7 @@ export interface PetRegistrationForm {
     species: Species;
     registrationType: RegistrationType;
     breedId: number;
-    varietyId: number;
+    varietyId?: number;
     affixId: number;
     name: string;
     callName: string;

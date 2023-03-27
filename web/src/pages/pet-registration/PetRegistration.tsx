@@ -14,7 +14,7 @@ import { Select } from "chakra-react-select";
 import { IconBox } from "components/IconBox";
 import orderBy from "lodash-es/orderBy";
 import { useContext, useEffect, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { BsHeartHalf } from "react-icons/bs";
 import { FaCat, FaDog, FaPaw, FaTrophy } from "react-icons/fa";
 import {
@@ -26,11 +26,16 @@ import { handleError } from "../../api/requests";
 import { Header } from "../../components/Header";
 import { UserContext } from "../../context/UserContext";
 
+type Option = { label: string; value: number };
+
 export const PetRegistration = () => {
   const { user } = useContext(UserContext);
 
   const [breedsLoading, setBreedsLoading] = useState<boolean>(false);
-  const [breeds, setBreeds] = useState<{ label: string; value: number }[]>();
+  const [breeds, setBreeds] = useState<Option[]>();
+
+  const [varietiesLoading, setVarietiesLoading] = useState<boolean>(false);
+  const [varieties, setVarieties] = useState<Option[]>();
 
   const {
     handleSubmit,
@@ -46,12 +51,16 @@ export const PetRegistration = () => {
 
   const speciesWatch = watch("species");
   const regTypeWatch = watch("registrationType");
+  const breedIdWatch = watch("breedId");
 
   useEffect(() => {
     if (speciesWatch === undefined) {
       return;
     }
+
     setBreedsLoading(true);
+    setValue("breedId", undefined!);
+    setVarieties([]);
 
     api
       .getBreedNamesList(speciesWatch)
@@ -66,7 +75,31 @@ export const PetRegistration = () => {
       })
       .catch(handleError)
       .finally(() => setBreedsLoading(false));
-  }, [speciesWatch]);
+  }, [speciesWatch, setValue]);
+
+  useEffect(() => {
+    setValue("varietyId", undefined);
+
+    if (breedIdWatch === undefined) {
+      return;
+    }
+
+    setVarietiesLoading(true);
+
+    api
+      .getBreedVarieties(breedIdWatch)
+      .then((varietyList) => {
+        let options = varietyList.map((variety) => ({
+          value: variety.id,
+          label: variety.name
+        }));
+
+        options = orderBy(options, (variety) => variety.label, "asc");
+        setVarieties(options);
+      })
+      .catch(handleError)
+      .finally(() => setVarietiesLoading(false));
+  }, [breedIdWatch, setValue]);
 
   const typeDescription = useMemo(() => {
     switch (regTypeWatch) {
@@ -142,19 +175,48 @@ export const PetRegistration = () => {
             <FormControl>
               <FormLabel>Breed</FormLabel>
               <Flex flexDirection="row">
-                <Select
-                  placeholder="Breed"
-                  useBasicStyles={true}
-                  options={breeds}
-                  chakraStyles={{
-                    container: (provided, _) => ({
-                      ...provided,
-                      minWidth: "300px"
-                    })
-                  }}
-                  isLoading={breedsLoading}
-                ></Select>
-                <Select placeholder="Variety" useBasicStyles={true}></Select>
+                <Controller
+                  control={control}
+                  name="breedId"
+                  render={({ field: { onChange, value } }) => (
+                    <Select
+                      onChange={(b) => onChange(b?.value)}
+                      value={breeds?.find((b) => b.value === value) ?? null}
+                      placeholder="Breed"
+                      options={breeds}
+                      isLoading={breedsLoading}
+                      useBasicStyles={true}
+                      chakraStyles={{
+                        container: (provided, _) => ({
+                          ...provided,
+                          minWidth: "300px"
+                        })
+                      }}
+                    ></Select>
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name="varietyId"
+                  render={({ field: { onChange, value } }) => (
+                    <Select
+                      onChange={(v) => onChange(v?.value)}
+                      value={varieties?.find((v) => v.value === value) ?? null}
+                      placeholder="Variety"
+                      isClearable={true}
+                      options={varieties}
+                      isLoading={varietiesLoading}
+                      useBasicStyles={true}
+                      chakraStyles={{
+                        container: (provided, _) => ({
+                          ...provided,
+                          ml: "1em",
+                          minWidth: "300px"
+                        })
+                      }}
+                    ></Select>
+                  )}
+                />
               </Flex>
             </FormControl>
           </form>

@@ -21,6 +21,7 @@ public class Context : IdentityDbContext<UserEntity, IdentityRole<int>, int>
 	
 	public DbSet<MemberEntity> Members { get; set; } = default!;
 	public DbSet<BreedEntity> Breeds { get; set; } = default!;
+	public DbSet<BreedVarietyEntity> BreedVarieties { get; set; } = default!;
 	public DbSet<BreedStandardEntity> BreedStandards { get; set; } = default!;
 	public DbSet<PetEntity> Pets { get; set; } = default!;
 	public DbSet<ShowEntity> Shows { get; set; } = default!;

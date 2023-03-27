@@ -8,6 +8,7 @@ namespace PetzBreedersClub.Services;
 public interface IBreedService
 {
 	Task<IResult> GetBreedNamesList(Species? species);
+	Task<IResult> GetBreedVarietiesList(int breedId);
 }
 
 public class BreedService : IBreedService
@@ -37,5 +38,18 @@ public class BreedService : IBreedService
 		}).ToListAsync();
 
 		return Results.Ok(breeds);
+	}
+
+	public async Task<IResult> GetBreedVarietiesList(int breedId)
+	{
+		var varieties = await _context.BreedVarieties
+			.Where(bv => bv.BreedId == breedId)
+			.Select(b => new BreedVarietyListItem()
+			{
+				Id = b.Id,
+				Name = b.Name,
+			}).ToListAsync();
+
+		return Results.Ok(varieties);
 	}
 }

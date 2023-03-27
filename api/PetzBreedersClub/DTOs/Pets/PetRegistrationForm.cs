@@ -16,8 +16,8 @@ namespace PetzBreedersClub.DTOs.Pets
 	{
 		[Required] public Species Species { get; set; }
 		[Required] public RegistrationType RegistrationType { get; set; }
-		[Required] public int BreedId { get; set; }
-		[Required] public int VarietyId { get; set; }
+		[Required] public int BreedId { get; set; } 
+		public int VarietyId { get; set; }
 		[Required] public int AffixId { get; set; }
 		[Required] public required string Name { get; set; }
 		[Required] public required string CallName { get; set; }
